@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Gossip</string>
+    <string name="login_btn">Login</string>
 </resources>
