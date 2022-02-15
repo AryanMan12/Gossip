@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/rupin/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_login.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/rupin/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/rupin/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_signup_page.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/rupin/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_view_profile.xml" value="0.2074074074074074" />
+        <entry key="..\:/Users/rupin/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_chat_page.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/rupin/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_home_page.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/rupin/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.27447916666666666" />
       </map>
     </option>
   </component>

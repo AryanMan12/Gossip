@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/purple_700"
     tools:context=".ViewProfile">
 
     <ImageView
@@ -24,6 +25,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="13dp"
+        android:background="@color/teal_200"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,6 +37,7 @@
         android:layout_width="292dp"
         android:layout_height="23dp"
         android:layout_marginTop="7dp"
+        android:background="@color/teal_200"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
