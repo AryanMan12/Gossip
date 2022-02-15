@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home_page">
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -15,6 +16,7 @@
         android:layout_marginEnd="186dp"
         android:layout_marginBottom="471dp"
         android:text="Home page"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
