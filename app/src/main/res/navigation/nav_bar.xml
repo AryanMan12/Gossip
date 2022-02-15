@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_bar"
+    app:startDestination="@id/home_page">
+
+    <fragment
+        android:id="@+id/home_page"
+        android:name="com.example.gossip.home_page"
+        android:label="fragment_home_page"
+        tools:layout="@layout/fragment_home_page" />
+    <fragment
+        android:id="@+id/chat_page"
+        android:name="com.example.gossip.chat_page"
+        android:label="fragment_chat_page"
+        tools:layout="@layout/fragment_chat_page" />
+    <fragment
+        android:id="@+id/profile_page"
+        android:name="com.example.gossip.profile_page"
+        android:label="fragment_profile_page"
+        tools:layout="@layout/fragment_profile_page" />
+</navigation>
