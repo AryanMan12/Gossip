@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gossip">
         <activity
+            android:name=".chatting_page"
+            android:exported="false" />
+        <activity
             android:name=".ViewProfile"
             android:exported="false" />
         <activity
