@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/drawable/bg_receiver.xml" value="0.2105" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/drawable/bg_sender.xml" value="0.2105" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/drawable/bgedittxt.xml" value="0.2435" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/drawable/ic_baseline_send.xml" value="0.2435" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2435" />
@@ -13,6 +15,8 @@
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_chat_page.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_home_page.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.25" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/receiver.xml" value="0.25" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/sender.xml" value="0.264" />
       </map>
     </option>
   </component>
