@@ -2,5 +2,11 @@
     <string name="app_name">Gossip</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textview">TextView</string>
+    <string name="btnSave">Save Changes</string>
+    <string name="btnPass">Change Password</string>
+    <string name="changeName">Edit Name</string>
+    <string name="changeEmail">Edit Email ID</string>
+    <string name="changeBio">Edit Bio</string>
+    <string name="uname">Name of user</string>
     <string name="yourfriends">Your Friends</string>
 </resources>
