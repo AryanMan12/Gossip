@@ -15,7 +15,6 @@
         android:layout_marginTop="241dp"
         android:layout_marginEnd="186dp"
         android:layout_marginBottom="471dp"
-        android:onClick="togglehome"
         android:text="Home page"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,16 +23,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="149dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="174dp"
+        android:id="@+id/button5"
+        android:layout_width="234dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="78dp"
+        android:layout_marginEnd="79dp"
+        android:layout_marginBottom="29dp"
         android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
