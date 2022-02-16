@@ -7,4 +7,5 @@
     <string name="changeName">Edit Name</string>
     <string name="changeEmail">Edit Email ID</string>
     <string name="changeBio">Edit Bio</string>
+    <string name="uname">Name of user</string>
 </resources>
