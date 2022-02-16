@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/vidit/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_login.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/vidit/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_signup_page.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/vidit/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_chat_page.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/vidit/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_home_page.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/vidit/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.22735507246376813" />
       </map>
     </option>
   </component>
