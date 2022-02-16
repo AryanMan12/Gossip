@@ -3,7 +3,9 @@ package com.example.gossip;
 public class UserFriends {
     String username,desc,profile_img;
 
-    public UserFriends(){}
+    public UserFriends(){
+
+    }
     public UserFriends(String username, String desc, String profile_img) {
         this.username = username;
         this.desc = desc;
