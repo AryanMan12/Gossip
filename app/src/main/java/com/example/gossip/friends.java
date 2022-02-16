@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class friends extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -21,6 +22,7 @@ public class friends extends AppCompatActivity {
     private ArrayList<UserFriends> userArrayList;
     ProgressDialog progressDialog;
     FirebaseFirestore db;
+    String current_user = "Aryan12";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +48,18 @@ public class friends extends AppCompatActivity {
     }
 
     private void EventChangeListener() {
-        db.collection("Users")
+        db.collection("Users").whereArrayContains("friends",current_user)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null){
+                        if (error != null) {
                             if (progressDialog.isShowing())
                                 progressDialog.dismiss();
-                            Log.e("FireStore error",error.getMessage());
+                            Log.e("FireStore error", error.getMessage());
                             return;
                         }
-                        for (DocumentChange dc : value.getDocumentChanges()){
-                            if (dc.getType() == DocumentChange.Type.ADDED){
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
                                 userArrayList.add(dc.getDocument().toObject(UserFriends.class));
                             }
                             recyclerViewAdapter.notifyDataSetChanged();
