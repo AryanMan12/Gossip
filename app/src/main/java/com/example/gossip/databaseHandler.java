@@ -35,6 +35,23 @@ public class databaseHandler {
                 });
     }
 
+    public void getChats(userCallback usercallback, String chatId){
+        db.collection("Chats")
+                .document(chatId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            DocumentSnapshot document = task.getResult();
+                            usercallback.onCallback(document.getData());
+                        }else{
+                            Toast.makeText(null, "Cannot get User's Data", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
     public interface userCallback {
         void onCallback(Map userData);
     }
