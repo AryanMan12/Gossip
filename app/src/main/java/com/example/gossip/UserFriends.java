@@ -1,14 +1,14 @@
 package com.example.gossip;
 
 public class UserFriends {
-    String username,desc,profile_img;
+    String username,status,profile_img;
 
     public UserFriends(){
 
     }
-    public UserFriends(String username, String desc, String profile_img) {
+    public UserFriends(String username, String status, String profile_img) {
         this.username = username;
-        this.desc = desc;
+        this.status = status;
         this.profile_img = profile_img;
     }
 
@@ -20,12 +20,12 @@ public class UserFriends {
         this.username = username;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getStatus() {
+        return status;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setStatus(String desc) {
+        this.status = desc;
     }
 
     public String getProfile_img() {

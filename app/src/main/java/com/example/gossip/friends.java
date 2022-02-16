@@ -22,7 +22,7 @@ public class friends extends AppCompatActivity {
     private ArrayList<UserFriends> userArrayList;
     ProgressDialog progressDialog;
     FirebaseFirestore db;
-    Map current_user;
+    String current_user = "Aryan12";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,35 +48,25 @@ public class friends extends AppCompatActivity {
     }
 
     private void EventChangeListener() {
-//        db.collection("Users")
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                        if (error != null){
-//                            if (progressDialog.isShowing())
-//                                progressDialog.dismiss();
-//                            Log.e("FireStore error",error.getMessage());
-//                            return;
-//                        }
-//                        for (DocumentChange dc : value.getDocumentChanges()){
-//                            if (dc.getType() == DocumentChange.Type.ADDED){
-//                                userArrayList.add(dc.getDocument().toObject(UserFriends.class));
-//                            }
-//                            recyclerViewAdapter.notifyDataSetChanged();
-//                            if (progressDialog.isShowing())
-//                                progressDialog.dismiss();
-//                        }
-//                    }
-//                });
-        new databaseHandler().getdata(new databaseHandler.userCallback() {
-        @Override
-        public void onCallback(Map userData) {
-            System.out.println(userData);
-            current_user = userData;
-        }
-    }, "VLEwvs2whFszi2523q8e");
-
-        current_user.get("friends");
-        System.out.println(current_user.get("friends"));
+        db.collection("Users").whereArrayContains("friends",current_user)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                            Log.e("FireStore error", error.getMessage());
+                            return;
+                        }
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                userArrayList.add(dc.getDocument().toObject(UserFriends.class));
+                            }
+                            recyclerViewAdapter.notifyDataSetChanged();
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                        }
+                    }
+                });
     }
 }

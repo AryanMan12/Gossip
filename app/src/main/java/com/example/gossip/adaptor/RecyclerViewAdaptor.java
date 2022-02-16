@@ -40,7 +40,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         UserFriends user = userArrayList.get(position);
 
         holder.username.setText(user.getUsername());
-        holder.desc.setText(user.getDesc());
+        holder.status.setText(user.getStatus());
 //        holder.profileimg.set(user.getProfile_img());
 
     }
@@ -53,17 +53,16 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView username;
-        public TextView desc;
+        public TextView status;
         public ImageButton iconButton;
         public CircleImageView profileimg;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-
             username = itemView.findViewById(R.id.username);
-            desc = itemView.findViewById(R.id.desc);
-            iconButton = itemView.findViewById(R.id.more_button);
+            status = itemView.findViewById(R.id.status);
+            iconButton = itemView.findViewById(R.id.remove_friends);
             profileimg = itemView.findViewById(R.id.profile_image);
 
             iconButton.setOnClickListener(this);
