@@ -9,6 +9,8 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -27,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
                     switch (item.getItemId()){
                         case R.id.nav_home:
                             selectedFrag = new home_page();
+                            new databaseHandler().getdata(new databaseHandler.userCallback() {
+                                @Override
+                                public void onCallback(Map userData) {
+                                    System.out.println(userData);
+                                }
+                            }, "VLEwvs2whFszi2523q8e");
                             break;
                         case R.id.nav_chat:
                             selectedFrag = new chat_page();
