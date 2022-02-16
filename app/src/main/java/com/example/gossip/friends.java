@@ -1,53 +1,70 @@
 package com.example.gossip;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-
-import com.codewithharry.dbdemo.adapter.RecyclerViewAdapter;
-import com.codewithharry.dbdemo.data.MyDbHandler;
-import com.codewithharry.dbdemo.model.Contact;
-import com.example.gossip.adaptor.RecyclerViewAdapter;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.gossip.adaptor.RecyclerViewAdaptor;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 public class friends extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter recyclerViewAdapter;
-//    private  ArrayList<Friend> friendArrayList;
-    private ArrayAdapter<String> arrayAdapter;
+    private RecyclerViewAdaptor recyclerViewAdapter;
+    private ArrayList<UserFriends> userArrayList;
+    ProgressDialog progressDialog;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Feching Data.....");
+        progressDialog.show();
+
         //Recyclerview initialization
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        ArrayList<Integer> arr=new ArrayList<Integer>(Arrays.asList(1,2,3));
-        //Create a new ArrayList
-        ArrayList<Integer> new_arr=new ArrayList<Integer>();
-        for(int i=0;i<arr.size();i++){
-                new_arr.add(arr.get(i));
-        }
-
+        db = FirebaseFirestore.getInstance();
+        userArrayList = new ArrayList<UserFriends>();
 //        Use your recyclerView
-        recyclerViewAdapter = new RecyclerViewAdapter(friends.this,new_arr);
+        recyclerViewAdapter = new RecyclerViewAdaptor(friends.this,userArrayList);
         recyclerView.setAdapter(recyclerViewAdapter);
+        EventChangeListener();
+    }
 
-
-
+    private void EventChangeListener() {
+        db.collection("Users")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null){
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                            Log.e("FireStore error",error.getMessage());
+                            return;
+                        }
+                        for (DocumentChange dc : value.getDocumentChanges()){
+                            if (dc.getType() == DocumentChange.Type.ADDED){
+                                userArrayList.add(dc.getDocument().toObject(UserFriends.class));
+                            }
+                            recyclerViewAdapter.notifyDataSetChanged();
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                        }
+                    }
+                });
     }
 }

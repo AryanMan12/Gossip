@@ -6,47 +6,49 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gossip.R;
-import com.example.gossip.friends;
+import com.example.gossip.UserFriends;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder> {
+    Context context;
+    ArrayList<UserFriends> userArrayList;
 
-    private List<friends> friendList;
-
-    public RecyclerViewAdapter(Context context, List<friends> friendList) {
-        this.friendList = friendList;
+    public RecyclerViewAdaptor(Context context, ArrayList<UserFriends> userArrayList) {
+        this.context = context;
+        this.userArrayList = userArrayList;
     }
 
     // Where to get the single card as viewholder Object
     @NonNull
     @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerViewAdaptor.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row, parent, false);
         return new ViewHolder(view);
     }
 
     // What will happen after we create the viewholder object
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
-        int resource = friendList.get(position).getprofile_image();
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        UserFriends user = userArrayList.get(position);
 
+        holder.username.setText(user.getUsername());
+        holder.desc.setText(user.getDesc());
+//        holder.profileimg.set(user.getProfile_img());
 
     }
 
     // How many items?
     @Override
     public int getItemCount() {
-        return friendList.size();
+        return userArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
