@@ -15,7 +15,7 @@
         android:id="@+id/button4"
         android:layout_width="146dp"
         android:layout_height="50dp"
-        android:layout_marginStart="124dp"
+        android:layout_marginStart="140dp"
         android:background="#EC8D1D"
         android:text="Login"
         android:textColorHighlight="#7E3333"
@@ -23,13 +23,13 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="678dp" />
+        tools:layout_editor_absoluteY="681dp" />
 
     <EditText
         android:id="@+id/editTextTextPersonName3"
         style=" "
-        android:layout_width="232dp"
-        android:layout_height="95dp"
+        android:layout_width="250dp"
+        android:layout_height="86dp"
         android:layout_marginStart="83dp"
         android:layout_marginEnd="66dp"
         android:layout_marginBottom="68dp"
@@ -53,7 +53,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="83dp"
         android:layout_marginEnd="66dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="56dp"
         android:backgroundTint="#E3DBDB"
         android:ems="10"
         android:hint="Password"
@@ -61,7 +61,7 @@
         android:textColorHint="#ECE3E3"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -84,14 +84,14 @@
         android:layout_height="49dp"
         android:layout_marginStart="126dp"
         android:layout_marginEnd="123dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="44dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Forget password?"
         android:textColor="#EFE6E6"
         app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
