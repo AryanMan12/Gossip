@@ -68,7 +68,6 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
 
             iconButton.setOnClickListener(this);
         }
-
         @Override
         public void onClick(View view) {
             Log.d("ClickFromViewHolder", "Clicked");
