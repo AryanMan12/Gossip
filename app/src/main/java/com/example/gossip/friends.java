@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class friends extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -21,6 +22,7 @@ public class friends extends AppCompatActivity {
     private ArrayList<UserFriends> userArrayList;
     ProgressDialog progressDialog;
     FirebaseFirestore db;
+    Map current_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,25 +48,35 @@ public class friends extends AppCompatActivity {
     }
 
     private void EventChangeListener() {
-        db.collection("Users")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null){
-                            if (progressDialog.isShowing())
-                                progressDialog.dismiss();
-                            Log.e("FireStore error",error.getMessage());
-                            return;
-                        }
-                        for (DocumentChange dc : value.getDocumentChanges()){
-                            if (dc.getType() == DocumentChange.Type.ADDED){
-                                userArrayList.add(dc.getDocument().toObject(UserFriends.class));
-                            }
-                            recyclerViewAdapter.notifyDataSetChanged();
-                            if (progressDialog.isShowing())
-                                progressDialog.dismiss();
-                        }
-                    }
-                });
+//        db.collection("Users")
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                        if (error != null){
+//                            if (progressDialog.isShowing())
+//                                progressDialog.dismiss();
+//                            Log.e("FireStore error",error.getMessage());
+//                            return;
+//                        }
+//                        for (DocumentChange dc : value.getDocumentChanges()){
+//                            if (dc.getType() == DocumentChange.Type.ADDED){
+//                                userArrayList.add(dc.getDocument().toObject(UserFriends.class));
+//                            }
+//                            recyclerViewAdapter.notifyDataSetChanged();
+//                            if (progressDialog.isShowing())
+//                                progressDialog.dismiss();
+//                        }
+//                    }
+//                });
+        new databaseHandler().getdata(new databaseHandler.userCallback() {
+        @Override
+        public void onCallback(Map userData) {
+            System.out.println(userData);
+            current_user = userData;
+        }
+    }, "VLEwvs2whFszi2523q8e");
+
+        current_user.get("friends");
+        System.out.println(current_user.get("friends"));
     }
 }
