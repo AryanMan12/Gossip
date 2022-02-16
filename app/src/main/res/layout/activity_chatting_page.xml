@@ -27,16 +27,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bgedittxt"
             android:ems="10"
             android:hint="Message..."
             android:inputType="textPersonName"
-             />
+            android:padding="10dp"
+            android:layout_marginLeft="3dp"/>
 
         <ImageView
-            android:id="@+id/imageView10"
+            android:id="@+id/send"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:srcCompat="@drawable/ic_baseline_send" />
+            app:srcCompat="@drawable/ic_baseline_send_24" />
 
     </LinearLayout>
 
@@ -53,12 +55,13 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/backArrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_action_name" />
+                app:srcCompat="@drawable/ic_action_name"
+                tools:ignore="MissingConstraints" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
@@ -70,7 +73,7 @@
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/backArrow"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
