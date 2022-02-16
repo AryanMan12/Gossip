@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class chatting_page extends AppCompatActivity {
+import com.example.gossip.databinding.ActivityChattingPageBinding;
 
+public class chatting_page extends AppCompatActivity {
+    ActivityChattingPageBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chatting_page);
+        binding = ActivityChattingPageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 }

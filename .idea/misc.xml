@@ -3,9 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Jyothi/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_signup_page.xml" value="0.20778110303548525" />
-        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_chatting_page.xml" value="0.25" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/drawable/bgedittxt.xml" value="0.2435" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/drawable/ic_baseline_send.xml" value="0.2435" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2435" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_chatting_page.xml" value="0.264" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_signup_page.xml" value="0.25" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_view_profile.xml" value="0.25" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_chat_page.xml" value="0.25" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_home_page.xml" value="0.25" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.25" />
       </map>
     </option>
   </component>
