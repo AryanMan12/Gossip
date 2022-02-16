@@ -134,7 +134,9 @@
             android:layout_marginLeft="100dp"
             android:background="#EC8D1D"
             android:onClick="verifyotp"
-            android:text="Verify mobile number" />
+            android:text="Verify mobile number"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/button"
@@ -149,6 +151,8 @@
             android:background="#EC8D1D"
             android:onClick="signup"
             android:text="SIGN UP"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

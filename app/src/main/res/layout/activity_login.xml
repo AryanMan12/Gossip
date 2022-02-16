@@ -28,8 +28,8 @@
     <EditText
         android:id="@+id/editTextTextPersonName3"
         style=" "
-        android:layout_width="262dp"
-        android:layout_height="94dp"
+        android:layout_width="232dp"
+        android:layout_height="95dp"
         android:layout_marginStart="83dp"
         android:layout_marginEnd="66dp"
         android:layout_marginBottom="68dp"
@@ -49,8 +49,8 @@
 
     <EditText
         android:id="@+id/editTextTextPassword"
-        android:layout_width="257dp"
-        android:layout_height="78dp"
+        android:layout_width="244dp"
+        android:layout_height="80dp"
         android:layout_marginStart="83dp"
         android:layout_marginEnd="66dp"
         android:layout_marginBottom="40dp"
