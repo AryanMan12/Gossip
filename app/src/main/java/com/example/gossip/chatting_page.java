@@ -10,7 +10,7 @@ import com.example.gossip.databinding.ActivityChattingPageBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class chatting_page extends AppCompatActivity {
-    ActivityChattingPageBinding binding;
+    /*ActivityChattingPageBinding binding;
     FirebaseDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +32,5 @@ public class chatting_page extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
+    }*/
 }
