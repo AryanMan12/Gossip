@@ -19,8 +19,8 @@ public class Root extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void loginpage_btn(View view) {
-        Intent intent=new Intent(this,Login.class);
+    public void login_btn(View view) {
+        Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
     }
 }
