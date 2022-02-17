@@ -17,6 +17,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="140dp"
         android:background="#EC8D1D"
+        android:onClick="Homepage"
         android:text="Login"
         android:textColorHighlight="#7E3333"
         android:textColorLink="#009688"
@@ -26,7 +27,7 @@
         tools:layout_editor_absoluteY="681dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/login_name"
         style=" "
         android:layout_width="250dp"
         android:layout_height="86dp"
@@ -42,13 +43,13 @@
         android:shadowColor="#FFFFFF"
         android:textColor="#F3EEEE"
         android:textColorHint="#E6DFDF"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintBottom_toTopOf="@+id/login_pass"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/login_pass"
         android:layout_width="244dp"
         android:layout_height="80dp"
         android:layout_marginStart="83dp"
@@ -72,7 +73,7 @@
         android:layout_marginTop="97dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="83dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName3"
+        app:layout_constraintBottom_toTopOf="@+id/login_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -38,4 +38,6 @@ public class signup_page extends AppCompatActivity {
 
     public void verifyotp(View view) {
     }
+
+
 }
