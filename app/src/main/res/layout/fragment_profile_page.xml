@@ -21,13 +21,21 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
-        android:layout_width="221dp"
-        android:layout_height="217dp"
+        android:layout_width="wrap_content"
+        android:layout_height="198dp"
         android:layout_marginHorizontal="100dp"
-        android:layout_marginVertical="10dp"
+        android:layout_marginVertical="5dp"
         android:src="@drawable/img_4"
         app:civ_border_color="#FF000000"
         app:civ_border_width="0dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="140dp"
+        android:text="change profile image"
+        android:textColor="#EC8D1D" />
 
     <EditText
         android:id="@+id/textView3"
