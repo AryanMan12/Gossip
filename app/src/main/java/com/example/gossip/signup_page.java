@@ -82,7 +82,7 @@ public class signup_page extends AppCompatActivity  {
         public void onVerificationFailed(@NonNull FirebaseException e) {
 
         }
-    }
+    };
 
 
     public void signup(View view) {
