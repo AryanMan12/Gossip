@@ -20,13 +20,17 @@ import java.util.Collection;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder> implements Filterable {
+public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder>{
     Context context;
     ArrayList<UserFriends> userArrayList;
 
     public RecyclerViewAdaptor(Context context, ArrayList<UserFriends> userArrayList) {
         this.context = context;
         this.userArrayList = userArrayList;
+    }
+
+    public RecyclerViewAdaptor(ArrayList<UserFriends> filterList) {
+        this.userArrayList = filterList;
     }
 
     // Where to get the single card as viewholder Object
@@ -54,38 +58,38 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         return userArrayList.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
-    Filter filter = new Filter() {
-        // run on background thread
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            ArrayList<UserFriends> filteredList = new ArrayList<>();
-            if (charSequence.toString().isEmpty()){
-                filteredList.addAll(userArrayList);
-            }else {
-                for (UserFriends username: userArrayList){
-                    if (username.toString().toLowerCase().contains(charSequence.toString().toLowerCase())){
-                        filteredList.add(username);
-                    }
-                }
-            }
-
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredList;
-            return filterResults;
-        }
-        // runs on a UI thread
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            userArrayList.clear();
-            userArrayList.addAll((Collection<? extends UserFriends>) filterResults.values);
-            notifyDataSetChanged();
-        }
-    };
+//    @Override
+//    public Filter getFilter() {
+//        return filter;
+//    }
+//
+//    Filter filter = new Filter() {
+//        // run on background thread
+//        @Override
+//        protected FilterResults performFiltering(CharSequence charSequence) {
+//            ArrayList<UserFriends> filteredList = new ArrayList<>();
+//            if (charSequence.toString().isEmpty()){
+//                filteredList.addAll(userArrayList);
+//            }else {
+//                for (UserFriends username: userArrayList){
+//                    if (username.toString().toLowerCase().contains(charSequence.toString().toLowerCase())){
+//                        filteredList.add(username);
+//                    }
+//                }
+//            }
+//
+//            FilterResults filterResults = new FilterResults();
+//            filterResults.values = filteredList;
+//            return filterResults;
+//        }
+//        // runs on a UI thread
+//        @Override
+//        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+//            userArrayList.clear();
+//            userArrayList.addAll((Collection<? extends UserFriends>) filterResults.values);
+//            notifyDataSetChanged();
+//        }
+//    };
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView username;

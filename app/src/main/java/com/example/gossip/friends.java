@@ -22,9 +22,9 @@ public class friends extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdaptor recyclerViewAdapter;
     private ArrayList<UserFriends> userArrayList;
+    SearchView searchView;
     ProgressDialog progressDialog;
     FirebaseFirestore db;
-    //TODO change current User
     String current_user = "Aryan12";
 
     @Override
@@ -50,20 +50,40 @@ public class friends extends AppCompatActivity {
         EventChangeListener();
 
         // SearchView
-        SearchView searchView = findViewById(R.id.search_friends);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
+        searchView = findViewById(R.id.search_friends);
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                recyclerViewAdapter.getFilter().filter(s);
-                return false;
-            }
-        });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    search(s);
+                    return true;
+                }
+            });
+        }
+    }
+
+    private void search(String str) {
+        ArrayList<UserFriends> filterList = new ArrayList<>();
+        for (UserFriends username: userArrayList){
+            if (username.getUsername().toLowerCase().contains(str.toLowerCase())){
+                filterList.add(username);
+            }
+        }
+        RecyclerViewAdaptor adaptor = new RecyclerViewAdaptor(filterList);
+        recyclerView.setAdapter(adaptor);
+    }
+
     private void EventChangeListener() {
         db.collection("Users").whereArrayContains("friends",current_user)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
