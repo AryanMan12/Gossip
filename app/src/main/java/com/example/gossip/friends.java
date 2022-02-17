@@ -22,6 +22,7 @@ public class friends extends AppCompatActivity {
     private ArrayList<UserFriends> userArrayList;
     ProgressDialog progressDialog;
     FirebaseFirestore db;
+    //TODO change current User
     String current_user = "Aryan12";
 
     @Override
