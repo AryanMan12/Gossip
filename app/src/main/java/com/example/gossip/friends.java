@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.SearchView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.gossip.adaptor.RecyclerViewAdaptor;
@@ -39,15 +41,29 @@ public class friends extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         db = FirebaseFirestore.getInstance();
         userArrayList = new ArrayList<UserFriends>();
-//        Use your recyclerView
-        recyclerViewAdapter = new RecyclerViewAdaptor(friends.this,userArrayList);
+
+        // Use your recyclerView
+        recyclerViewAdapter = new RecyclerViewAdaptor(friends.this, userArrayList);
         recyclerView.setAdapter(recyclerViewAdapter);
         EventChangeListener();
-    }
 
+        // SearchView
+        SearchView searchView = findViewById(R.id.search_friends);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                recyclerViewAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+    }
     private void EventChangeListener() {
         db.collection("Users").whereArrayContains("friends",current_user)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
