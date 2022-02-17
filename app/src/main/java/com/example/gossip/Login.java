@@ -19,7 +19,7 @@ public class Login extends AppCompatActivity {
             user=findViewById(R.id.login_name);
             pass=findViewById(R.id.login_pass);
         }
-        public void onlogin(View view) {
+        public void onLogin(View view) {
             String Username=user.getText().toString();
             String Password=pass.getText().toString();
 //            Intent intent=new
@@ -31,12 +31,3 @@ public class Login extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-    }
-
-    public void onLogin(View view) {
-    }
-}
