@@ -1,109 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2470a0"
+    android:background="#020202"
+    android:orientation="vertical"
     tools:context=".profile_page">
 
-    <ImageView
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="43dp"
+        android:layout_height="39dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="10dp"
+        android:background="#81000000"
+        android:src="@drawable/ic_baseline_arrow_back_ios_24" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
-        android:layout_width="161dp"
-        android:layout_height="190dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="51dp"
-        android:background="#fad3cf"
-        android:src="@drawable/ic_baseline_person_24" />
+        android:layout_width="wrap_content"
+        android:layout_height="198dp"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginVertical="5dp"
+        android:src="@drawable/img_4"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="0dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="140dp"
+        android:text="change profile image"
+        android:textColor="#EC8D1D" />
+
+    <EditText
+        android:id="@+id/textView3"
+        android:layout_width="389dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="20dp"
+        android:backgroundTint="#FFFFFF"
+        android:hint="@string/uname"
+        android:text="deeepaliiiii"
+        android:textColor="#FFFBFB"
+        android:textColorHint="@color/white"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/textView5"
+        android:layout_width="388dp"
+        android:layout_height="66dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="20dp"
+        android:backgroundTint="#FFFFFF"
+        android:hint="@string/changeName"
+        android:text="Deepali Gupta"
+        android:textColor="#FFFBFB"
+        android:textColorHint="@color/white"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="393dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="20dp"
+        android:backgroundTint="#FAFAFA"
+        android:ems="10"
+        android:hint="@string/changeBio"
+        android:inputType="textPersonName"
+        android:text="Be happy!"
+        android:textColor="#FFFBFB"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/textView6"
+        android:layout_width="391dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="20dp"
+        android:backgroundTint="#FFFFFF"
+        android:hint="@string/changeNumber"
+        android:text="9989893481"
+        android:textColor="#FFFBFB"
+        android:textColorHint="@color/white"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="135dp"
-        android:layout_height="36dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="171dp"
-        android:background="#a696c8"
+        android:layout_width="171dp"
+        android:layout_height="63dp"
+        android:layout_marginHorizontal="120dp"
+        android:layout_marginVertical="30dp"
+        android:background="#EC8D1D"
         android:text="@string/btnSave"
-        android:textColor="#060608" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="294dp"
-        android:text="Aryan Gupta"
-        android:textColorHint="@color/white"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="361dp"
-        android:hint="@string/changeEmail"
-        android:text="aryangupta@gmail.com"
-        android:textColorHint="@color/white"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="268dp"
-        android:hint="@string/changeBio"
-        android:text="hoemore"
-        android:textColorHint="@color/white"
-        android:textSize="24sp" />
+        android:textColor="#060608"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnPass"
-        android:layout_width="159dp"
-        android:layout_height="38dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="110dp"
-        android:background="#a696c8"
+        android:layout_width="171dp"
+        android:layout_height="63dp"
+        android:layout_marginHorizontal="120dp"
+        android:background="#EC8D1D"
         android:text="@string/btnPass"
-        android:textColor="#060608" />
+        android:textColor="#060608"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="299dp"
-        android:layout_marginEnd="99dp"
-        android:src="@drawable/ic_baseline_edit_24" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="341dp"
-        android:src="@drawable/ic_baseline_edit_24" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="112dp"
-        android:layout_marginBottom="272dp"
-        android:src="@drawable/ic_baseline_edit_24" />
-</RelativeLayout>
+</LinearLayout>
