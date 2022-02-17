@@ -9,7 +9,7 @@
     android:backgroundTint="#000000"
     android:outlineAmbientShadowColor="#FBFBFB"
     android:outlineSpotShadowColor="#E4E1E1"
-    tools:context=".signup_page">
+    tools:context=".Login">
 
     <Button
         android:id="@+id/button4"
@@ -17,6 +17,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="140dp"
         android:background="#EC8D1D"
+        android:onClick="onLogin"
         android:text="Login"
         android:textColorHighlight="#7E3333"
         android:textColorLink="#009688"
