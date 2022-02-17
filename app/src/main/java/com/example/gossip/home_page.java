@@ -69,7 +69,6 @@ public class home_page extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         Button button = (Button) view.findViewById(R.id.button5);
         button.setOnClickListener(new View.OnClickListener()
         {

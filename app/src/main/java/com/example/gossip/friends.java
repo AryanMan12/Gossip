@@ -3,8 +3,12 @@ package com.example.gossip;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.SearchView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.gossip.adaptor.RecyclerViewAdaptor;
@@ -20,9 +24,10 @@ public class friends extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdaptor recyclerViewAdapter;
     private ArrayList<UserFriends> userArrayList;
+    SearchView searchView;
     ProgressDialog progressDialog;
     FirebaseFirestore db;
-    //TODO change current User
+    // TODO : Change current_user
     String current_user = "Aryan12";
 
     @Override
@@ -39,13 +44,47 @@ public class friends extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         db = FirebaseFirestore.getInstance();
         userArrayList = new ArrayList<UserFriends>();
-//        Use your recyclerView
-        recyclerViewAdapter = new RecyclerViewAdaptor(friends.this,userArrayList);
+
+        // Use your recyclerView
+        recyclerViewAdapter = new RecyclerViewAdaptor(friends.this, userArrayList);
         recyclerView.setAdapter(recyclerViewAdapter);
         EventChangeListener();
+
+        // SearchView
+        searchView = findViewById(R.id.search_friends);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    search(s);
+                    return true;
+                }
+            });
+        }
+    }
+
+    private void search(String str) {
+        ArrayList<UserFriends> filterList = new ArrayList<>();
+        for (UserFriends username: userArrayList){
+            if (username.getUsername().toLowerCase().contains(str.toLowerCase())){
+                filterList.add(username);
+            }
+        }
+        RecyclerViewAdaptor adaptor = new RecyclerViewAdaptor(filterList);
+        recyclerView.setAdapter(adaptor);
     }
 
     private void EventChangeListener() {
@@ -70,4 +109,6 @@ public class friends extends AppCompatActivity {
                     }
                 });
     }
+
+
 }
