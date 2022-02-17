@@ -9,4 +9,5 @@
     <string name="changeBio">Edit Bio</string>
     <string name="uname">Name of user</string>
     <string name="yourfriends">Your Friends</string>
+    <string name="checkbox">Make a Friend</string>
 </resources>

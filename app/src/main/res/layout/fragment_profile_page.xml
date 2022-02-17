@@ -10,56 +10,56 @@
     tools:context=".profile_page">
 
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="43dp"
-        android:layout_height="39dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="10dp"
-        android:background="#81000000"
-        android:src="@drawable/ic_baseline_arrow_back_ios_24" />
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
-        android:layout_width="221dp"
-        android:layout_height="217dp"
-        android:layout_marginHorizontal="100dp"
+        android:layout_width="191dp"
+        android:layout_height="151dp"
+        android:layout_marginHorizontal="110dp"
         android:layout_marginVertical="10dp"
-        android:src="@drawable/img_3"
+        android:src="@drawable/img_4"
         app:civ_border_color="#FF000000"
-        app:civ_border_width="0dp" />
+        app:civ_border_width="0dp"
+        tools:ignore="MissingClass" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="149dp"
+        android:layout_height="23dp"
+        android:layout_marginHorizontal="140dp"
+        android:text="change profile image"
+        android:textColor="#EC8D1D" />
 
     <EditText
         android:id="@+id/textView3"
-        android:layout_width="389dp"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginVertical="20dp"
         android:backgroundTint="#FFFFFF"
         android:hint="@string/uname"
         android:text="deeepaliiiii"
         android:textColor="#FFFBFB"
         android:textColorHint="@color/white"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/textView5"
-        android:layout_width="388dp"
-        android:layout_height="66dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="20dp"
+        android:layout_width="333dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="10dp"
         android:backgroundTint="#FFFFFF"
         android:hint="@string/changeName"
         android:text="Deepali Gupta"
         android:textColor="#FFFBFB"
         android:textColorHint="@color/white"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/editTextTextPersonName2"
-        android:layout_width="393dp"
+        android:layout_width="337dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginVertical="20dp"
         android:backgroundTint="#FAFAFA"
         android:ems="10"
@@ -67,27 +67,27 @@
         android:inputType="textPersonName"
         android:text="Be happy!"
         android:textColor="#FFFBFB"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/textView6"
-        android:layout_width="391dp"
+        android:layout_width="337dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="10dp"
         android:backgroundTint="#FFFFFF"
         android:hint="@string/changeNumber"
         android:text="9989893481"
         android:textColor="#FFFBFB"
         android:textColorHint="@color/white"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="171dp"
-        android:layout_height="63dp"
+        android:layout_width="168dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="120dp"
-        android:layout_marginVertical="30dp"
+        android:layout_marginVertical="20dp"
         android:background="#EC8D1D"
         android:text="@string/btnSave"
         android:textColor="#060608"
@@ -97,7 +97,7 @@
     <Button
         android:id="@+id/btnPass"
         android:layout_width="171dp"
-        android:layout_height="63dp"
+        android:layout_height="46dp"
         android:layout_marginHorizontal="120dp"
         android:background="#EC8D1D"
         android:text="@string/btnPass"
