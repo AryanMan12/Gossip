@@ -27,6 +27,7 @@ public class friends extends AppCompatActivity {
     SearchView searchView;
     ProgressDialog progressDialog;
     FirebaseFirestore db;
+    // TODO : Change current_user
     String current_user = "Aryan12";
 
     @Override

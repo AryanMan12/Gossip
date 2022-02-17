@@ -16,35 +16,35 @@ public class dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
+//        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+//        bottomNav.setOnNavigationItemSelectedListener(navListener);
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFrag = null;
-                    switch (item.getItemId()){
-                        case R.id.nav_home:
-                            selectedFrag = new home_page();
-//                            new databaseHandler().getdata(new databaseHandler.userCallback() {
-//                                @Override
-//                                public void onCallback(Map userData) {
-//                                    System.out.println(userData);
-//                                }
-//                            }, "VLEwvs2whFszi2523q8e");
-                            break;
-                        case R.id.nav_chat:
-                            selectedFrag = new chat_page();
-                            break;
-                        case R.id.nav_profile:
-                            selectedFrag = new profile_page();
-                            break;
-                    }
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFrag).commit();
-                    return false;
-                }
-            };
+//    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+//            new BottomNavigationView.OnNavigationItemSelectedListener() {
+//                @Override
+//                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                    Fragment selectedFrag = null;
+//                    switch (item.getItemId()){
+//                        case R.id.nav_home:
+//                            selectedFrag = new home_page();
+////                            new databaseHandler().getdata(new databaseHandler.userCallback() {
+////                                @Override
+////                                public void onCallback(Map userData) {
+////                                    System.out.println(userData);
+////                                }
+////                            }, "VLEwvs2whFszi2523q8e");
+//                            break;
+//                        case R.id.nav_chat:
+//                            selectedFrag = new chat_page();
+//                            break;
+//                        case R.id.nav_profile:
+//                            selectedFrag = new profile_page();
+//                            break;
+//                    }
+//
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFrag).commit();
+//                    return false;
+//                }
+//            };
 }

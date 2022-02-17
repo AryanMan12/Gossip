@@ -58,39 +58,6 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         return userArrayList.size();
     }
 
-//    @Override
-//    public Filter getFilter() {
-//        return filter;
-//    }
-//
-//    Filter filter = new Filter() {
-//        // run on background thread
-//        @Override
-//        protected FilterResults performFiltering(CharSequence charSequence) {
-//            ArrayList<UserFriends> filteredList = new ArrayList<>();
-//            if (charSequence.toString().isEmpty()){
-//                filteredList.addAll(userArrayList);
-//            }else {
-//                for (UserFriends username: userArrayList){
-//                    if (username.toString().toLowerCase().contains(charSequence.toString().toLowerCase())){
-//                        filteredList.add(username);
-//                    }
-//                }
-//            }
-//
-//            FilterResults filterResults = new FilterResults();
-//            filterResults.values = filteredList;
-//            return filterResults;
-//        }
-//        // runs on a UI thread
-//        @Override
-//        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-//            userArrayList.clear();
-//            userArrayList.addAll((Collection<? extends UserFriends>) filterResults.values);
-//            notifyDataSetChanged();
-//        }
-//    };
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView username;
         public TextView status;
