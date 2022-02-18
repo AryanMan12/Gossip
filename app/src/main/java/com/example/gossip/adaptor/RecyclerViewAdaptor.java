@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -14,16 +16,21 @@ import com.example.gossip.R;
 import com.example.gossip.UserFriends;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder> {
+public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder>{
     Context context;
     ArrayList<UserFriends> userArrayList;
 
     public RecyclerViewAdaptor(Context context, ArrayList<UserFriends> userArrayList) {
         this.context = context;
         this.userArrayList = userArrayList;
+    }
+
+    public RecyclerViewAdaptor(ArrayList<UserFriends> filterList) {
+        this.userArrayList = filterList;
     }
 
     // Where to get the single card as viewholder Object

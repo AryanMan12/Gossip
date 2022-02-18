@@ -18,7 +18,8 @@
         android:layout_marginVertical="10dp"
         android:src="@drawable/img_4"
         app:civ_border_color="#FF000000"
-        app:civ_border_width="0dp" />
+        app:civ_border_width="0dp"
+        tools:ignore="MissingClass" />
 
     <TextView
         android:id="@+id/change_photo"

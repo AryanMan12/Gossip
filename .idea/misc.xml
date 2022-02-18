@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Gossip/app/src/main/res/layout/activity_chatting_page.xml" value="0.1" />
+        <entry key="..\:/Gossip/app/src/main/res/layout/activity_chatting_page.xml" value="0.2" />
         <entry key="..\:/Gossip/app/src/main/res/layout/activity_friends.xml" value="0.25" />
+        <entry key="..\:/Gossip/app/src/main/res/layout/activity_main.xml" value="0.20521590423257802" />
         <entry key="..\:/Gossip/app/src/main/res/layout/activity_root.xml" value="0.25" />
         <entry key="..\:/Gossip/app/src/main/res/layout/activity_signup_page.xml" value="0.25" />
+        <entry key="..\:/Gossip/app/src/main/res/layout/activity_splash_screen.xml" value="0.20521590423257802" />
         <entry key="..\:/Gossip/app/src/main/res/layout/fragment_home_page.xml" value="0.25" />
         <entry key="..\:/Gossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.2" />
         <entry key="..\:/Gossip/app/src/main/res/layout/row.xml" value="0.25" />
@@ -20,7 +22,6 @@
         <entry key="..\:/Users/Jyothi/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_signup_page.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Jyothi/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_view_profile.xml" value="0.20854700854700856" />
         <entry key="..\:/Users/Jyothi/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.20863616930312098" />
-        <entry key="..\:/Users/subha deepa/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_chat_page.xml" value="0.17708333333333334" />
       </map>
     </option>
   </component>
