@@ -20,7 +20,7 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 //this is executed once the timer is over//
 
-                Intent i = new Intent(SplashScreen.this, com.example.gossip.Root.class);
+                Intent i = new Intent(SplashScreen.this, com.example.gossip.Login.class);
                 startActivity(i);
                 finish();
 

@@ -19,9 +19,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Root"
-            android:exported="false" />
-        <activity
             android:name=".friends"
             android:exported="false" />
         <activity

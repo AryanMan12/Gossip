@@ -4,20 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".adaptor.SplashScreen">
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="294dp"
-        android:layout_marginEnd="141dp"
-        android:layout_marginBottom="578dp"
-        android:text="Splash Screen (Logo)"
-        android:textSize="34sp"
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="323dp"
+        android:layout_height="139dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="282dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="452dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.771"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/gossipapplogo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
