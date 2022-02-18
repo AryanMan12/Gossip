@@ -157,4 +157,8 @@ public class signup_page extends AppCompatActivity  {
     }
 
 
+    public void onloginnn(View view) {
+        Intent intent= new Intent(this,Login.class);
+        startActivity(intent);
+    }
 }
