@@ -20,7 +20,7 @@ public class Root extends AppCompatActivity {
     }
 
     public void login_btn(View view) {
-        Intent intent=new Intent(this,MainActivity.class);
+        Intent intent=new Intent(this,Login.class);
         startActivity(intent);
     }
 }
