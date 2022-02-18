@@ -7,95 +7,87 @@
     android:layout_height="match_parent"
     android:background="#020202"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".profile_page">
 
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="43dp"
-        android:layout_height="39dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="10dp"
-        android:background="#81000000"
-        android:src="@drawable/ic_baseline_arrow_back_ios_24" />
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
-        android:layout_width="wrap_content"
-        android:layout_height="198dp"
-        android:layout_marginHorizontal="100dp"
-        android:layout_marginVertical="5dp"
+        android:layout_width="191dp"
+        android:layout_height="151dp"
+        android:layout_marginHorizontal="110dp"
+        android:layout_marginVertical="10dp"
         android:src="@drawable/img_4"
         app:civ_border_color="#FF000000"
-        app:civ_border_width="0dp" />
+        app:civ_border_width="0dp"
+        tools:ignore="MissingClass" />
 
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="156dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/change_photo"
+        android:layout_width="149dp"
+        android:layout_height="23dp"
         android:layout_marginHorizontal="140dp"
         android:text="change profile image"
         android:textColor="#EC8D1D" />
 
     <EditText
-        android:id="@+id/textView3"
-        android:layout_width="389dp"
+        android:id="@+id/profile_uname"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginVertical="20dp"
         android:backgroundTint="#FFFFFF"
         android:hint="@string/uname"
-        android:text="deeepaliiiii"
         android:textColor="#FFFBFB"
         android:textColorHint="@color/white"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/textView5"
-        android:layout_width="388dp"
-        android:layout_height="66dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="20dp"
-        android:backgroundTint="#FFFFFF"
-        android:hint="@string/changeName"
-        android:text="Deepali Gupta"
-        android:textColor="#FFFBFB"
-        android:textColorHint="@color/white"
-        android:textSize="24sp" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="393dp"
+        android:id="@+id/profile_name"
+        android:layout_width="333dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="10dp"
+        android:backgroundTint="#FFFFFF"
+        android:editable="true"
+        android:hint="@string/changeName"
+        android:textColor="#FFFBFB"
+        android:textColorHint="@color/white"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/profile_status"
+        android:layout_width="337dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginVertical="20dp"
         android:backgroundTint="#FAFAFA"
+        android:editable="true"
         android:ems="10"
         android:hint="@string/changeBio"
         android:inputType="textPersonName"
-        android:text="Be happy!"
-        android:textColor="#FFFBFB"
-        android:textSize="24sp" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/textView6"
-        android:layout_width="391dp"
+        android:id="@+id/profile_no"
+        android:layout_width="337dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="10dp"
         android:backgroundTint="#FFFFFF"
         android:hint="@string/changeNumber"
-        android:text="9989893481"
         android:textColor="#FFFBFB"
         android:textColorHint="@color/white"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="171dp"
-        android:layout_height="63dp"
+        android:layout_width="168dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="120dp"
-        android:layout_marginVertical="30dp"
+        android:layout_marginVertical="20dp"
         android:background="#EC8D1D"
         android:text="@string/btnSave"
         android:textColor="#060608"
@@ -105,7 +97,7 @@
     <Button
         android:id="@+id/btnPass"
         android:layout_width="171dp"
-        android:layout_height="63dp"
+        android:layout_height="46dp"
         android:layout_marginHorizontal="120dp"
         android:background="#EC8D1D"
         android:text="@string/btnPass"
