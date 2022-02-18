@@ -3,10 +3,14 @@ package com.example.gossip;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -22,7 +26,10 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +42,9 @@ public class signup_page extends AppCompatActivity  {
     FirebaseFirestore Db;
     FirebaseUser user;
     Map userData;
+    ProgressDialog progressDialog;
+    String[] empArray;
+    boolean getotpclicked = false;
 
 
     @Override
@@ -57,23 +67,56 @@ public class signup_page extends AppCompatActivity  {
         signup = findViewById(R.id.button);
         otp = findViewById(R.id.button2);
 
-
     }
 
     public void sendotp(View view) {
-        if (Mno.length() != 10){
-            Toast.makeText(this, "Phone Number is not Valid", Toast.LENGTH_SHORT).show();
-        }else{
-            String phone_no = "+91"+Mno;
-            PhoneAuthOptions options =
-                    PhoneAuthOptions.newBuilder(mAuth)
-                            .setPhoneNumber(phone_no)
-                            .setTimeout(60L, TimeUnit.SECONDS)
-                            .setActivity(this)
-                            .setCallbacks(mCallBack)
-                            .build();
-            PhoneAuthProvider.verifyPhoneNumber(options);
-        }
+
+        Mno = mno.getText().toString();
+        Uname = uname.getText().toString();
+
+        Db.collection("Users").whereEqualTo("username", Uname).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.getResult().isEmpty()){
+                            Db.collection("Users").whereEqualTo("phone", Mno).get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.getResult().isEmpty()){
+                                                if (!getotpclicked){
+                                                    if (Mno.length() != 10){
+
+                                                        mno.setError("Enter a Valid Phone Number");
+                                                        mno.requestFocus();
+                                                    }else{
+                                                        String phone_no = "+91"+Mno;
+                                                        PhoneAuthOptions options =
+                                                                PhoneAuthOptions.newBuilder(mAuth)
+                                                                        .setPhoneNumber(phone_no)
+                                                                        .setTimeout(60L, TimeUnit.SECONDS)
+                                                                        .setActivity(signup_page.this)
+                                                                        .setCallbacks(mCallBack)
+                                                                        .build();
+                                                        PhoneAuthProvider.verifyPhoneNumber(options);
+                                                        progressDialog = new ProgressDialog(signup_page.this);
+                                                        progressDialog.setCancelable(false);
+                                                        progressDialog.setMessage("Sending Otp...");
+                                                        progressDialog.show();
+                                                    }
+                                                }else{
+                                                    Toast.makeText(signup_page.this, "Enter Valid details", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }else{
+                                                Toast.makeText(signup_page.this, "Phone Number Already Exists", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        }else{
+                            Toast.makeText(signup_page.this, "Username Already Exists", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
     }
     private void verifyCode(String code){
@@ -110,8 +153,23 @@ public class signup_page extends AppCompatActivity  {
         @Override
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
+            progressDialog.dismiss();
             Toast.makeText(signup_page.this, "Otp Sent", Toast.LENGTH_SHORT).show();
             verificationId = s;
+
+            new CountDownTimer(60000, 1000){
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    otp.setText(""+millisUntilFinished/1000);
+                }
+
+                @Override
+                public void onFinish() {
+                    getotpclicked = false;
+                    otp.setClickable(true);
+                    otp.setText("Send Otp");
+                }
+            }.start();
         }
 
         @Override
@@ -124,6 +182,8 @@ public class signup_page extends AppCompatActivity  {
 
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
+            getotpclicked=false;
+            progressDialog.dismiss();
             Toast.makeText(signup_page.this, "Failed to get Otp", Toast.LENGTH_SHORT).show();
         }
     };
@@ -141,19 +201,59 @@ public class signup_page extends AppCompatActivity  {
         userData.put("phone", Mno);
         userData.put("profile_photo", img);
         userData.put("status", "");
+        userData.put("friends", new ArrayList<String>());
+        userData.put("requests", new ArrayList<String>());
+
+        Db.collection("Users").whereEqualTo("username", Uname).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            System.out.println(task);
+                        }else{
+                            System.out.println("This");
+                        }
+                    }
+                });
 
         if(Name.equals("") || Uname.equals("") || Mno.equals("") || Pwd.equals("") || Cpwd.equals("")){
             Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_LONG).show();
-        }else if (Db.collection("Users").whereEqualTo("username",Uname).get().getResult().size() == 1){
-            Toast.makeText(this, "Username already existing", Toast.LENGTH_LONG).show();
-        }else if (Db.collection("Users").whereEqualTo("phone",Mno).get().getResult().size() == 1){
-            Toast.makeText(this, "Already have an account", Toast.LENGTH_LONG).show();
         }else if (!(Pwd.equals(Cpwd))){
             Toast.makeText(this, "Password did not match", Toast.LENGTH_SHORT).show();
         }else{
-            verifyCode(Code);
-        }
+            Db.collection("Users").whereEqualTo("username", Uname).get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.getResult().isEmpty()){
+                                Db.collection("Users").whereEqualTo("phone", Mno).get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.getResult().isEmpty()){
+                                                    if (Mno.length() == 10 && !(Code.isEmpty())){
+                                                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+                                                        progressDialog = new ProgressDialog(signup_page.this);
+                                                        progressDialog.setCancelable(false);
+                                                        progressDialog.setMessage("Checking Details...");
+                                                        progressDialog.show();
+                                                        verifyCode(Code);
+                                                    }else{
+                                                        Toast.makeText(signup_page.this, "Enter Valid details", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }else{
+                                                    Toast.makeText(signup_page.this, "Phone Number Already Exists", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            }else{
+                                Toast.makeText(signup_page.this, "Username Already Exists", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
+        }
     }
 
 
