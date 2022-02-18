@@ -12,9 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.util.HashMap;
@@ -36,7 +39,10 @@ public class profile_page extends Fragment {
     private EditText profile_no;
 
     private FirebaseUser fUser;
+    private FirebaseFirestore db;
     private Map MapUserData;
+
+    String currentUser="deeepaliiiii";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,6 +107,7 @@ public class profile_page extends Fragment {
         profile_no=view.findViewById(R.id.profile_no);
         Button btnSave= view.findViewById(R.id.btnSave);
         fUser= FirebaseAuth.getInstance().getCurrentUser();
+        db=FirebaseFirestore.getInstance();
 
         new databaseHandler().getdata(new databaseHandler.userCallback() {
             @Override
@@ -119,7 +126,7 @@ public class profile_page extends Fragment {
                 }
 
             }
-        }, "deeepaliiiii");
+        }, "currentUser");
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +148,16 @@ public class profile_page extends Fragment {
         map.put("status",profile_status.getText().toString());
         map.put("phone",profile_no.getText().toString());
 
+        db.collection("Users").document(currentUser).update(
+                "name",profile_name.getText().toString(),
+                "status",profile_status.getText().toString()
+
+        ).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }
