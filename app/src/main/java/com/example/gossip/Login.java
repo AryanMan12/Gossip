@@ -29,5 +29,9 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
         }
 
+    public void toggle_sign_up(View view) {
+            Intent intent = new Intent(this,signup_page.class);
+            startActivity(intent);
     }
+}
 

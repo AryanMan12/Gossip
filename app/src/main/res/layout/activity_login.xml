@@ -17,9 +17,9 @@
         android:layout_width="358dp"
         android:layout_height="157dp"
         android:layout_marginStart="26dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="27dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/login_redirect_page"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -27,13 +27,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/gossipapplogo" />
+
     <EditText
         android:id="@+id/login_name"
         android:layout_width="250dp"
         android:layout_height="86dp"
         android:layout_marginStart="83dp"
         android:layout_marginEnd="66dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:hint="Username"
@@ -84,17 +85,19 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <EditText
+    <TextView
         android:id="@+id/editTextTextPersonName6"
-        android:layout_width="343dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="34dp"
+        android:layout_width="261dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="48dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="           Don't have an account? Sign up."
-        android:textColor="#EDE5E5" />
+        android:onClick="toggle_sign_up"
+        android:text="Don't have an account? Sign up."
+        android:textColor="#EDE5E5"
+        android:textSize="16sp" />
 
 </LinearLayout>
