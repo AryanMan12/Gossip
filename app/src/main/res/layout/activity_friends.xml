@@ -24,9 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:background="#A9555555"
+        android:iconifiedByDefault="false"
         android:queryHint="Search here....."
-        android:searchIcon="@drawable/ic_baseline_search_24"
-        android:iconifiedByDefault="false"/>
+        android:searchIcon="@drawable/ic_baseline_search_24" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

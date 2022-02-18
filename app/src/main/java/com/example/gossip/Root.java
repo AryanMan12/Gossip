@@ -14,11 +14,13 @@ public class Root extends AppCompatActivity {
         setContentView(R.layout.activity_root);
     }
 
-    public void login_btn(View view) {
-        Intent intent=new Intent(this,Login.class);
-    }
-
     public void signup_btn(View view) {
         Intent intent=new Intent(this,signup_page.class);
+        startActivity(intent);
+    }
+
+    public void login_btn(View view) {
+        Intent intent=new Intent(this,Login.class);
+        startActivity(intent);
     }
 }

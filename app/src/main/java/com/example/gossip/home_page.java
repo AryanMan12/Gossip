@@ -69,7 +69,6 @@ public class home_page extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         Button button = (Button) view.findViewById(R.id.button5);
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -77,6 +76,14 @@ public class home_page extends Fragment {
             public void onClick(View v)
             {
                 Intent intent = new Intent(getActivity(), friends.class);
+                ((MainActivity) getActivity()).startActivity(intent);
+            }
+        });
+        Button signUpBtn = (Button) view.findViewById(R.id.button3);
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), signup_page.class);
                 ((MainActivity) getActivity()).startActivity(intent);
             }
         });
