@@ -46,7 +46,6 @@ public class signup_page extends AppCompatActivity  {
     FirebaseUser user;
     Map<String, Object> userData;
     ProgressDialog progressDialog;
-    String[] empArray;
     boolean getotpclicked = false;
 
     @Override
