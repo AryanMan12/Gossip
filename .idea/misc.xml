@@ -11,14 +11,19 @@
         <entry key="..\:/Gossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.2" />
         <entry key="..\:/Gossip/app/src/main/res/layout/row.xml" value="0.25" />
         <entry key="..\:/Projects/MainGossip/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.121" />
+        <entry key="..\:/Projects/MainGossip/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.24" />
+        <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/activity_friends.xml" value="0.14754098360655737" />
         <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/activity_login.xml" value="0.20521590423257802" />
         <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/activity_root.xml" value="0.20521590423257802" />
         <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/activity_splash_screen.xml" value="0.16216216216216217" />
         <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/activity_view_profile.xml" value="0.20521590423257802" />
         <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/fragment_chat_page.xml" value="0.136" />
-        <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/fragment_home_page.xml" value="0.4" />
+        <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/fragment_friends__page.xml" value="0.176" />
+        <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/fragment_home_page.xml" value="0.2" />
         <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.25" />
+        <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/fragment_request__page.xml" value="0.1" />
+        <entry key="..\:/Projects/MainGossip/app/src/main/res/layout/row.xml" value="0.16216216216216217" />
         <entry key="..\:/Projects/MainGossip/app/src/main/res/menu/gossip.xml" value="0.1" />
         <entry key="..\:/Users/Jyothi/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_login.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Jyothi/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_signup_page.xml" value="0.20863616930312098" />

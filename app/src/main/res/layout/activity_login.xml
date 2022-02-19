@@ -14,9 +14,9 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="358dp"
+        android:layout_width="325dp"
         android:layout_height="157dp"
-        android:layout_marginStart="26dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="27dp"
         android:layout_marginBottom="30dp"
@@ -36,8 +36,10 @@
         android:layout_marginEnd="66dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="#FFFFFF"
+        android:defaultFocusHighlightEnabled="false"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
         android:ems="10"
-        android:hint="Username"
+        android:hint="  Username"
         android:inputType="textPersonName"
         android:outlineAmbientShadowColor="#E8E8E8"
         android:outlineSpotShadowColor="#FFFEFE"
@@ -53,8 +55,9 @@
         android:layout_marginEnd="66dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="#E3DBDB"
+        android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:ems="10"
-        android:hint="Password"
+        android:hint="  Password"
         android:inputType="textPassword"
         android:textColorHint="#ECE3E3" />
 
@@ -79,6 +82,8 @@
         android:layout_marginEnd="125dp"
         android:background="#EC8D1D"
         android:onClick="onLogin"
+        android:shadowColor="#ACABAB"
+        android:shadowDx="40"
         android:text="Login"
         android:textColorHighlight="#7E3333"
         android:textColorLink="#009688"
