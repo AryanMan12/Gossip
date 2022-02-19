@@ -142,7 +142,7 @@ public class signup_page extends AppCompatActivity  {
         userData.put("profile_photo", img);
         userData.put("status", "");
 
-        if(Name.equals("") || Uname.equals("") || Mno.equals("") || Pwd.equals("") || Cpwd.equals("") || Code.equals("")){
+        if(Name.equals("") || Uname.equals("") || Mno.equals("") || Pwd.equals("") || Cpwd.equals("")){
             Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_LONG).show();
         }else if (Db.collection("Users").whereEqualTo("username",Uname).get().getResult().size() == 1){
             Toast.makeText(this, "Username already existing", Toast.LENGTH_LONG).show();
@@ -157,4 +157,8 @@ public class signup_page extends AppCompatActivity  {
     }
 
 
+    public void onloginnn(View view) {
+        Intent intent= new Intent(this,Login.class);
+        startActivity(intent);
+    }
 }

@@ -2,11 +2,28 @@ package com.example.gossip;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +31,18 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class profile_page extends Fragment {
+    private CircleImageView profile;
+    private TextView change_photo;
+    private EditText profile_uname;
+    private EditText profile_name;
+    private EditText profile_status;
+    private EditText profile_no;
+
+    private FirebaseUser fUser;
+    private FirebaseFirestore db;
+    private Map MapUserData;
+
+    String currentUser="deeepaliiiii";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,16 +78,86 @@ public class profile_page extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_page, container, false);
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        profile=view.findViewById(R.id.profile);
+        change_photo=view.findViewById(R.id.change_photo);
+        profile_uname=view.findViewById(R.id.profile_uname);
+        profile_name=view.findViewById(R.id.profile_name);
+        profile_status=view.findViewById(R.id.profile_status);
+        profile_no=view.findViewById(R.id.profile_no);
+        Button btnSave= view.findViewById(R.id.btnSave);
+        fUser= FirebaseAuth.getInstance().getCurrentUser();
+        db=FirebaseFirestore.getInstance();
+
+        new databaseHandler().getdata(new databaseHandler.userCallback() {
+            @Override
+            public void onCallback(Map userData) {
+                System.out.println(userData);
+                if(
+                        userData!=null
+                ){
+
+                    profile_uname.setText((userData.get("username")).toString());
+                    profile_status.setText((userData.get("status")).toString());
+                    profile_no.setText((userData.get("phone")).toString());
+                    profile_name.setText((userData.get("name")).toString());
+
+
+                }
+
+            }
+        }, "currentUser");
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateProfile();
+            }
+        });
+        change_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+    private void updateProfile(){
+        HashMap<String,Object> map= new HashMap<>();
+        map.put("username",profile_uname.getText().toString());
+        map.put("name",profile_name.getText().toString());
+        map.put("status",profile_status.getText().toString());
+        map.put("phone",profile_no.getText().toString());
+
+        db.collection("Users").document(currentUser).update(
+                "name",profile_name.getText().toString(),
+                "status",profile_status.getText().toString()
+
+        ).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
