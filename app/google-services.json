@@ -14,6 +14,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "47742503169-5la12u47esrjcn6hci7vn07k6dq807d2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gossip",
+            "certificate_hash": "0725215daedaed66b6e38e1c25a378d24eacebab"
+          }
+        },
+        {
+          "client_id": "47742503169-61m21bshq4g41mlp9rivmrg8jfq4fcni.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gossip",
+            "certificate_hash": "ac1a3ef8a18de3d5b76125ce185c09b80e48098c"
+          }
+        },
+        {
+          "client_id": "47742503169-g6uac4q64lmal29g4hjfp0e14klpam5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gossip",
+            "certificate_hash": "6b47df37cfccaa931e905a4e5edf1aafcc8c6019"
+          }
+        },
+        {
           "client_id": "47742503169-r1llqu835uit9qumg2ib83g4555abe2e.apps.googleusercontent.com",
           "client_type": 3
         }
