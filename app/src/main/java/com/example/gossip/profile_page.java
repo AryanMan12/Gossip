@@ -119,22 +119,17 @@ public class profile_page extends Fragment {
         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(
-                        task.isSuccessful()
-                ){
+                if(task.isSuccessful()){
                     new databaseHandler().getdata(new databaseHandler.userCallback() {
                         @Override
                         public void onCallback(Map userData) {
                             System.out.println(userData);
-                            if(
-                                    userData!=null
-                            ){
+                            if(userData!=null){
 
                                 profile_uname.setText((userData.get("username")).toString());
                                 profile_status.setText((userData.get("status")).toString());
                                 profile_no.setText((userData.get("phone")).toString());
                                 profile_name.setText((userData.get("name")).toString());
-
 
                             }
 
@@ -173,13 +168,11 @@ public class profile_page extends Fragment {
         map.put("name",profile_name.getText().toString());
         map.put("status",profile_status.getText().toString());
         map.put("phone",profile_no.getText().toString());
-        db.collection("Users").whereEqualTo("phone",fUser.getPhoneNumber().toString().substring(3)).get()
+        db.collection("Users").whereEqualTo("phone", fUser.getPhoneNumber().substring(3)).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(
-                                task.isSuccessful()
-                        ){
+                        if(task.isSuccessful()){
                             db.collection("Users").document((task.getResult().getDocuments().get(0).get("username")).toString()).update(
                                     "name",profile_name.getText().toString(),
                                     "status",profile_status.getText().toString()
