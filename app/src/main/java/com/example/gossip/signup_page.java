@@ -3,17 +3,15 @@ package com.example.gossip;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,30 +27,28 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class signup_page extends AppCompatActivity  {
     private FirebaseAuth mAuth;
-    EditText name, uname, mno, pwd, cpwd,code;
-    String Name,Uname,Mno,Pwd,Cpwd,Code,verificationId, img;
+    EditText name, uname, mno,code;
+    String Name,Uname,Mno,Code,verificationId, img;
     Button signup, otp;
     FirebaseFirestore Db;
     FirebaseUser user;
-    Map userData;
+    Map<String, Object> userData;
     ProgressDialog progressDialog;
     String[] empArray;
     boolean getotpclicked = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_page);
 
-        userData = new HashMap();
+        userData = new HashMap<String, Object>();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -61,12 +57,9 @@ public class signup_page extends AppCompatActivity  {
         name = findViewById(R.id.name);
         uname = findViewById(R.id.uname);
         mno = findViewById(R.id.pno);
-        pwd = findViewById(R.id.pwd);
-        cpwd = findViewById(R.id.confirmpwd);
         code=findViewById(R.id.code);
         signup = findViewById(R.id.button);
         otp = findViewById(R.id.button2);
-
     }
 
     public void sendotp(View view) {
@@ -103,6 +96,7 @@ public class signup_page extends AppCompatActivity  {
                                                         progressDialog.setCancelable(false);
                                                         progressDialog.setMessage("Sending Otp...");
                                                         progressDialog.show();
+                                                        otp.setBackgroundColor(Color.parseColor("#1DCDCDCD"));
                                                     }
                                                 }else{
                                                     Toast.makeText(signup_page.this, "Enter Valid details", Toast.LENGTH_SHORT).show();
@@ -119,13 +113,14 @@ public class signup_page extends AppCompatActivity  {
                 });
 
     }
+
     private void verifyCode(String code){
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId,code);
         FirebaseAuth.getInstance().getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
         signInWithCredential(credential);
 
-
     }
+
     private void signInWithCredential(PhoneAuthCredential credential){
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -139,7 +134,7 @@ public class signup_page extends AppCompatActivity  {
                                 Db.collection("Users").document(Uname).set(userData);
                                 Intent intent = new Intent(signup_page.this, MainActivity.class);
                                 startActivity(intent);
-                                finish();
+                                signup_page.this.finish();
                             }else {
                                 Toast.makeText(signup_page.this, "Error Logging in..", Toast.LENGTH_LONG).show();
                             }
@@ -166,6 +161,7 @@ public class signup_page extends AppCompatActivity  {
                 @Override
                 public void onFinish() {
                     getotpclicked = false;
+                    otp.setBackgroundColor(Color.parseColor("#EC8D1D"));
                     otp.setClickable(true);
                     otp.setText("Send Otp");
                 }
@@ -188,38 +184,21 @@ public class signup_page extends AppCompatActivity  {
         }
     };
 
-
     public void signup(View view) {
         Name=name.getText().toString().trim();
         Uname=uname.getText().toString().trim();
         Mno=mno.getText().toString().trim();
-        Pwd=pwd.getText().toString().trim();
-        Cpwd=cpwd.getText().toString().trim();
         Code=code.getText().toString().trim();
         userData.put("name", Name);
         userData.put("username", Uname);
         userData.put("phone", Mno);
-        userData.put("profile_photo", img);
+        userData.put("profile_photo", "img");
         userData.put("status", "");
         userData.put("friends", new ArrayList<String>());
         userData.put("requests", new ArrayList<String>());
 
-        Db.collection("Users").whereEqualTo("username", Uname).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            System.out.println(task);
-                        }else{
-                            System.out.println("This");
-                        }
-                    }
-                });
-
-        if(Name.equals("") || Uname.equals("") || Mno.equals("") || Pwd.equals("") || Cpwd.equals("")){
+        if(Name.equals("") || Uname.equals("") || Mno.equals("")){
             Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_LONG).show();
-        }else if (!(Pwd.equals(Cpwd))){
-            Toast.makeText(this, "Password did not match", Toast.LENGTH_SHORT).show();
         }else{
             Db.collection("Users").whereEqualTo("username", Uname).get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -260,5 +239,6 @@ public class signup_page extends AppCompatActivity  {
     public void onloginnn(View view) {
         Intent intent= new Intent(this,Login.class);
         startActivity(intent);
+        finish();
     }
 }

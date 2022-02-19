@@ -19,9 +19,7 @@
             android:layout_width="151dp"
             android:layout_height="155dp"
             android:layout_marginHorizontal="120dp"
-            android:layout_marginVertical="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginVertical="60dp"
             android:layout_marginBottom="5dp"
             android:src="@drawable/img_3"
             app:civ_border_color="#FF000000"
@@ -82,42 +80,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/uname" />
-
-        <EditText
-            android:id="@+id/pwd"
-            android:layout_width="345dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/white"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/confirmpwd"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pno" />
-
-        <EditText
-            android:id="@+id/confirmpwd"
-            android:layout_width="345dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/white"
-            android:ems="10"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pwd" />
 
         <LinearLayout
             android:layout_width="match_parent"
