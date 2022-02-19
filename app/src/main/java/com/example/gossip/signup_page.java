@@ -1,13 +1,16 @@
 package com.example.gossip;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -31,11 +34,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class signup_page extends AppCompatActivity  {
     private FirebaseAuth mAuth;
     EditText name, uname, mno,code;
     String Name,Uname,Mno,Code,verificationId, img;
     Button signup, otp;
+    CircleImageView profile;
     FirebaseFirestore Db;
     FirebaseUser user;
     Map<String, Object> userData;
@@ -60,6 +66,7 @@ public class signup_page extends AppCompatActivity  {
         code=findViewById(R.id.code);
         signup = findViewById(R.id.button);
         otp = findViewById(R.id.button2);
+        profile = findViewById(R.id.profile);
     }
 
     public void sendotp(View view) {
@@ -239,5 +246,18 @@ public class signup_page extends AppCompatActivity  {
         Intent intent= new Intent(this,Login.class);
         startActivity(intent);
         finish();
+    }
+
+    public void uploadimg(View view) {
+        Intent intent=new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
+        startActivityForResult(intent,11);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bitmap bmp=(Bitmap)data.getExtras().get("data");
+        profile.setImageBitmap(bmp);
     }
 }
