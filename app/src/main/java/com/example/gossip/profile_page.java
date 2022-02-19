@@ -1,11 +1,14 @@
 package com.example.gossip;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +17,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 import java.util.HashMap;
@@ -42,7 +48,7 @@ public class profile_page extends Fragment {
     private FirebaseFirestore db;
     private Map MapUserData;
 
-    String currentUser="deeepaliiiii";
+    String currentUser;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -109,24 +115,35 @@ public class profile_page extends Fragment {
         fUser= FirebaseAuth.getInstance().getCurrentUser();
         db=FirebaseFirestore.getInstance();
 
-        new databaseHandler().getdata(new databaseHandler.userCallback() {
+        db.collection("Users").whereEqualTo("phone",fUser.getPhoneNumber().toString().substring(3)).get()
+        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onCallback(Map userData) {
-                System.out.println(userData);
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(
-                        userData!=null
+                        task.isSuccessful()
                 ){
+                    new databaseHandler().getdata(new databaseHandler.userCallback() {
+                        @Override
+                        public void onCallback(Map userData) {
+                            System.out.println(userData);
+                            if(
+                                    userData!=null
+                            ){
 
-                    profile_uname.setText((userData.get("username")).toString());
-                    profile_status.setText((userData.get("status")).toString());
-                    profile_no.setText((userData.get("phone")).toString());
-                    profile_name.setText((userData.get("name")).toString());
+                                profile_uname.setText((userData.get("username")).toString());
+                                profile_status.setText((userData.get("status")).toString());
+                                profile_no.setText((userData.get("phone")).toString());
+                                profile_name.setText((userData.get("name")).toString());
 
 
+                            }
+
+                        }
+                    }, (task.getResult().getDocuments().get(0).get("username")).toString());
                 }
-
             }
-        }, "currentUser");
+        });
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,9 +153,18 @@ public class profile_page extends Fragment {
         });
         change_photo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                Intent intent=new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
+                getActivity().startActivityForResult(intent,11);
 
             }
+
+            protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+                profile_page.super.onActivityResult(requestCode, resultCode, data);
+                Bitmap bmp=(Bitmap)data.getExtras().get("data");
+                profile.setImageBitmap(bmp);
+
+         }
         });
     }
     private void updateProfile(){
@@ -147,17 +173,28 @@ public class profile_page extends Fragment {
         map.put("name",profile_name.getText().toString());
         map.put("status",profile_status.getText().toString());
         map.put("phone",profile_no.getText().toString());
+        db.collection("Users").whereEqualTo("phone",fUser.getPhoneNumber().toString().substring(3)).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(
+                                task.isSuccessful()
+                        ){
+                            db.collection("Users").document((task.getResult().getDocuments().get(0).get("username")).toString()).update(
+                                    "name",profile_name.getText().toString(),
+                                    "status",profile_status.getText().toString()
+                            ).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-        db.collection("Users").document(currentUser).update(
-                "name",profile_name.getText().toString(),
-                "status",profile_status.getText().toString()
+                        }
+                    }
+                });
 
-        ).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
     }
 }
