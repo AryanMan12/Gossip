@@ -79,7 +79,6 @@ public class signup_page extends AppCompatActivity  {
                                             if (task.getResult().isEmpty()){
                                                 if (!getotpclicked){
                                                     if (Mno.length() != 10){
-
                                                         mno.setError("Enter a Valid Phone Number");
                                                         mno.requestFocus();
                                                     }else{
@@ -96,7 +95,6 @@ public class signup_page extends AppCompatActivity  {
                                                         progressDialog.setCancelable(false);
                                                         progressDialog.setMessage("Sending Otp...");
                                                         progressDialog.show();
-                                                        otp.setBackgroundColor(Color.parseColor("#1DCDCDCD"));
                                                     }
                                                 }else{
                                                     Toast.makeText(signup_page.this, "Enter Valid details", Toast.LENGTH_SHORT).show();
@@ -151,6 +149,7 @@ public class signup_page extends AppCompatActivity  {
             progressDialog.dismiss();
             Toast.makeText(signup_page.this, "Otp Sent", Toast.LENGTH_SHORT).show();
             verificationId = s;
+            otp.setBackgroundColor(Color.parseColor("#1DCDCDCD"));
 
             new CountDownTimer(60000, 1000){
                 @Override
