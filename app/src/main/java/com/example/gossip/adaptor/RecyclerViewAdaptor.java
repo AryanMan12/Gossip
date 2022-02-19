@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gossip.Friends_Page;
 import com.example.gossip.R;
 import com.example.gossip.UserFriends;
 
@@ -24,12 +25,12 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     Context context;
     ArrayList<UserFriends> userArrayList;
 
-    public RecyclerViewAdaptor(Context context, ArrayList<UserFriends> userArrayList) {
+    public RecyclerViewAdaptor(ArrayList<UserFriends> userArrayList) {
         this.context = context;
         this.userArrayList = userArrayList;
     }
 
-    public RecyclerViewAdaptor(ArrayList<UserFriends> filterList) {
+    public RecyclerViewAdaptor(Friends_Page friends_page, ArrayList<UserFriends> filterList) {
         this.userArrayList = filterList;
     }
 
