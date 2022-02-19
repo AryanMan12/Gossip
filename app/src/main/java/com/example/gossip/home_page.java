@@ -12,12 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link home_page#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class home_page extends Fragment {
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,7 +88,11 @@ public class home_page extends Fragment {
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), signup_page.class);
+                if (user != null){
+                    FirebaseAuth.getInstance().signOut();
+                    ((MainActivity) getActivity()).finish();
+                }
+                Intent intent = new Intent(getActivity(), Login.class);
                 ((MainActivity) getActivity()).startActivity(intent);
             }
         });
