@@ -125,7 +125,6 @@ public class Login extends AppCompatActivity {
                                                     .setCallbacks(mCallBack)
                                                     .build();
                                     PhoneAuthProvider.verifyPhoneNumber(options);
-                                    otp.setBackgroundColor(Color.parseColor("#1DCDCDCD"));
                                     progressDialog = new ProgressDialog(Login.this);
                                     progressDialog.setCancelable(false);
                                     progressDialog.setMessage("Sending Otp...");
@@ -147,6 +146,7 @@ public class Login extends AppCompatActivity {
             progressDialog.dismiss();
             Toast.makeText(Login.this, "Otp Sent", Toast.LENGTH_SHORT).show();
             verificationId = s;
+            otp.setBackgroundColor(Color.parseColor("#1DCDCDCD"));
 
             new CountDownTimer(60000, 1000){
                 @Override
