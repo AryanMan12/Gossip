@@ -16,7 +16,7 @@
 
     <Button
         android:id="@+id/request_btn"
-        android:layout_width="201dp"
+        android:layout_width="210dp"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:background="@color/primary_col"
@@ -27,7 +27,7 @@
 
     <Button
         android:id="@+id/friends_btn"
-        android:layout_width="201dp"
+        android:layout_width="210dp"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
