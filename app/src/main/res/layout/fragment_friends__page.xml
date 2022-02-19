@@ -7,6 +7,10 @@
     android:background="#000000"
     android:orientation="vertical">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="426dp"
@@ -19,12 +23,14 @@
         android:textStyle="bold" />
 
     <SearchView
+
+
         android:id="@+id/search_friends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:background="#A9555555"
-        android:iconifiedByDefault="true"
+        android:iconifiedByDefault="false"
         android:queryHint="Search here....."
         android:searchIcon="@drawable/ic_baseline_search_24" />
 
