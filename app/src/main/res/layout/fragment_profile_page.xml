@@ -17,7 +17,7 @@
         android:layout_height="151dp"
         android:layout_marginHorizontal="110dp"
         android:layout_marginVertical="10dp"
-        android:src="@drawable/img_4"
+        android:src="@drawable/default_profile"
         app:civ_border_color="#FF000000"
         app:civ_border_width="0dp"
         tools:ignore="MissingClass" />
