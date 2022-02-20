@@ -1,6 +1,7 @@
 package com.example.gossip;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -61,21 +62,26 @@ public class home_page extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new Request_Page()).commit();
         fragment_request = view.findViewById(R.id.request_btn);
+        fragment_friends= view.findViewById(R.id.friends_btn);
         fragment_request.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 replacefragment(new Request_Page());
+                fragment_request.setBackgroundColor(Color.parseColor("#B6690D"));
+                fragment_friends.setBackgroundColor(Color.parseColor("#FFEC8D1D"));
             }
         });
-        fragment_friends= view.findViewById(R.id.friends_btn);
+
         fragment_friends.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v)
             {
                 replacefragment(new Friends_Page());
+                fragment_friends.setBackgroundColor(Color.parseColor("#B6690D"));
+                fragment_request.setBackgroundColor(Color.parseColor("#FFEC8D1D"));
             }
         });
     }
@@ -86,6 +92,5 @@ public class home_page extends Fragment {
         transaction.replace(R.id.frameLayout,fragment);
         transaction.commit();
     }
-
 
 }

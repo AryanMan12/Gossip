@@ -19,9 +19,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".friends"
-            android:exported="false" />
-        <activity
             android:name=".chatting_page"
             android:exported="false" />
         <activity

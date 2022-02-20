@@ -4,12 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -28,7 +33,15 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,13 +52,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class signup_page extends AppCompatActivity  {
     private FirebaseAuth mAuth;
     EditText name, uname, mno,code;
-    String Name,Uname,Mno,Code,verificationId, img;
+    String Name,Uname,Mno,Code,verificationId;
     Button signup, otp;
     CircleImageView profile;
     FirebaseFirestore Db;
     FirebaseUser user;
     Map<String, Object> userData;
     ProgressDialog progressDialog;
+    Uri tempUri;
+    StorageReference storageReference;
     boolean getotpclicked = false;
 
     @Override
@@ -66,6 +81,25 @@ public class signup_page extends AppCompatActivity  {
         signup = findViewById(R.id.button);
         otp = findViewById(R.id.button2);
         profile = findViewById(R.id.profile);
+        try {
+            File tempFile = File.createTempFile("tempfile", ".jpg");
+            FirebaseStorage.getInstance().getReference("profile_photos/default_profile.jpg").getFile(tempFile)
+                    .addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                            if (task.isSuccessful()){
+                                Bitmap bmp = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
+                                profile.setImageBitmap(bmp);
+                                tempUri = getImageUri(bmp);
+                            }else{
+                                Toast.makeText(signup_page.this, "Cannot Load Default Image", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void sendotp(View view) {
@@ -134,11 +168,23 @@ public class signup_page extends AppCompatActivity  {
                         if (task.isSuccessful()){
                             user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user !=null){
-                                Toast.makeText(signup_page.this, "Account Created", Toast.LENGTH_SHORT).show();
-                                Db.collection("Users").document(Uname).set(userData);
-                                Intent intent = new Intent(signup_page.this, MainActivity.class);
-                                startActivity(intent);
-                                signup_page.this.finish();
+                                storageReference = FirebaseStorage.getInstance().getReference("profile_photos/"+Uname);
+                                storageReference.putFile(tempUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(signup_page.this, "Account Created", Toast.LENGTH_SHORT).show();
+                                            Db.collection("Users").document(Uname).set(userData);
+                                            Intent intent = new Intent(signup_page.this, MainActivity.class);
+                                            startActivity(intent);
+                                            signup_page.this.finish();
+                                        }else{
+                                            progressDialog.dismiss();
+                                            Toast.makeText(signup_page.this, "Error Uploading Data", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
                             }else {
                                 Toast.makeText(signup_page.this, "Error Logging in..", Toast.LENGTH_LONG).show();
                             }
@@ -197,7 +243,6 @@ public class signup_page extends AppCompatActivity  {
         userData.put("name", Name);
         userData.put("username", Uname);
         userData.put("phone", Mno);
-        userData.put("profile_photo", "img");
         userData.put("status", "");
         userData.put("friends", new ArrayList<String>());
         userData.put("requests", new ArrayList<String>());
@@ -253,10 +298,35 @@ public class signup_page extends AppCompatActivity  {
 
     }
 
+    public Uri getImageUri(Bitmap inImage) {
+        try {
+            File tempDir= this.getCacheDir();
+            File tempFile = File.createTempFile("tempImage", ".jpg", tempDir);
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            byte[] bitmapData = bytes.toByteArray();
+
+            //write the bytes in file
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            fos.write(bitmapData);
+            fos.flush();
+            fos.close();
+            return Uri.fromFile(tempFile);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bmp=(Bitmap)data.getExtras().get("data");
-        profile.setImageBitmap(bmp);
+        if (resultCode == Activity.RESULT_OK){
+            Bitmap bmp=(Bitmap)data.getExtras().get("data");
+            profile.setImageBitmap(bmp);
+            tempUri = getImageUri(bmp);
+        }
     }
 }
