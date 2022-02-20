@@ -17,7 +17,7 @@
         android:layout_height="151dp"
         android:layout_marginHorizontal="110dp"
         android:layout_marginVertical="10dp"
-        android:src="@drawable/img_4"
+        android:src="@drawable/default_profile"
         app:civ_border_color="#FF000000"
         app:civ_border_width="0dp"
         tools:ignore="MissingClass" />
@@ -90,17 +90,6 @@
         android:layout_marginVertical="20dp"
         android:background="#EC8D1D"
         android:text="@string/btnSave"
-        android:textColor="#060608"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/btnPass"
-        android:layout_width="171dp"
-        android:layout_height="46dp"
-        android:layout_marginHorizontal="120dp"
-        android:background="#EC8D1D"
-        android:text="@string/btnPass"
         android:textColor="#060608"
         android:textSize="16sp"
         android:textStyle="bold" />

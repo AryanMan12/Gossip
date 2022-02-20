@@ -42,7 +42,7 @@ Intent i;
 
     private void animateLogo() {
         Animation fadingInAnimation = AnimationUtils.loadAnimation(this,com.example.gossip.R.anim.fade_in);
-        fadingInAnimation.setDuration(3000);
+        fadingInAnimation.setDuration(2000);
         logo.startAnimation(fadingInAnimation);
     }
 }
