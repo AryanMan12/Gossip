@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -29,12 +32,6 @@ public class MainActivity extends AppCompatActivity {
                     switch (item.getItemId()){
                         case R.id.nav_home:
                             selectedFrag = new home_page();
-//                            new databaseHandler().getdata(new databaseHandler.userCallback() {
-//                                @Override
-//                                public void onCallback(Map userData) {
-//                                    System.out.println(userData);
-//                                }
-//                            }, "VLEwvs2whFszi2523q8e");
                             break;
                         case R.id.nav_chat:
                             selectedFrag = new chat_page();
