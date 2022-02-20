@@ -93,5 +93,4 @@ public class home_page extends Fragment {
         transaction.commit();
     }
 
-
 }

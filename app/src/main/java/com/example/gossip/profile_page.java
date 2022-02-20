@@ -1,7 +1,11 @@
 package com.example.gossip;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,14 +22,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,11 +56,12 @@ public class profile_page extends Fragment {
     private EditText profile_status;
     private EditText profile_no;
 
+    ProgressDialog progressDialog;
+    Uri tempUri;
+
     private FirebaseUser fUser;
     private FirebaseFirestore db;
-    private Map MapUserData;
 
-    String currentUser;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -99,7 +112,6 @@ public class profile_page extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_page, container, false);
-
     }
 
     @Override
@@ -130,6 +142,24 @@ public class profile_page extends Fragment {
                                 profile_status.setText((userData.get("status")).toString());
                                 profile_no.setText((userData.get("phone")).toString());
                                 profile_name.setText((userData.get("name")).toString());
+                                try {
+                                    File tempFile = File.createTempFile("tempfile", ".jpg");
+                                    FirebaseStorage.getInstance().getReference("profile_photos/"+(userData.get("username")).toString()).getFile(tempFile)
+                                            .addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                                                    if (task.isSuccessful()){
+                                                        Bitmap bmp = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
+                                                        profile.setImageBitmap(bmp);
+                                                        tempUri = getImageUri(bmp);
+                                                    }else{
+                                                        Toast.makeText(getActivity(), "Cannot Load Profile Image", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
 
                             }
 
@@ -146,43 +176,90 @@ public class profile_page extends Fragment {
                 updateProfile();
             }
         });
+
         change_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
-                getActivity().startActivityForResult(intent,11);
-
+                startActivityForResult(intent,11);
             }
-
-            protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-                profile_page.super.onActivityResult(requestCode, resultCode, data);
-                Bitmap bmp=(Bitmap)data.getExtras().get("data");
-                profile.setImageBitmap(bmp);
-
-         }
         });
     }
+
+    public Uri getImageUri(Bitmap inImage) {
+        try {
+            File tempDir= getActivity().getCacheDir();
+            File tempFile = File.createTempFile("tempImage", ".jpg", tempDir);
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            byte[] bitmapData = bytes.toByteArray();
+
+            //write the bytes in file
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            fos.write(bitmapData);
+            fos.flush();
+            fos.close();
+            return Uri.fromFile(tempFile);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        profile_page.super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK){
+            Bitmap bmp=(Bitmap)data.getExtras().get("data");
+            profile.setImageBitmap(bmp);
+            tempUri = getImageUri(bmp);
+        }
+    }
+
     private void updateProfile(){
-        HashMap<String,Object> map= new HashMap<>();
-        map.put("username",profile_uname.getText().toString());
-        map.put("name",profile_name.getText().toString());
-        map.put("status",profile_status.getText().toString());
-        map.put("phone",profile_no.getText().toString());
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Updating Profile...");
+        progressDialog.show();
         db.collection("Users").whereEqualTo("phone", fUser.getPhoneNumber().substring(3)).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String userName = (task.getResult().getDocuments().get(0).get("username")).toString();
                         if(task.isSuccessful()){
-                            db.collection("Users").document((task.getResult().getDocuments().get(0).get("username")).toString()).update(
-                                    "name",profile_name.getText().toString(),
-                                    "status",profile_status.getText().toString()
-                            ).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            FirebaseStorage.getInstance().getReference("profile_photos/"+userName).putFile(tempUri)
+                                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                            if (task.isSuccessful()){
+                                                db.collection("Users").document(userName).update(
+                                                        "name",profile_name.getText().toString(),
+                                                        "status",profile_status.getText().toString()
+                                                ).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        progressDialog.dismiss();
+                                                        Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        progressDialog.dismiss();
+                                                        Toast.makeText(getActivity(), "Photo Uploaded, but failed to upload details", Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                            }else{
+                                                progressDialog.dismiss();
+                                                Toast.makeText(getActivity(), "Failed to Update Profile", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
 
+                        }else{
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(), "Failed to Update Profile", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
