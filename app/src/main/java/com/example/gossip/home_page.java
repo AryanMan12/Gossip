@@ -60,9 +60,10 @@ public class home_page extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new Request_Page()).commit();
         fragment_request = view.findViewById(R.id.request_btn);
         fragment_friends= view.findViewById(R.id.friends_btn);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new Request_Page()).commit();
+        fragment_request.setBackgroundColor(Color.parseColor("#B6690D"));
         fragment_request.setOnClickListener(new View.OnClickListener()
         {
             @Override
