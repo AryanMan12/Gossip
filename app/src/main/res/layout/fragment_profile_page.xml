@@ -8,6 +8,7 @@
     android:background="#020202"
     android:orientation="vertical"
     android:padding="10dp"
+    android:gravity="center"
     tools:context=".profile_page">
 
 
@@ -15,8 +16,7 @@
         android:id="@+id/profile"
         android:layout_width="191dp"
         android:layout_height="151dp"
-        android:layout_marginHorizontal="110dp"
-        android:layout_marginVertical="10dp"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/default_profile"
         app:civ_border_color="#FF000000"
         app:civ_border_width="0dp"
@@ -26,81 +26,84 @@
         android:id="@+id/change_photo"
         android:layout_width="149dp"
         android:layout_height="23dp"
-        android:layout_marginHorizontal="140dp"
-        android:text="change profile image"
+        android:layout_marginBottom="40dp"
+        android:text="Change Profile Image"
         android:textColor="#EC8D1D" />
 
-    <EditText
+    <TextView
         android:id="@+id/profile_uname"
-        android:layout_width="330dp"
+        android:layout_width="265dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="20dp"
+        android:layout_marginBottom="30dp"
         android:backgroundTint="#FFFFFF"
+        android:defaultFocusHighlightEnabled="false"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/hint_col"
         android:hint="@string/uname"
         android:textColor="#FFFBFB"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/hint_col"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/profile_no"
+        android:layout_width="265dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#FFFFFF"
+        android:drawableLeft="@drawable/ic_baseline_local_phone_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/hint_col"
+        android:hint="@string/changeNumber"
+        android:textColor="#FFFBFB"
+        android:textColorHint="@color/hint_col"
         android:textSize="20sp" />
 
     <EditText
+        android:maxLength="20"
+        android:singleLine="true"
+        android:maxLines="1"
         android:id="@+id/profile_name"
-        android:layout_width="333dp"
+        android:layout_width="267dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="10dp"
+        android:layout_marginBottom="30dp"
         android:backgroundTint="#FFFFFF"
+        android:drawableLeft="@drawable/ic_baseline_face_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/hint_col"
         android:editable="true"
         android:hint="@string/changeName"
         android:textColor="#FFFBFB"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/hint_col"
         android:textSize="20sp" />
 
     <EditText
+        android:maxLength="135"
+        android:maxLines="3"
         android:id="@+id/profile_status"
-        android:layout_width="337dp"
+        android:layout_width="272dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="20dp"
+        android:layout_marginBottom="30dp"
         android:backgroundTint="#FAFAFA"
+        android:drawableLeft="@drawable/ic_baseline_edit_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/hint_col"
         android:editable="true"
         android:ems="10"
         android:hint="@string/changeBio"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/hint_col"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/profile_no"
-        android:layout_width="337dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="10dp"
-        android:backgroundTint="#FFFFFF"
-        android:hint="@string/changeNumber"
-        android:textColor="#FFFBFB"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="168dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="120dp"
-        android:layout_marginVertical="20dp"
+        android:layout_marginBottom="20dp"
         android:background="#EC8D1D"
         android:text="@string/btnSave"
-        android:textColor="#060608"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/btnPass"
-        android:layout_width="171dp"
-        android:layout_height="46dp"
-        android:layout_marginHorizontal="120dp"
-        android:background="#EC8D1D"
-        android:text="@string/btnPass"
         android:textColor="#060608"
         android:textSize="16sp"
         android:textStyle="bold" />

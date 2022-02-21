@@ -23,7 +23,7 @@ public class chatting_page extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         String senderId = auth.getUid();
         String receiveId = getIntent().getStringExtra("userId");
-        String userName = getIntent().getStringExtra("userName");
+        String userName = getIntent().getStringExtra("userName+");
         String profilePic = getIntent().getStringExtra("profilePic");
         binding.userName.setText(userName);
         Picasso.get().load(profilePic).placeholder(R.drawable.ic_action_name).into(binding.profileImage);
