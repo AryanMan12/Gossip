@@ -60,6 +60,9 @@
         android:textSize="20sp" />
 
     <EditText
+        android:maxLength="20"
+        android:singleLine="true"
+        android:maxLines="1"
         android:id="@+id/profile_name"
         android:layout_width="267dp"
         android:layout_height="wrap_content"
@@ -74,22 +77,32 @@
         android:textColorHint="@color/hint_col"
         android:textSize="20sp" />
 
+<!--    <EditText-->
+<!--        android:maxLength="135"-->
+<!--        android:maxLines="3"-->
+<!--        android:id="@+id/profile_status"-->
+<!--        android:layout_width="272dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="30dp"-->
+<!--        android:backgroundTint="#FAFAFA"-->
+<!--        android:drawableLeft="@drawable/ic_baseline_edit_24"-->
+<!--        android:drawablePadding="5dp"-->
+<!--        android:drawableTint="@color/hint_col"-->
+<!--        android:editable="true"-->
+<!--        android:ems="10"-->
+<!--        android:hint="@string/changeBio"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textColorHint="@color/hint_col"-->
+<!--        android:textSize="20sp" />-->
+
     <EditText
         android:id="@+id/profile_status"
-        android:layout_width="272dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="#FAFAFA"
-        android:drawableLeft="@drawable/ic_baseline_edit_24"
-        android:drawablePadding="5dp"
-        android:drawableTint="@color/hint_col"
-        android:editable="true"
         android:ems="10"
-        android:hint="@string/changeBio"
-        android:inputType="textPersonName"
-        android:textColor="@color/white"
-        android:textColorHint="@color/hint_col"
-        android:textSize="20sp" />
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
 
     <Button
         android:id="@+id/btnSave"
