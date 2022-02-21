@@ -57,10 +57,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class profile_page extends Fragment {
     private CircleImageView profile;
     private TextView change_photo;
-    private EditText profile_uname;
+    private TextView profile_uname;
     private EditText profile_name;
     private EditText profile_status;
-    private EditText profile_no;
+    private TextView profile_no;
 
     ProgressDialog progressDialog;
     Uri tempUri;
