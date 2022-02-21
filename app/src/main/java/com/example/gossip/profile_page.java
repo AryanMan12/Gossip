@@ -135,7 +135,6 @@ public class profile_page extends Fragment {
                     new databaseHandler().getdata(new databaseHandler.userCallback() {
                         @Override
                         public void onCallback(Map userData) {
-                            System.out.println(userData);
                             if(userData!=null){
 
                                 profile_uname.setText((userData.get("username")).toString());

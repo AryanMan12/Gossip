@@ -79,7 +79,7 @@ public class Friends_Page extends Fragment {
         userArrayList = new ArrayList<UserFriends>();
 
         // Use your recyclerView
-        recyclerViewAdapter = new RecyclerViewAdaptor(Friends_Page.this, userArrayList);
+        recyclerViewAdapter = new RecyclerViewAdaptor(userArrayList,getContext());
         recyclerView.setAdapter(recyclerViewAdapter);
         EventChangeListener();
 
@@ -115,7 +115,7 @@ public class Friends_Page extends Fragment {
             }
         }
 
-        RecyclerViewAdaptor adaptor = new RecyclerViewAdaptor(filterList);
+        RecyclerViewAdaptor adaptor = new RecyclerViewAdaptor(filterList ,getContext());
         recyclerView.setAdapter(adaptor);
     }
 
