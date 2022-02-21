@@ -96,7 +96,6 @@
         android:backgroundTint="#FFFFFF"
         android:drawableLeft="@drawable/ic_baseline_local_phone_24"
         android:drawablePadding="20dp"
-        android:drawableTint="@color/hint_col"
         android:hint="@string/changeNumber"
         android:textColor="#FFFBFB"
         android:textColorHint="@color/hint_col"
