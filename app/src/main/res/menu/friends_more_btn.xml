@@ -7,4 +7,7 @@
     <item
         android:id="@+id/send_msg_fr"
         android:title="Send Message" />
+    <item
+        android:id="@+id/remove_fr"
+        android:title="Remove friend" />
 </menu>
