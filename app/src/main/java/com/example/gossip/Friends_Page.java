@@ -31,13 +31,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Friends_Page extends Fragment {
     private RecyclerView recyclerView;
@@ -79,13 +73,12 @@ public class Friends_Page extends Fragment {
         userArrayList = new ArrayList<UserFriends>();
 
         // Use your recyclerView
-        recyclerViewAdapter = new RecyclerViewAdaptor(Friends_Page.this, userArrayList);
+        recyclerViewAdapter = new RecyclerViewAdaptor(userArrayList,getContext());
         recyclerView.setAdapter(recyclerViewAdapter);
         EventChangeListener();
 
         // SearchView
         searchView = (SearchView) view.findViewById(R.id.search_friends);
-
 
     }
     @Override
@@ -115,7 +108,7 @@ public class Friends_Page extends Fragment {
             }
         }
 
-        RecyclerViewAdaptor adaptor = new RecyclerViewAdaptor(filterList);
+        RecyclerViewAdaptor adaptor = new RecyclerViewAdaptor(filterList ,getContext());
         recyclerView.setAdapter(adaptor);
     }
 

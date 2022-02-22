@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="16dp" />
+            app:layout_constraintGuide_end="18dp" />
 
         <TextView
             android:id="@+id/senderText"
@@ -37,18 +37,11 @@
             android:maxWidth="270dp"
             android:minWidth="50dp"
             android:text="ggggggggggggggggggggggggggggggg"
-            app:layout_constraintBottom_toTopOf="@+id/senderTime"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/senderTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:text="12:00pm"
-            android:textSize="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

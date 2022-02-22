@@ -11,7 +11,6 @@
     android:gravity="center"
     tools:context=".profile_page">
 
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
         android:layout_width="191dp"
@@ -30,7 +29,7 @@
         android:text="Change Profile Image"
         android:textColor="#EC8D1D" />
 
-    <EditText
+    <TextView
         android:id="@+id/profile_uname"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
@@ -45,7 +44,24 @@
         android:textColorHint="@color/hint_col"
         android:textSize="20sp" />
 
+    <TextView
+        android:id="@+id/profile_no"
+        android:layout_width="265dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#FFFFFF"
+        android:drawableLeft="@drawable/ic_baseline_local_phone_24"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/hint_col"
+        android:hint="@string/changeNumber"
+        android:textColor="#FFFBFB"
+        android:textColorHint="@color/hint_col"
+        android:textSize="20sp" />
+
     <EditText
+        android:maxLength="20"
+        android:singleLine="true"
+        android:maxLines="1"
         android:id="@+id/profile_name"
         android:layout_width="267dp"
         android:layout_height="wrap_content"
@@ -61,6 +77,8 @@
         android:textSize="20sp" />
 
     <EditText
+        android:maxLength="135"
+        android:maxLines="3"
         android:id="@+id/profile_status"
         android:layout_width="272dp"
         android:layout_height="wrap_content"
@@ -72,24 +90,11 @@
         android:editable="true"
         android:ems="10"
         android:hint="@string/changeBio"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         android:textColor="@color/white"
         android:textColorHint="@color/hint_col"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/profile_no"
-        android:layout_width="275dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="#FFFFFF"
-        android:drawableLeft="@drawable/ic_baseline_local_phone_24"
-        android:drawablePadding="5dp"
-        android:drawableTint="@color/hint_col"
-        android:hint="@string/changeNumber"
-        android:textColor="#FFFBFB"
-        android:textColorHint="@color/hint_col"
-        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnSave"

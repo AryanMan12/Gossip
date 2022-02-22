@@ -1,10 +1,13 @@
 package com.example.gossip;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,11 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,10 +57,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class profile_page extends Fragment {
     private CircleImageView profile;
     private TextView change_photo;
-    private EditText profile_uname;
+    private TextView profile_uname;
     private EditText profile_name;
     private EditText profile_status;
-    private EditText profile_no;
+    private TextView profile_no;
 
     ProgressDialog progressDialog;
     Uri tempUri;
@@ -135,7 +141,6 @@ public class profile_page extends Fragment {
                     new databaseHandler().getdata(new databaseHandler.userCallback() {
                         @Override
                         public void onCallback(Map userData) {
-                            System.out.println(userData);
                             if(userData!=null){
 
                                 profile_uname.setText((userData.get("username")).toString());
@@ -180,10 +185,45 @@ public class profile_page extends Fragment {
         change_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
-                startActivityForResult(intent,11);
+            open_dialog();
+         //       Intent intent=new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
+          //      startActivityForResult(intent,11);
             }
         });
+    }
+    public void open_dialog(){
+        final Dialog dialog=new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_dialog);
+
+        LinearLayout gallery=dialog.findViewById(R.id.gallery);
+        LinearLayout cam=dialog.findViewById(R.id.cam);
+        LinearLayout del=dialog.findViewById(R.id.del);
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"Profile Photo Set",Toast.LENGTH_SHORT).show();
+            }
+        });
+        cam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"Profile Photo Set",Toast.LENGTH_SHORT).show();
+            }
+        });
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"Profile Photo Deleted",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations= R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
     public Uri getImageUri(Bitmap inImage) {

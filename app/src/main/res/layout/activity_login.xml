@@ -10,15 +10,15 @@
     android:orientation="vertical"
     android:outlineAmbientShadowColor="#FBFBFB"
     android:outlineSpotShadowColor="#E4E1E1"
-    tools:context=".Login">
+    tools:context=".Login"
+    android:gravity="center">
+
 
     <ImageView
         android:id="@+id/imageView8"
         android:layout_width="358dp"
         android:layout_height="157dp"
-        android:layout_marginStart="26dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="27dp"
         android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/login_redirect_page"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +32,6 @@
         android:id="@+id/login_name"
         android:layout_width="250dp"
         android:layout_height="86dp"
-        android:layout_marginStart="83dp"
-        android:layout_marginEnd="66dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="#FFFFFF"
         android:defaultFocusHighlightEnabled="false"
@@ -51,8 +49,6 @@
         android:id="@+id/login_pass"
         android:layout_width="244dp"
         android:layout_height="80dp"
-        android:layout_marginStart="83dp"
-        android:layout_marginEnd="66dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="#E3DBDB"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
@@ -79,9 +75,7 @@
         android:id="@+id/button4"
         android:layout_width="146dp"
         android:layout_height="50dp"
-        android:layout_marginStart="130dp"
         android:layout_marginTop="0dp"
-        android:layout_marginEnd="125dp"
         android:background="#EC8D1D"
         android:onClick="onLogin"
         android:text="Login"
@@ -92,11 +86,9 @@
 
     <TextView
         android:id="@+id/editTextTextPersonName6"
-        android:layout_width="261dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="80dp"
+        android:layout_width="233dp"
+        android:layout_height="48dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="34dp"
         android:layout_marginBottom="48dp"
         android:ems="10"
         android:inputType="textPersonName"

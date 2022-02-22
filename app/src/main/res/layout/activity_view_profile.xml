@@ -16,10 +16,11 @@
         android:layout_height="0dp"
         android:layout_weight="0.3"
         android:background="@color/primary_col"
+        android:onClick="onBack"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/fr_img"
         android:layout_width="wrap_content"
         android:layout_height="309dp"
         android:layout_weight="0.5"
@@ -27,7 +28,7 @@
         app:srcCompat="@drawable/background" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/fr_name"
         android:layout_width="match_parent"
         android:layout_height="18dp"
         android:layout_weight="0.5"
@@ -44,7 +45,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/fr_uname"
         android:layout_width="376dp"
         android:layout_height="44dp"
         android:layout_marginHorizontal="15dp"
@@ -58,7 +59,7 @@
         android:textStyle="italic" />
 
     <TextView
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/fr_status"
         android:layout_width="395dp"
         android:layout_height="71dp"
         android:layout_margin="10dp"
@@ -75,7 +76,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/fr_phone"
         android:layout_width="396dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -88,7 +89,7 @@
         android:textSize="20sp" />
 
     <Switch
-        android:id="@+id/checkBox"
+        android:id="@+id/is_friend"
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_margin="5dp"
