@@ -128,8 +128,6 @@ public class chatting_page extends AppCompatActivity {
                                                     if(task.getResult().exists()){
                                                         users = (ArrayList<String>) task.getResult().get("users");
                                                         chats = (ArrayList<String>) task.getResult().get("chats");
-                                                        System.out.println("c_chats: "+chats);
-                                                        System.out.println("c_users: "+users);
                                                     }else{
                                                         users =new ArrayList<>();
                                                         chats =new ArrayList<>();
@@ -188,7 +186,6 @@ public class chatting_page extends AppCompatActivity {
                                                     chats = new ArrayList<String>();
                                                     chatData.put("chats", chats);
                                                     chatData.put("users", users);
-                                                    System.out.println("First Push: "+chatData);
                                                     db.collection("Chats").document(chatId)
                                                             .set(chatData);
                                                 }

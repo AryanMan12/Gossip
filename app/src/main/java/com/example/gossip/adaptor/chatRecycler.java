@@ -66,8 +66,6 @@ public class chatRecycler extends RecyclerView.Adapter<chatRecycler.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        System.out.println("user: "+users);
-        System.out.println("chats: "+chats);
         if (users == null){
             return 0;
         }else{
