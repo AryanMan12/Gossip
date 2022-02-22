@@ -29,6 +29,7 @@
         <entry key="..\:/Users/Jyothi/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_signup_page.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Jyothi/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_view_profile.xml" value="0.20854700854700856" />
         <entry key="..\:/Users/Jyothi/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/rupin/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_view_profile.xml" value="0.22530996152201796" />
         <entry key="..\:/Users/subha deepa/AndroidStudioProjects/Gossip/app/src/main/res/layout/activity_friends.xml" value="0.23505434782608695" />
         <entry key="..\:/Users/subha deepa/AndroidStudioProjects/Gossip/app/src/main/res/layout/chat_row.xml" value="0.23505434782608695" />
         <entry key="..\:/Users/subha deepa/AndroidStudioProjects/Gossip/app/src/main/res/layout/fragment_chat_page.xml" value="0.17708333333333334" />
@@ -38,7 +39,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -1,6 +1,9 @@
 package com.example.gossip.adaptor;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +12,21 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gossip.Friends_Page;
 import com.example.gossip.R;
 import com.example.gossip.UserFriends;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -24,12 +36,12 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     Context context;
     ArrayList<UserFriends> userArrayList;
 
-    public RecyclerViewAdaptor(Context context, ArrayList<UserFriends> userArrayList) {
+    public RecyclerViewAdaptor(ArrayList<UserFriends> userArrayList) {
         this.context = context;
         this.userArrayList = userArrayList;
     }
 
-    public RecyclerViewAdaptor(ArrayList<UserFriends> filterList) {
+    public RecyclerViewAdaptor(Friends_Page friends_page, ArrayList<UserFriends> filterList) {
         this.userArrayList = filterList;
     }
 
@@ -48,7 +60,23 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
 
         holder.username.setText(user.getUsername());
         holder.status.setText(user.getStatus());
-//        holder.profileimg.set(user.getProfile_img());
+        try {
+            File tempFile = File.createTempFile("tempfile", ".jpg");
+            FirebaseStorage.getInstance().getReference("profile_photos/"+user.getUsername()).getFile(tempFile)
+                    .addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                            if (task.isSuccessful()){
+                                Bitmap bmp = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
+                                holder.profileimg.setImageBitmap(bmp);
+                            }else{
+                                Toast.makeText(context, "Cannot Load Profile Image", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

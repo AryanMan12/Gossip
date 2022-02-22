@@ -26,13 +26,14 @@
             android:id="@+id/editTextTextPersonName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
             android:layout_weight="1"
             android:background="@drawable/bgedittxt"
             android:ems="10"
             android:hint="Message..."
             android:inputType="textPersonName"
             android:padding="10dp"
-            android:layout_marginLeft="3dp"/>
+            android:textColorHint="@color/hint_col" />
 
         <ImageView
             android:id="@+id/send"
@@ -49,7 +50,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F98700"
+        android:background="#EC8D1D"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme">
 
