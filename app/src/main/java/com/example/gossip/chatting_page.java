@@ -28,14 +28,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.MetadataChanges;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -44,6 +48,7 @@ public class chatting_page extends AppCompatActivity {
     private String fr_username;
     private TextView userName;
     private CircleImageView profileImage;
+    private EditText msg;
     private ImageView send;
     private ImageView options;
     private ImageView back;
@@ -64,6 +69,7 @@ public class chatting_page extends AppCompatActivity {
         send = findViewById(R.id.send);
         options = findViewById(R.id.options);
         back = findViewById(R.id.backArrow);
+        msg = findViewById(R.id.message);
 
         db = FirebaseFirestore.getInstance();
 
@@ -103,33 +109,110 @@ public class chatting_page extends AppCompatActivity {
                 new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
                     @Override
                     public void onCallback(String chatId) {
-                        System.out.println(chatId);
-                        db.collection("Chats").document(chatId)
-                                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                        if(error != null){
-                                            Log.e("FireStore error", error.getMessage());
-                                            return;
-                                        }
-                                        if (value != null && value.exists()){
-                                            Map<String, Object> data = value.getData();
-                                            ArrayList<String> users = (ArrayList<String>) data.get("users");
-                                            ArrayList<String> chats = (ArrayList<String>) data.get("chats");
-
-                                            recyclerViewAdapter = new chatRecycler(chats, users,currUser, chatting_page.this);
-                                            recyclerView.setAdapter(recyclerViewAdapter);
-
-                                        }else{
-                                            Log.e("FireStore error", "No Data");
-                                        }
+                    db.collection("Chats").document(chatId)
+                            .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                    if(error != null){
+                                        Log.e("FireStore error", error.getMessage());
+                                        return;
                                     }
-                                });
+                                    if (value != null && value.exists()){
+                                        db.collection("Chats").document(chatId)
+                                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if(task.isSuccessful()){
+                                                    ArrayList<String> users;
+                                                    ArrayList<String> chats;
+                                                    if(task.getResult().exists()){
+                                                        users = (ArrayList<String>) task.getResult().get("users");
+                                                        chats = (ArrayList<String>) task.getResult().get("chats");
+                                                        System.out.println("c_chats: "+chats);
+                                                        System.out.println("c_users: "+users);
+                                                    }else{
+                                                        users =new ArrayList<>();
+                                                        chats =new ArrayList<>();
+                                                    }
+                                                    recyclerViewAdapter = new chatRecycler(chats, users, currUser, chatting_page.this);
+                                                    recyclerView.setAdapter(recyclerViewAdapter);
+                                                }else{
+                                                    Toast.makeText(chatting_page.this, "Failed to load Chats", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }else {
+
+                                        Log.e("FireStore error", "No Data");
+                                    }
+                                }
+                            });
                     }
                 }, chatId1, chatId2);
 
             }
         });
+
     }
 
+    public void onViewProfile(View view) {
+        Intent intent = new Intent(this, ViewProfile.class);
+        intent.putExtra("username",fr_username);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    public void onSendMessage(View view) {
+        String message = msg.getText().toString();
+        if (message.trim().equals("")){
+            Toast.makeText(this, "Message cannot be Empty", Toast.LENGTH_SHORT).show();
+        }else{
+            new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                @Override
+                public void onCallback(String currUser) {
+                    String chatId1 = currUser+""+fr_username;
+                    String chatId2 = fr_username+""+currUser;
+                    new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                        @Override
+                        public void onCallback(String chatId) {
+                            db.collection("Chats").document(chatId).get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()){
+                                                ArrayList<String> users = (ArrayList<String>) task.getResult().get("users");
+                                                ArrayList<String> chats = (ArrayList<String>) task.getResult().get("chats");
+                                                if (users == null || chats == null){
+                                                    Map<String, Object> chatData = new HashMap<>();
+                                                    users = new ArrayList<String>();
+                                                    chats = new ArrayList<String>();
+                                                    chatData.put("chats", chats);
+                                                    chatData.put("users", users);
+                                                    System.out.println("First Push: "+chatData);
+                                                    db.collection("Chats").document(chatId)
+                                                            .set(chatData);
+                                                }
+                                                users.add(currUser);
+                                                chats.add(message);
+                                                db.collection("Chats").document(chatId)
+                                                        .update("users", users);
+                                                db.collection("Chats").document(chatId)
+                                                        .update("chats", chats);
+                                            }else{
+                                                Log.d("Firebase Error", "Adding User in chat");
+                                            }
+                                        }
+                                    });
+                        }
+                    }, chatId1, chatId2);
+                }
+            });
+            msg.setText("");
+        }
+
+    }
+
+    public void onBack(View view) {
+        finish();
+    }
 }

@@ -80,7 +80,6 @@ public class Friends_Page extends Fragment {
         // SearchView
         searchView = (SearchView) view.findViewById(R.id.search_friends);
 
-
     }
     @Override
     public void onStart() {

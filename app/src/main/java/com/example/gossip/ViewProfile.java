@@ -106,6 +106,6 @@ public class ViewProfile extends AppCompatActivity {
     }
 
     public void onBack(View view) {
-
+        finish();
     }
 }

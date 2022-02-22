@@ -16,6 +16,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.3"
         android:background="@color/primary_col"
+        android:onClick="onBack"
         app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
     <ImageView

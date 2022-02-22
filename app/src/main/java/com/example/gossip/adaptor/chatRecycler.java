@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,11 +61,18 @@ public class chatRecycler extends RecyclerView.Adapter<chatRecycler.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String message = chats.get(position);
         holder.msg.setText(message);
+
     }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        System.out.println("user: "+users);
+        System.out.println("chats: "+chats);
+        if (users == null){
+            return 0;
+        }else{
+            return users.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -77,6 +85,7 @@ public class chatRecycler extends RecyclerView.Adapter<chatRecycler.ViewHolder> 
             }else{
                 msg = itemView.findViewById(R.id.receiverText);
             }
+
         }
 
         @Override
