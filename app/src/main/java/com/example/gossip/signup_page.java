@@ -5,21 +5,28 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -149,9 +156,59 @@ public class signup_page extends AppCompatActivity  {
                         }
                     }
                 });
-
+profile.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        open_dialog();
+    }
+});
     }
 
+    public void open_dialog(){
+        final Dialog dialog=new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_dialog);
+
+        LinearLayout gallery=dialog.findViewById(R.id.gallery);
+        LinearLayout cam=dialog.findViewById(R.id.cam);
+        LinearLayout del=dialog.findViewById(R.id.del);
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(i,"Select Profile Image"), 200);
+                dialog.dismiss();
+            }
+        });
+        cam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
+                startActivityForResult(intent,11);
+                dialog.dismiss();
+            }
+        });
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tempUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                        "://" + getResources().getResourcePackageName(R.drawable.default_profile)
+                        + '/' + getResources().getResourceTypeName(R.drawable.default_profile)
+                        + '/' + getResources().getResourceEntryName(R.drawable.default_profile) );
+                profile.setImageURI(tempUri);
+                dialog.dismiss();
+                Toast.makeText(signup_page.this,"Profile Photo Deleted",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations= R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
     private void verifyCode(String code){
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId,code);
         FirebaseAuth.getInstance().getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
@@ -202,7 +259,7 @@ public class signup_page extends AppCompatActivity  {
             Toast.makeText(signup_page.this, "Otp Sent", Toast.LENGTH_SHORT).show();
             verificationId = s;
             otp.setBackgroundColor(Color.parseColor("#1DCDCDCD"));
-
+            otp.setTextColor(Color.parseColor("#FFFFFF"));
             new CountDownTimer(60000, 1000){
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -213,6 +270,7 @@ public class signup_page extends AppCompatActivity  {
                 public void onFinish() {
                     getotpclicked = false;
                     otp.setBackgroundColor(Color.parseColor("#EC8D1D"));
+                    otp.setTextColor(Color.parseColor("#000000"));
                     otp.setClickable(true);
                     otp.setText("Send Otp");
                 }
@@ -293,8 +351,7 @@ public class signup_page extends AppCompatActivity  {
     }
 
     public void uploadimg(View view) {
-        Intent intent=new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
-        startActivityForResult(intent,11);
+        open_dialog();
 
     }
 
