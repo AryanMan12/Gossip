@@ -108,25 +108,29 @@ public class Request_Page extends Fragment {
     }
 
     private void search(String str) {
-        db.collection("Users").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        ArrayList<Map<String, Object>> filterList = new ArrayList<Map<String, Object>>();
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult() ) {
-                                if ((document.getId().toLowerCase()).contains(str) && !(document.getData().get("phone")).toString().equals(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().substring(3))) {
-                                    filterList.add(document.getData());
+        if(str.trim().equals("")){
+            RequestPageRecycler adaptor = new RequestPageRecycler(reqList, getContext());
+            recyclerView.setAdapter(adaptor);
+        }else {
+            db.collection("Users").get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            ArrayList<Map<String, Object>> filterList = new ArrayList<Map<String, Object>>();
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if ((document.getId().toLowerCase()).contains(str) && !(document.getData().get("phone")).toString().equals(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().substring(3))) {
+                                        filterList.add(document.getData());
+                                    }
                                 }
+                            } else {
+                                Log.d("Search Requests", "No Data");
                             }
-                        } else {
-                            Log.d("Search Requests", "No Data");
+                            RequestPageRecycler adaptor = new RequestPageRecycler(filterList, getContext());
+                            recyclerView.setAdapter(adaptor);
                         }
-                        RequestPageRecycler adaptor = new RequestPageRecycler(filterList, getContext());
-                        recyclerView.setAdapter(adaptor);
-                    }
-                });
-
+                    });
+        }
     }
 
 
