@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +64,7 @@ public class profile_page extends Fragment {
     private EditText profile_name;
     private EditText profile_status;
     private TextView profile_no;
+    FirebaseUser user;
 
     ProgressDialog progressDialog;
     Uri tempUri;
@@ -134,6 +137,10 @@ public class profile_page extends Fragment {
         fUser= FirebaseAuth.getInstance().getCurrentUser();
         db=FirebaseFirestore.getInstance();
 
+
+        ImageView signOut = view.findViewById(R.id.signOut);
+
+
         db.collection("Users").whereEqualTo("phone",fUser.getPhoneNumber().toString().substring(3)).get()
         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -188,6 +195,19 @@ public class profile_page extends Fragment {
             open_dialog();
             }
         });
+
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fUser != null){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getActivity(), Login.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+        });
+
     }
     public void open_dialog(){
         final Dialog dialog=new Dialog(getActivity());
