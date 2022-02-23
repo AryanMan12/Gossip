@@ -259,7 +259,7 @@ profile.setOnClickListener(new View.OnClickListener() {
             Toast.makeText(signup_page.this, "Otp Sent", Toast.LENGTH_SHORT).show();
             verificationId = s;
             otp.setBackgroundColor(Color.parseColor("#1DCDCDCD"));
-
+            otp.setTextColor(Color.parseColor("#FFFFFF"));
             new CountDownTimer(60000, 1000){
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -270,6 +270,7 @@ profile.setOnClickListener(new View.OnClickListener() {
                 public void onFinish() {
                     getotpclicked = false;
                     otp.setBackgroundColor(Color.parseColor("#EC8D1D"));
+                    otp.setTextColor(Color.parseColor("#000000"));
                     otp.setClickable(true);
                     otp.setText("Send Otp");
                 }

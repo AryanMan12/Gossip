@@ -43,7 +43,7 @@
         android:outlineSpotShadowColor="#FFFEFE"
         android:shadowColor="#FFFFFF"
         android:textColor="#F3EEEE"
-        android:textColorHint="#E6DFDF" />
+        android:textColorHint="@color/hint_col" />
 
     <EditText
         android:id="@+id/login_pass"
@@ -53,9 +53,9 @@
         android:backgroundTint="#E3DBDB"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:ems="10"
-        android:hint="Enter Otp"
+        android:hint="Enter OTP"
         android:inputType="textPersonName"
-        android:textColorHint="#ECE3E3" />
+        android:textColorHint="@color/hint_col" />
 
     <Button
         android:id="@+id/button6"

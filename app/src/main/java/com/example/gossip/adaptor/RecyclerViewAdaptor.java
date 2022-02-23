@@ -57,14 +57,11 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     ArrayList<UserFriends> userArrayList;
     FirebaseFirestore db;
     FirebaseUser fUser;
+    UserFriends user;
 
     public RecyclerViewAdaptor(ArrayList<UserFriends> userArrayList,Context context) {
         this.context = context;
         this.userArrayList = userArrayList;
-    }
-
-    public RecyclerViewAdaptor(Friends_Page friends_page, ArrayList<UserFriends> filterList) {
-        this.userArrayList = filterList;
     }
 
     // Where to get the single card as viewholder Object
@@ -78,7 +75,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     // What will happen after we create the viewholder object
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        UserFriends user = userArrayList.get(position);
+        user = userArrayList.get(position);
         holder.username.setText(user.getUsername());
         holder.status.setText(user.getStatus());
         try {
@@ -224,7 +221,10 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         @Override
         public void onClick(View view) {
             Log.d("ClickFromViewHolder", "Clicked");
-
+            Intent intent1 = new Intent(context,chatting_page.class);
+            intent1.putExtra("username",user.getUsername());
+            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent1);
         }
     }
 }
