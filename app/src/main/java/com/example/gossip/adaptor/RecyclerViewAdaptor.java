@@ -64,10 +64,6 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         this.userArrayList = userArrayList;
     }
 
-    public RecyclerViewAdaptor(Friends_Page friends_page, ArrayList<UserFriends> filterList) {
-        this.userArrayList = filterList;
-    }
-
     // Where to get the single card as viewholder Object
     @NonNull
     @Override

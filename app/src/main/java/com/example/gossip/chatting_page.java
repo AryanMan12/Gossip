@@ -140,7 +140,6 @@ public class chatting_page extends AppCompatActivity {
                                             }
                                         });
                                     }else {
-
                                         Log.e("FireStore error", "No Data");
                                     }
                                 }
