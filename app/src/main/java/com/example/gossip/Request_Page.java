@@ -75,17 +75,7 @@ public class Request_Page extends Fragment {
         // SearchView
         searchView = (SearchView) view.findViewById(R.id.req_search_friends);
 
-//        signOut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (fUser != null){
-//                    FirebaseAuth.getInstance().signOut();
-//                    Intent intent = new Intent(getActivity(), Login.class);
-//                    startActivity(intent);
-//                    getActivity().finish();
-//                }
-//            }
-//        }
+
     }
 
     @Override
