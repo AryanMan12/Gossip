@@ -3,6 +3,7 @@ package com.example.gossip;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -141,9 +142,7 @@ public class profile_page extends Fragment {
                     new databaseHandler().getdata(new databaseHandler.userCallback() {
                         @Override
                         public void onCallback(Map userData) {
-                            System.out.println(userData);
                             if(userData!=null){
-
                                 profile_uname.setText((userData.get("username")).toString());
                                 profile_status.setText((userData.get("status")).toString());
                                 profile_no.setText((userData.get("phone")).toString());
@@ -187,8 +186,6 @@ public class profile_page extends Fragment {
             @Override
             public void onClick(View view) {
             open_dialog();
-         //       Intent intent=new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
-          //      startActivityForResult(intent,11);
             }
         });
     }
@@ -204,18 +201,30 @@ public class profile_page extends Fragment {
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"Profile Photo Set",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent();
+                i.setType("image/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(i,"Select Profile Image"), 200);
+                dialog.dismiss();
             }
         });
         cam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"Profile Photo Set",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
+                startActivityForResult(intent,11);
+                dialog.dismiss();
             }
         });
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tempUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                        "://" + getResources().getResourcePackageName(R.drawable.default_profile)
+                        + '/' + getResources().getResourceTypeName(R.drawable.default_profile)
+                        + '/' + getResources().getResourceEntryName(R.drawable.default_profile) );
+                profile.setImageURI(tempUri);
+                dialog.dismiss();
                 Toast.makeText(getActivity(),"Profile Photo Deleted",Toast.LENGTH_SHORT).show();
             }
         });
@@ -253,9 +262,17 @@ public class profile_page extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         profile_page.super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK){
-            Bitmap bmp=(Bitmap)data.getExtras().get("data");
-            profile.setImageBitmap(bmp);
-            tempUri = getImageUri(bmp);
+            if (requestCode == 11){
+                Bitmap bmp=(Bitmap)data.getExtras().get("data");
+                profile.setImageBitmap(bmp);
+                tempUri = getImageUri(bmp);
+            }else if (requestCode == 200){
+                tempUri = data.getData();
+                if (tempUri != null){
+                    profile.setImageURI(tempUri);
+                }
+            }
+
         }
     }
 

@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/fr_uname"
         android:layout_width="426dp"
         android:layout_height="40dp"
         android:layout_marginHorizontal="20dp"
