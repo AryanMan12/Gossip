@@ -221,10 +221,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         @Override
         public void onClick(View view) {
             Log.d("ClickFromViewHolder", "Clicked");
-            Intent intent1 = new Intent(context,chatting_page.class);
-            intent1.putExtra("username",user.getUsername());
-            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent1);
+
         }
     }
 }

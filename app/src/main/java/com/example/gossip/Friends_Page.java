@@ -129,6 +129,9 @@ public class Friends_Page extends Fragment {
                                                 if (dc.getType() == DocumentChange.Type.ADDED) {
                                                     userArrayList.add(dc.getDocument().toObject(UserFriends.class));
                                                 }
+                                                if (dc.getType() == DocumentChange.Type.REMOVED) {
+                                                    userArrayList.remove(dc.getDocument().toObject(UserFriends.class));
+                                                }
                                                 recyclerViewAdapter.notifyDataSetChanged();
                                                 if (progressDialog.isShowing())
                                                     progressDialog.dismiss();

@@ -37,12 +37,12 @@ Intent i;
                 finish();
 
             }
-        },3000);
+        },2000);
     }
 
     private void animateLogo() {
         Animation fadingInAnimation = AnimationUtils.loadAnimation(this,com.example.gossip.R.anim.fade_in);
-        fadingInAnimation.setDuration(2000);
+        fadingInAnimation.setDuration(1500);
         logo.startAnimation(fadingInAnimation);
     }
 }

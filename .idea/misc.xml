@@ -5,6 +5,14 @@
       <map>
         <entry key="..\:/Gossip/app/src/main/res/drawable/bg_receiver.xml" value="0.121" />
         <entry key="..\:/Gossip/app/src/main/res/drawable/bg_sender.xml" value="0.121" />
+        <entry key="..\:/Gossip/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.1575" />
+        <entry key="..\:/Gossip/app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.1575" />
+        <entry key="..\:/Gossip/app/src/main/res/drawable/ic_baseline_check_circle_24.xml" value="0.1575" />
+        <entry key="..\:/Gossip/app/src/main/res/drawable/ic_baseline_cloud_upload_24.xml" value="0.1575" />
+        <entry key="..\:/Gossip/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.1575" />
+        <entry key="..\:/Gossip/app/src/main/res/drawable/ic_baseline_local_phone_24.xml" value="0.1575" />
+        <entry key="..\:/Gossip/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1575" />
+        <entry key="..\:/Gossip/app/src/main/res/drawable/ic_baseline_person_add_24.xml" value="0.1575" />
         <entry key="..\:/Gossip/app/src/main/res/layout/activity_chatting_page.xml" value="0.2" />
         <entry key="..\:/Gossip/app/src/main/res/layout/activity_friends.xml" value="0.25" />
         <entry key="..\:/Gossip/app/src/main/res/layout/activity_login.xml" value="0.20521590423257802" />
@@ -13,6 +21,7 @@
         <entry key="..\:/Gossip/app/src/main/res/layout/activity_signup_page.xml" value="0.25" />
         <entry key="..\:/Gossip/app/src/main/res/layout/activity_splash_screen.xml" value="0.20521590423257802" />
         <entry key="..\:/Gossip/app/src/main/res/layout/activity_view_profile.xml" value="0.20521590423257802" />
+        <entry key="..\:/Gossip/app/src/main/res/layout/add_req_row.xml" value="0.20521590423257802" />
         <entry key="..\:/Gossip/app/src/main/res/layout/chat_row.xml" value="0.20521590423257802" />
         <entry key="..\:/Gossip/app/src/main/res/layout/fragment_chat_page.xml" value="0.20521590423257802" />
         <entry key="..\:/Gossip/app/src/main/res/layout/fragment_friends__page.xml" value="0.20521590423257802" />
@@ -20,6 +29,9 @@
         <entry key="..\:/Gossip/app/src/main/res/layout/fragment_profile_page.xml" value="0.2" />
         <entry key="..\:/Gossip/app/src/main/res/layout/fragment_request__page.xml" value="0.20222317229585293" />
         <entry key="..\:/Gossip/app/src/main/res/layout/receiver.xml" value="0.4" />
+        <entry key="..\:/Gossip/app/src/main/res/layout/remove_request_row.xml" value="0.4" />
+        <entry key="..\:/Gossip/app/src/main/res/layout/request_friend.xml" value="0.20521590423257802" />
+        <entry key="..\:/Gossip/app/src/main/res/layout/request_row.xml" value="0.536" />
         <entry key="..\:/Gossip/app/src/main/res/layout/row.xml" value="0.25" />
         <entry key="..\:/Gossip/app/src/main/res/layout/sender.xml" value="0.4" />
         <entry key="..\:/Gossip/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2275" />

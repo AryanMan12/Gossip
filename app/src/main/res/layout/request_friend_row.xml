@@ -59,32 +59,19 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/accept_req"
+                android:id="@+id/req_chat"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_check_circle_24" />
-
-            <ImageView
-                android:id="@+id/reject_req"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="33dp"
                 android:layout_marginBottom="30dp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/accept_req"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_cancel_24" />
+                app:srcCompat="@drawable/ic_baseline_chat_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

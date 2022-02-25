@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class Request_Page extends Fragment {
     private RecyclerView recyclerView;
     private RequestPageRecycler recyclerViewAdapter;
     private ArrayList<Map<String, Object>> reqList;
+    private Map<String, Object> current_userData;
     SearchView searchView;
     ProgressDialog progressDialog;
     FirebaseFirestore db;
@@ -66,10 +68,22 @@ public class Request_Page extends Fragment {
         db = FirebaseFirestore.getInstance();
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         reqList = new ArrayList<Map<String, Object>>();
+        current_userData = new HashMap<String, Object>();
 
         // Use your recyclerView
-        recyclerViewAdapter = new RequestPageRecycler(reqList, getContext());
-        recyclerView.setAdapter(recyclerViewAdapter);
+        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+            @Override
+            public void onCallback(String currUser) {
+                new databaseHandler().getdata(new databaseHandler.userCallback() {
+                    @Override
+                    public void onCallback(Map<String, Object> userData) {
+                        current_userData = userData;
+                        recyclerViewAdapter = new RequestPageRecycler(reqList, current_userData, getContext());
+                        recyclerView.setAdapter(recyclerViewAdapter);
+                    }
+                }, currUser);
+            }
+        });
         EventChangeListener();
 
         // SearchView
@@ -99,25 +113,48 @@ public class Request_Page extends Fragment {
 
     private void search(String str) {
         if(str.trim().equals("")){
-            RequestPageRecycler adaptor = new RequestPageRecycler(reqList, getContext());
-            recyclerView.setAdapter(adaptor);
+            new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                @Override
+                public void onCallback(String currUser) {
+                    new databaseHandler().getdata(new databaseHandler.userCallback() {
+                        @Override
+                        public void onCallback(Map<String, Object> userData) {
+                            current_userData = userData;
+                            RequestPageRecycler adaptor = new RequestPageRecycler(reqList, current_userData, getContext());
+                            recyclerView.setAdapter(adaptor);
+                        }
+                    }, currUser);
+                }
+            });
+
         }else {
             db.collection("Users").get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            ArrayList<Map<String, Object>> filterList = new ArrayList<Map<String, Object>>();
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if ((document.getId().toLowerCase()).contains(str) && !(document.getData().get("phone")).toString().equals(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().substring(3))) {
-                                        filterList.add(document.getData());
-                                    }
+                            new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                                @Override
+                                public void onCallback(String currUser) {
+                                    new databaseHandler().getdata(new databaseHandler.userCallback() {
+                                        @Override
+                                        public void onCallback(Map<String, Object> userData) {
+                                            ArrayList<Map<String, Object>> filterList = new ArrayList<Map<String, Object>>();
+                                            current_userData = userData;
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if ((document.getId().toLowerCase()).contains(str) && !(document.getData().get("phone")).toString().equals(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().substring(3))) {
+                                                        filterList.add(document.getData());
+                                                    }
+                                                }
+                                            } else {
+                                                Log.d("Search Requests", "No Data");
+                                            }
+                                            RequestPageRecycler adaptor = new RequestPageRecycler(filterList, current_userData, getContext());
+                                            recyclerView.setAdapter(adaptor);
+                                        }
+                                    }, currUser);
                                 }
-                            } else {
-                                Log.d("Search Requests", "No Data");
-                            }
-                            RequestPageRecycler adaptor = new RequestPageRecycler(filterList, getContext());
-                            recyclerView.setAdapter(adaptor);
+                            });
                         }
                     });
         }
@@ -131,33 +168,43 @@ public class Request_Page extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             String current_user = (task.getResult().getDocuments().get(0).get("username")).toString();
-                            db.collection("Users").whereArrayContains("requests", current_user)
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                            if (error != null) {
-                                                if (progressDialog.isShowing())
-                                                    progressDialog.dismiss();
-                                                Log.e("FireStore error", error.getMessage());
-                                                return;
-                                            }
-                                            if (value.isEmpty()){
-                                                if (progressDialog.isShowing())
-                                                    progressDialog.dismiss();
-                                            }
-                                            for (DocumentChange dc : value.getDocumentChanges()) {
-                                                if (dc.getType() == DocumentChange.Type.ADDED) {
-                                                    reqList.add(dc.getDocument().getData());
+                            new databaseHandler().getdata(new databaseHandler.userCallback() {
+                                @Override
+                                public void onCallback(Map<String, Object> userData) {
+                                    current_userData = userData;
+                                    db.collection("Users").whereArrayContains("requests", current_user)
+                                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                    if (error != null) {
+                                                        if (progressDialog.isShowing())
+                                                            progressDialog.dismiss();
+                                                        Log.e("FireStore error", error.getMessage());
+                                                        return;
+                                                    }
+                                                    if (value.isEmpty()){
+                                                        if (progressDialog.isShowing())
+                                                            progressDialog.dismiss();
+                                                    }
+                                                    for (DocumentChange dc : value.getDocumentChanges()) {
+                                                        if (dc.getType() == DocumentChange.Type.ADDED) {
+                                                            reqList.add(dc.getDocument().getData());
+                                                        }
+                                                        if (dc.getType() == DocumentChange.Type.REMOVED){
+                                                            reqList.remove(dc.getDocument().getData());
+                                                        }
+                                                        if (dc.getType() == DocumentChange.Type.MODIFIED){
+                                                            reqList.remove(dc.getDocument().getData());
+                                                            reqList.add(dc.getDocument().getData());
+                                                        }
+                                                        recyclerViewAdapter.notifyDataSetChanged();
+                                                        if (progressDialog.isShowing())
+                                                            progressDialog.dismiss();
+                                                    }
                                                 }
-                                                if (dc.getType() == DocumentChange.Type.REMOVED){
-                                                    reqList.remove(dc.getDocument().getData());
-                                                }
-                                                recyclerViewAdapter.notifyDataSetChanged();
-                                                if (progressDialog.isShowing())
-                                                    progressDialog.dismiss();
-                                            }
-                                        }
-                                    });
+                                            });
+                                }
+                            }, current_user);
                         }else {
                             Toast.makeText(getActivity(), "Unable to get data!!", Toast.LENGTH_SHORT).show();
                             if (progressDialog.isShowing())
@@ -166,4 +213,5 @@ public class Request_Page extends Fragment {
                     }
                 });
     }
+
 }
