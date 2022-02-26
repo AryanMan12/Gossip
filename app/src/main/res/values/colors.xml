@@ -10,5 +10,5 @@
     <color name="primary_col">#FFEC8D1D</color>
     <color name="secondary_col">#1DCDCDCD</color>
     <color name="bg_col">#0B0A0A</color>
-    <color name="hint_col">#A3CACBCD</color>
+    <color name="hint_col">#CACBCD</color>
 </resources>
