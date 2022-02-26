@@ -2,9 +2,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
+    android:layout_marginHorizontal="20dp"
     android:layout_marginVertical="10dp"
     app:cardBackgroundColor="#474747"
     app:cardCornerRadius="10dp">
@@ -16,24 +16,24 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ch_profile_image"
+            android:id="@+id/req_profile_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginVertical="10dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:src="@drawable/default_profile"
             app:civ_border_color="#FF000000"
             app:civ_border_width="0dp" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="215dp"
+            android:layout_width="187dp"
             android:layout_height="76dp"
             android:orientation="vertical"
             tools:ignore="MissingConstraints">
 
             <TextView
-                android:id="@+id/ch_username"
+                android:id="@+id/req_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -45,7 +45,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ch_status"
+                android:id="@+id/req_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -58,24 +58,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageButton
-                android:id="@+id/ch_more_button"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="26dp"
-                android:background="#00474747"
-                android:padding="5dp"
-                android:src="@drawable/ic_baseline_more_vert_24"
-                app:civ_border_width="0dp"
+            <ImageView
+                android:id="@+id/req_add"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="33dp"
+                android:layout_marginBottom="30dp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:srcCompat="@drawable/ic_baseline_person_add_24" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

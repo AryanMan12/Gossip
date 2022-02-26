@@ -15,14 +15,15 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_cloud_upload_24"/>
+            android:src="@drawable/ic_baseline_cloud_upload_24" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
             android:text="Upload from Gallery"
             android:textColor="@color/white"
-            android:layout_marginLeft="30dp"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout

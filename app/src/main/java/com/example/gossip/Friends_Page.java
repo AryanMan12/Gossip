@@ -40,14 +40,6 @@ public class Friends_Page extends Fragment {
     SearchView searchView;
     ProgressDialog progressDialog;
     FirebaseFirestore db;
-    // TODO : Change current_user
-    String current_user;
-    private TextView change_photo;
-    private EditText profile_uname;
-    private EditText profile_name;
-    private EditText profile_status;
-    private EditText profile_no;
-    Uri tempUri;
     private FirebaseUser fUser;
     View view;
     @Override
@@ -135,6 +127,13 @@ public class Friends_Page extends Fragment {
                                             }
                                             for (DocumentChange dc : value.getDocumentChanges()) {
                                                 if (dc.getType() == DocumentChange.Type.ADDED) {
+                                                    userArrayList.add(dc.getDocument().toObject(UserFriends.class));
+                                                }
+                                                if (dc.getType() == DocumentChange.Type.REMOVED) {
+                                                    userArrayList.remove(dc.getDocument().toObject(UserFriends.class));
+                                                }
+                                                if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                                                    userArrayList.remove(dc.getDocument().toObject(UserFriends.class));
                                                     userArrayList.add(dc.getDocument().toObject(UserFriends.class));
                                                 }
                                                 recyclerViewAdapter.notifyDataSetChanged();
