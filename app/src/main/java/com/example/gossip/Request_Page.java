@@ -70,6 +70,8 @@ public class Request_Page extends Fragment {
         reqList = new ArrayList<Map<String, Object>>();
         current_userData = new HashMap<String, Object>();
 
+
+
         // Use your recyclerView
         new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
             @Override
@@ -88,7 +90,6 @@ public class Request_Page extends Fragment {
 
         // SearchView
         searchView = (SearchView) view.findViewById(R.id.req_search_friends);
-
 
     }
 
@@ -126,7 +127,6 @@ public class Request_Page extends Fragment {
                     }, currUser);
                 }
             });
-
         }else {
             db.collection("Users").get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

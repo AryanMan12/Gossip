@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gossip.R;
@@ -20,8 +21,12 @@ import com.example.gossip.ViewProfile;
 import com.example.gossip.databaseHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -155,6 +160,7 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
                     context.startActivity(intent);
                 }
             });
+
             if (getAdapterPosition() != -1){
                 user = reqList.get(getAdapterPosition());
             }
@@ -177,6 +183,7 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
                     public void onClick(View v) {
                         db.collection("Users").document((current_user.get("username")).toString())
                                 .update("requests", FieldValue.arrayRemove((reqList.get(getAdapterPosition()).get("username")).toString()));
+                        notifyDataSetChanged();
                     }
                 });
             }else if (!(user_requests.contains((current_user.get("username")).toString()))){
@@ -185,6 +192,7 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
                     public void onClick(View v) {
                         db.collection("Users").document((current_user.get("username")).toString())
                                 .update("requests", FieldValue.arrayUnion((reqList.get(getAdapterPosition()).get("username")).toString()));
+                        notifyDataSetChanged();
                     }
                 });
             }else{
@@ -196,6 +204,7 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
                         db.collection("Users").document((reqList.get(getAdapterPosition()).get("username")).toString())
                                 .update("friends", FieldValue.arrayUnion((current_user.get("username")).toString()),
                                         "requests", FieldValue.arrayRemove((current_user.get("username")).toString()));
+                        notifyDataSetChanged();
                     }
                 });
                 rejectReq.setOnClickListener(new View.OnClickListener() {
@@ -203,6 +212,7 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
                     public void onClick(View v) {
                         db.collection("Users").document((reqList.get(getAdapterPosition()).get("username")).toString())
                                 .update("requests", FieldValue.arrayRemove((current_user.get("username")).toString()));
+                        notifyDataSetChanged();
                     }
                 });
             }
