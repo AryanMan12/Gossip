@@ -75,7 +75,7 @@ public class ViewProfile extends AppCompatActivity {
                                                            }
                                                        });
 
-                        profile_uname.setText((userData.get("username")).toString());
+                        profile_uname.setText("@" + (userData.get("username")).toString());
                         profile_status.setText((userData.get("status")).toString());
                         profile_no.setText((userData.get("phone")).toString());
                         profile_name.setText((userData.get("name")).toString());
