@@ -42,7 +42,7 @@ public class ViewProfile extends AppCompatActivity {
     private TextView profile_name;
     private TextView profile_status;
     private TextView profile_no;
-    private Switch is_friend;
+
     FirebaseFirestore db;
     FirebaseUser fUser;
     @Override
@@ -51,7 +51,7 @@ public class ViewProfile extends AppCompatActivity {
         setContentView(R.layout.activity_view_profile);
         Intent retrive = getIntent();
         fr_username = retrive.getStringExtra("username");
-        is_friend = findViewById(R.id.is_friend);
+
         profile_img = findViewById(R.id.fr_img);
         profile_uname = findViewById(R.id.fr_uname);
         profile_name = findViewById(R.id.fr_name);
@@ -64,16 +64,7 @@ public class ViewProfile extends AppCompatActivity {
                 public void onCallback(Map userData) {
                     if(userData!=null){
                         ArrayList<String> friends = (ArrayList<String>)(userData.get("friends"));
-                        db.collection("Users").whereEqualTo("phone",fUser.getPhoneNumber().toString().substring(3)).get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                           @Override
-                                                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                               if (task.isSuccessful()) {
-                                                                   String current_user = (task.getResult().getDocuments().get(0).get("username")).toString();
-                                                                   is_friend.setChecked(friends.contains(current_user));
-                                                               }
-                                                           }
-                                                       });
+
 
                         profile_uname.setText("@" + (userData.get("username")).toString());
                         profile_status.setText((userData.get("status")).toString());
