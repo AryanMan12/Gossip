@@ -37,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewProfile extends AppCompatActivity {
     private String fr_username;
-    private ImageView profile_img;
+    private CircleImageView profile_img;
     private TextView profile_uname;
     private TextView profile_name;
     private TextView profile_status;
@@ -66,7 +66,7 @@ public class ViewProfile extends AppCompatActivity {
                         ArrayList<String> friends = (ArrayList<String>)(userData.get("friends"));
 
 
-                        profile_uname.setText("@" + (userData.get("username")).toString());
+                        profile_uname.setText("@ " + (userData.get("username")).toString());
                         profile_status.setText((userData.get("status")).toString());
                         profile_no.setText((userData.get("phone")).toString());
                         profile_name.setText((userData.get("name")).toString());
