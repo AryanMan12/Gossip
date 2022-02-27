@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/view_profile_ch"
+        android:title="View Profile" />
+    <item
+        android:id="@+id/send_msg_ch"
+        android:title="Send Message" />
+    <item
+        android:id="@+id/remove_ch"
+        android:title="Remove friend" />
+    <item
+        android:id="@+id/delete_ch"
+        android:title="Delete Chat" />
+</menu>

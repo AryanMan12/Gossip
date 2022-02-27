@@ -58,7 +58,7 @@ public class Friends_Page extends Fragment {
         progressDialog.show();
 
         //Recyclerview initialization
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         db = FirebaseFirestore.getInstance();
         fUser = FirebaseAuth.getInstance().getCurrentUser();
