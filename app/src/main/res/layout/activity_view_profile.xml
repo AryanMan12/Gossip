@@ -10,8 +10,8 @@
     tools:context=".ViewProfile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="421dp"
+        android:layout_width="357dp"
+        android:layout_height="343dp"
         android:layout_gravity="center"
         android:background="@drawable/grad">
 
@@ -22,7 +22,7 @@
             android:layout_marginStart="17dp"
             android:layout_marginTop="26dp"
             android:layout_marginEnd="308dp"
-            android:layout_marginBottom="13dp"
+            android:layout_marginBottom="8dp"
             android:backgroundTint="#00FFFFFF"
             android:onClick="onBack"
             app:layout_constraintBottom_toTopOf="@+id/fr_img"
@@ -34,11 +34,12 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/fr_img"
-            android:layout_width="350dp"
-            android:layout_height="270dp"
+            android:layout_width="342dp"
+            android:layout_height="208dp"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="13dp"
             android:layout_marginBottom="21dp"
+            android:src="@drawable/default_profile"
             app:layout_constraintBottom_toTopOf="@+id/fr_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.727"
