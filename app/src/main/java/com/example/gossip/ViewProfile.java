@@ -46,7 +46,7 @@ public class ViewProfile extends AppCompatActivity {
         profile_img = findViewById(R.id.fr_img);
         profile_uname = findViewById(R.id.fr_uname);
         profile_name = findViewById(R.id.fr_name);
-        profile_status = findViewById(R.id.fr_uname);
+        profile_status = findViewById(R.id.fr_status);
         profile_no = findViewById(R.id.fr_phone);
         db = FirebaseFirestore.getInstance();
         fUser = FirebaseAuth.getInstance().getCurrentUser();
