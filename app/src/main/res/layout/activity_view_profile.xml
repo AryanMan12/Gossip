@@ -2,107 +2,126 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/checkbox"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_col"
-    android:foregroundTint="#E6D8D8"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".ViewProfile">
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="51dp"
-        android:layout_height="0dp"
-        android:layout_weight="0.3"
-        android:background="@color/primary_col"
-        android:onClick="onBack"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
-
-    <ImageView
-        android:id="@+id/fr_img"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="309dp"
-        android:layout_weight="0.5"
-        android:rotationY="0"
-        app:srcCompat="@drawable/background" />
+        android:layout_height="421dp"
+        android:layout_gravity="center"
+        android:background="@drawable/grad">
 
-    <TextView
-        android:id="@+id/fr_name"
-        android:layout_width="match_parent"
-        android:layout_height="18dp"
-        android:layout_weight="0.5"
-        android:background="@color/primary_col"
-        android:editable="false"
-        android:padding="20dp"
-        android:paddingVertical="0dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="KRISH DESAI"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="34sp"
-        android:textStyle="bold" />
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="308dp"
+            android:layout_marginBottom="13dp"
+            android:backgroundTint="#00FFFFFF"
+            android:onClick="onBack"
+            app:layout_constraintBottom_toTopOf="@+id/fr_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/car_ui_toolbar_search_close_icon" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/fr_img"
+            android:layout_width="350dp"
+            android:layout_height="270dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="21dp"
+            app:layout_constraintBottom_toTopOf="@+id/fr_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.727"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
+
+        <TextView
+            android:id="@+id/fr_name"
+            android:layout_width="369dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="24dp"
+            android:hint="profile name"
+            android:paddingLeft="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fr_img" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/fr_uname"
-        android:layout_width="376dp"
-        android:layout_height="44dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="15dp"
-        android:backgroundTint="#FFFFFF"
-        android:hint="Username"
+        android:layout_width="369dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="32dp"
+        android:hint="username"
+        android:paddingLeft="10dp"
         android:textAlignment="center"
         android:textColor="@color/primary_col"
         android:textColorHint="@color/primary_col"
         android:textSize="20sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/fr_status"
-        android:layout_width="395dp"
-        android:layout_height="71dp"
-        android:layout_margin="10dp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="20dp"
-        android:layout_marginTop="0dp"
-        android:backgroundTint="#FAFAFA"
-        android:ems="10"
+        android:layout_width="373dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="10dp"
         android:hint="status"
-        android:inputType="textPersonName"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="#FFFBFB"
-        android:textColorHint="@color/white"
-        android:textSize="16sp" />
+        android:paddingLeft="10dp"
+        android:textColor="@color/primary_col"
+        android:textColorHint="@color/primary_col"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/fr_phone"
-        android:layout_width="396dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="10dp"
-        android:backgroundTint="#FFFFFF"
+        android:layout_width="368dp"
+        android:layout_height="29dp"
         android:hint="phone number"
-        android:textColor="#FFFBFB"
-        android:textColorHint="@color/white"
+        android:paddingLeft="10dp"
+        android:textColor="@color/primary_col"
+        android:textColorHint="@color/primary_col"
         android:textSize="20sp" />
 
-    <Switch
-        android:id="@+id/is_friend"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_margin="5dp"
-        android:layout_marginVertical="10dp"
-        android:layout_weight="0.5"
-        android:background="@color/bg_col"
+    <Button
+        android:id="@+id/button"
+        android:layout_width="241dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="200dp"
+        android:background="@drawable/grad"
         android:onClick="onSelect"
-        android:shadowColor="#975F5F"
-        android:switchTextAppearance="@style/TextAppearance.AppCompat.Display4"
-        android:text="@string/checkbox"
-        android:textAlignment="textStart"
-        android:textColor="@color/primary_col"
-        android:textColorHint="@color/white"
-        android:textSize="16sp" />
+        android:text="Button"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </LinearLayout>
+
+
+
+
+
+
