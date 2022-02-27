@@ -3,16 +3,11 @@ package com.example.gossip;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,16 +16,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,7 +46,7 @@ public class ViewProfile extends AppCompatActivity {
         profile_img = findViewById(R.id.fr_img);
         profile_uname = findViewById(R.id.fr_uname);
         profile_name = findViewById(R.id.fr_name);
-        profile_status = findViewById(R.id.fr_status);
+        profile_status = findViewById(R.id.fr_uname);
         profile_no = findViewById(R.id.fr_phone);
         db = FirebaseFirestore.getInstance();
         fUser = FirebaseAuth.getInstance().getCurrentUser();
