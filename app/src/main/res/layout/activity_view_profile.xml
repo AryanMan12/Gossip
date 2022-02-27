@@ -110,7 +110,7 @@
         android:layout_marginHorizontal="70dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="200dp"
-        android:background="@drawable/round"
+        android:background="@drawable/grad"
         android:onClick="onSelect"
         android:text="Button"
         android:textSize="20sp"
