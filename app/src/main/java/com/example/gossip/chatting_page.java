@@ -249,6 +249,8 @@ public class chatting_page extends AppCompatActivity {
                                                     @Override
                                                     public void onSuccess(Void unused) {
                                                         Toast.makeText(chatting_page.this, "Chat deleted!", Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                        startActivity(getIntent());
                                                     }
                                                 }).addOnFailureListener(new OnFailureListener() {
                                             @Override
