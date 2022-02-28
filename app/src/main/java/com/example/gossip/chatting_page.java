@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.example.gossip.adaptor.RecyclerViewAdaptor;
 import com.example.gossip.databinding.ActivityChattingPageBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -230,7 +232,31 @@ public class chatting_page extends AppCompatActivity {
                         Toast.makeText(chatting_page.this, "Search", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.delete_chp:
-                        Toast.makeText(chatting_page.this, "Delete chat", Toast.LENGTH_SHORT).show();
+                        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                            @Override
+                            public void onCallback(String currentuser) {
+                                String id1 = currentuser + fr_username;
+                                String id2 = fr_username + currentuser;
+                                new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                                    @Override
+                                    public void onCallback(String chatID) {
+                                        db = FirebaseFirestore.getInstance();
+                                        db.collection("Chats").document(chatID).delete()
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        Toast.makeText(chatting_page.this, "Chat deleted!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(chatting_page.this, "Unable to delete!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                }, id1, id2);
+                            }
+                        });
                         break;
                 }
                 return false;
