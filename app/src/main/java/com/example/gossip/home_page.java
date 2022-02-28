@@ -2,6 +2,7 @@ package com.example.gossip;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -70,8 +71,8 @@ public class home_page extends Fragment {
             public void onClick(View v)
             {
                 replacefragment(new Request_Page());
+                fragment_friends.setBackgroundResource(R.drawable.box_grad);
                 fragment_request.setBackgroundColor(Color.parseColor("#B6690D"));
-                fragment_friends.setBackgroundColor(Color.parseColor("#FFEC8D1D"));
             }
         });
 
@@ -82,7 +83,7 @@ public class home_page extends Fragment {
             {
                 replacefragment(new Friends_Page());
                 fragment_friends.setBackgroundColor(Color.parseColor("#B6690D"));
-                fragment_request.setBackgroundColor(Color.parseColor("#FFEC8D1D"));
+                fragment_request.setBackgroundResource(R.drawable.box_grad);
             }
         });
     }

@@ -26,6 +26,8 @@ import com.example.gossip.ViewProfile;
 import com.example.gossip.chatting_page;
 import com.example.gossip.databaseHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,12 +47,17 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
     ProgressDialog progressDialog;
     private FirebaseUser fUser;
     Context context;
-    ArrayList<UserFriends> userArrayList;
-    UserFriends user;
+    ArrayList<String> username;
+    ArrayList<String> status;
+    String currentuser;
+    String user;
+    String bio;
 
-    public ChatPageRecycler(ArrayList<UserFriends> userArrayList, Context context) {
+    public ChatPageRecycler(ArrayList<String> username,ArrayList<String> status, String currentuser, Context context) {
         this.context = context;
-        this.userArrayList = userArrayList;
+        this.username =  username;
+        this.status = status;
+        this.currentuser = currentuser;
     }
 
     @NonNull
@@ -62,12 +69,13 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
 
     @Override
     public void onBindViewHolder(@NonNull ChatPageRecycler.ViewHolder holder, int position) {
-        user = userArrayList.get(position);
-        holder.username.setText(user.getUsername());
-        holder.status.setText(user.getStatus());
+        user = username.get(position);
+        bio = status.get(position);
+        holder.Username.setText(user);
+        holder.Status.setText(bio);
         try {
             File tempFile = File.createTempFile("tempfile", ".jpg");
-            FirebaseStorage.getInstance().getReference("profile_photos/"+user.getUsername()).getFile(tempFile)
+            FirebaseStorage.getInstance().getReference("profile_photos/"+user).getFile(tempFile)
                     .addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
@@ -87,12 +95,16 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
 
     @Override
     public int getItemCount() {
-        return userArrayList.size();
+        if (username != null){
+            return username.size();
+        }else{
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView username;
-        public TextView status;
+        public TextView Username;
+        public TextView Status;
         public ImageButton iconButton;
         public CircleImageView profileimg;
         public CardView card;
@@ -100,8 +112,8 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            username = itemView.findViewById(R.id.ch_username);
-            status = itemView.findViewById(R.id.ch_status);
+            Username = itemView.findViewById(R.id.ch_username);
+            Status = itemView.findViewById(R.id.ch_status);
             iconButton = itemView.findViewById(R.id.ch_more_button);
             profileimg = itemView.findViewById(R.id.ch_profile_image);
 
@@ -116,50 +128,37 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
                             switch (menuItem.getItemId()){
                                 case R.id.view_profile_ch:
                                     Intent intent = new Intent(context, ViewProfile.class);
-                                    intent.putExtra("username",userArrayList.get(getAdapterPosition()).getUsername());
+                                    intent.putExtra("username",username.get(getAdapterPosition()));
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(intent);
                                     break;
                                 case R.id.send_msg_ch:
                                     Intent intent1 = new Intent(context, chatting_page.class);
-                                    intent1.putExtra("username", userArrayList.get(getAdapterPosition()).getUsername());
+                                    intent1.putExtra("username", username.get(getAdapterPosition()));
                                     intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(intent1);
                                     break;
-                                case R.id.remove_ch:
-                                    new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
-                                        @Override
-                                        public void onCallback(String currUser) {
-                                            System.out.println(currUser);
-                                            db = FirebaseFirestore.getInstance();
-                                            db.collection("Users").document(currUser).update(
-                                                    "friends", FieldValue.arrayRemove(userArrayList.get(getAdapterPosition()).getUsername())
-                                            );
-                                            db.collection("Users").document(userArrayList.get(getAdapterPosition()).getUsername()).update(
-                                                    "friends", FieldValue.arrayRemove(currUser)
-                                            );
-                                            String id_1 = userArrayList.get(getAdapterPosition()).getUsername() + currUser;
-                                            String id_2 = currUser + userArrayList.get(getAdapterPosition()).getUsername();
-                                            new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
-                                                @Override
-                                                public void onCallback(String chat_id) {
-                                                    db.collection("Chats").document(chat_id)
-                                                            .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if(task.isSuccessful())
-                                                            {
-                                                                Toast.makeText(context, "Removed Friend!", Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        }
-                                                    });
-                                                }
-                                            }, id_1, id_2);
-                                        }
-                                    });
-                                    break;
                                 case R.id.delete_ch:
-                                    Toast.makeText(context, "Chat deleted!", Toast.LENGTH_SHORT).show();
+                                    String id1 = currentuser + username.get(getAdapterPosition());
+                                    String id2 = username.get(getAdapterPosition()) + currentuser;
+                                    new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                                        @Override
+                                        public void onCallback(String chatID) {
+                                            db = FirebaseFirestore.getInstance();
+                                            db.collection("Chats").document(chatID).delete()
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    Toast.makeText(context, "Chat deleted!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(context, "Unable to delete!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    }, id1, id2);
                                     break;
                             }
                             return false;
@@ -170,21 +169,14 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
 
             });
 
-            card.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent1 = new Intent(context, chatting_page.class);
-                    intent1.putExtra("username", userArrayList.get(getAdapterPosition()).getUsername());
-                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent1);
-                }
-            });
-
         }
         @Override
         public void onClick(View view) {
             Log.d("ClickFromViewHolder", "Clicked");
-
+            Intent intent1 = new Intent(context, chatting_page.class);
+            intent1.putExtra("username",username.get(getAdapterPosition()));
+            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent1);
         }
     }
 }
