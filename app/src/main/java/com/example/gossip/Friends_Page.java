@@ -1,9 +1,6 @@
 package com.example.gossip;
 
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -16,9 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gossip.adaptor.RecyclerViewAdaptor;
@@ -58,7 +53,7 @@ public class Friends_Page extends Fragment {
         progressDialog.show();
 
         //Recyclerview initialization
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         db = FirebaseFirestore.getInstance();
         fUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -70,7 +65,7 @@ public class Friends_Page extends Fragment {
         EventChangeListener();
 
         // SearchView
-        searchView = (SearchView) view.findViewById(R.id.search_friends);
+        searchView = (SearchView) view.findViewById(R.id.search_chat_page);
 
     }
     @Override
