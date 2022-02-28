@@ -39,7 +39,6 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="13dp"
             android:layout_marginBottom="21dp"
-            android:src="@drawable/default_profile"
             app:layout_constraintBottom_toTopOf="@+id/fr_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.727"
