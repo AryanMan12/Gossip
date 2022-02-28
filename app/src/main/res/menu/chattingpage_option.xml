@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profile_view_chp"
+        android:title="View Profile" />
+    <item
+        android:id="@+id/search_chp"
+        android:title="Search" />
+    <item
+        android:id="@+id/delete_chp"
+        android:title="Delete Chat" />
+</menu>
