@@ -226,7 +226,10 @@ public class chatting_page extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.profile_view_chp:
-                        Toast.makeText(chatting_page.this, "View profile", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(chatting_page.this, ViewProfile.class);
+                        intent.putExtra("username",fr_username);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                         break;
                     case R.id.search_chp:
                         Toast.makeText(chatting_page.this, "Search", Toast.LENGTH_SHORT).show();
