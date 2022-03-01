@@ -5,7 +5,7 @@
         android:title="View Profile" />
     <item
         android:id="@+id/search_chp"
-        android:title="Search" />
+        android:title="Call" />
     <item
         android:id="@+id/delete_chp"
         android:title="Delete Chat" />

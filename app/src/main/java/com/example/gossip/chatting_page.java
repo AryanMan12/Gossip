@@ -3,6 +3,8 @@ package com.example.gossip;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.gossip.adaptor.chatRecycler;
@@ -78,7 +80,9 @@ public class chatting_page extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         recyclerView = (RecyclerView) findViewById(R.id.chatReclarView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
 
         new databaseHandler().getdata(new databaseHandler.userCallback() {
             @Override
@@ -269,4 +273,6 @@ public class chatting_page extends AppCompatActivity {
         });
         popupMenu.show();
     }
+
+
 }
