@@ -45,7 +45,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.ViewHolder> {
     FirebaseFirestore db;
-    ProgressDialog progressDialog;
     private FirebaseUser fUser;
     Context context;
     ArrayList<String> username;

@@ -138,6 +138,7 @@ public class ViewProfile extends AppCompatActivity {
                         }
                     }, id_1, id_2);
                     friends_btn.setText("Add Friend");
+                    finish();
                 }
                 else if(friends_btn.getText().toString().equals("Accept")){
                     db.collection("Users").document(currUser)

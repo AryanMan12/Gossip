@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +45,6 @@ public class chat_page extends Fragment {
     SearchView searchView;
     ArrayList<String> username;
     ArrayList<String> status;
-    private boolean shouldRefreshOnResume = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,7 +87,7 @@ public class chat_page extends Fragment {
                                             }, fr_user);
                                         }
                                     }
-                                    recyclerViewAdapter = new ChatPageRecycler(username,status,currUser,getContext());
+                                    recyclerViewAdapter = new ChatPageRecycler(username, status, currUser, getContext());
                                     recyclerView.setAdapter(recyclerViewAdapter);
                                 }else{
                                     Log.d("Chat page","No Chats found!");
@@ -182,19 +182,4 @@ public class chat_page extends Fragment {
         }
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Check should we need to refresh the fragment
-        if(shouldRefreshOnResume){
-            getFragmentManager().beginTransaction().detach(chat_page.this).attach(chat_page.this).commit();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        shouldRefreshOnResume = true;
-    }
 }
