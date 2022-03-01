@@ -106,9 +106,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
                 android:layout_marginLeft="30dp"
-                android:background="@color/primary_col"
+                android:background="@color/bg_col"
                 android:onClick="sendotp"
                 android:text="Send OTP"
+                android:textColor="#EC8D1D"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -125,10 +126,11 @@
             android:layout_marginEnd="143dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="195dp"
-            android:background="@color/primary_col"
+            android:background="@drawable/grad"
             android:onClick="signup"
             android:text="SIGN UP"
-            android:textSize="14sp"
+            android:textColor="@color/bg_col"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +138,7 @@
             app:layout_constraintTop_toBottomOf="@+id/confirmpwd" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/fr_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"

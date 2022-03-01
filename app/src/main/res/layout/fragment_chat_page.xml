@@ -18,7 +18,7 @@
         android:textStyle="bold" />
 
     <SearchView
-        android:id="@+id/search_friends"
+        android:id="@+id/search_chat_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -30,7 +30,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="60dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
