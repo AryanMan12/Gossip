@@ -16,7 +16,6 @@
         android:id="@+id/req_search_friends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="20dp"
         android:background="#A9555555"
         android:iconifiedByDefault="false"
