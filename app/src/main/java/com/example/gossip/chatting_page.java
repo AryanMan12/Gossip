@@ -12,8 +12,8 @@ import com.example.gossip.adaptor.chatRecycler;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.service.autofill.UserData;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,22 +23,14 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gossip.adaptor.RecyclerViewAdaptor;
-import com.example.gossip.databinding.ActivityChattingPageBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.MetadataChanges;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -235,8 +227,14 @@ public class chatting_page extends AppCompatActivity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         break;
-                    case R.id.search_chp:
-                        Toast.makeText(chatting_page.this, "Search", Toast.LENGTH_SHORT).show();
+                    case R.id.chatting_call:
+                        new databaseHandler().getdata(new databaseHandler.userCallback() {
+                            @Override
+                            public void onCallback(Map<String, Object> userData) {
+                                Intent intent1 = new Intent(Intent.ACTION_DIAL, (Uri.parse("tel:"+(userData.get("phone")).toString())));
+                                startActivity(intent1);
+                            }
+                        }, fr_username);
                         break;
                     case R.id.delete_chp:
                         new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
