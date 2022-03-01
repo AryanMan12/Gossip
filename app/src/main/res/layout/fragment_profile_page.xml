@@ -35,7 +35,7 @@
         android:layout_height="23dp"
         android:layout_marginBottom="30dp"
         android:text="Change Profile Image"
-        android:textColor="#EC8D1D" />
+        android:textColor="#EC701D" />
 
     <TextView
         android:id="@+id/profile_uname"
@@ -109,7 +109,7 @@
         android:layout_width="168dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/round"
+        android:background="@drawable/grad"
         android:text="@string/btnSave"
         android:textColor="#060608"
         android:textSize="16sp"

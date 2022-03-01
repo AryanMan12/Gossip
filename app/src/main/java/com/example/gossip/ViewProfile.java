@@ -3,16 +3,12 @@ package com.example.gossip;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Switch;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,89 +16,148 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewProfile extends AppCompatActivity {
     private String fr_username;
-    private ImageView profile_img;
+    private CircleImageView profile_img;
     private TextView profile_uname;
     private TextView profile_name;
     private TextView profile_status;
     private TextView profile_no;
-    private Switch is_friend;
+    private Button friends_btn;
+
     FirebaseFirestore db;
-    FirebaseUser fUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
         Intent retrive = getIntent();
         fr_username = retrive.getStringExtra("username");
-        is_friend = findViewById(R.id.is_friend);
         profile_img = findViewById(R.id.fr_img);
         profile_uname = findViewById(R.id.fr_uname);
         profile_name = findViewById(R.id.fr_name);
         profile_status = findViewById(R.id.fr_status);
         profile_no = findViewById(R.id.fr_phone);
-        db = FirebaseFirestore.getInstance();
-        fUser = FirebaseAuth.getInstance().getCurrentUser();
-            new databaseHandler().getdata(new databaseHandler.userCallback() {
-                @Override
-                public void onCallback(Map userData) {
-                    if(userData!=null){
-                        ArrayList<String> friends = (ArrayList<String>)(userData.get("friends"));
-                        db.collection("Users").whereEqualTo("phone",fUser.getPhoneNumber().toString().substring(3)).get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                           @Override
-                                                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                               if (task.isSuccessful()) {
-                                                                   String current_user = (task.getResult().getDocuments().get(0).get("username")).toString();
-                                                                   is_friend.setChecked(friends.contains(current_user));
-                                                               }
-                                                           }
-                                                       });
+        friends_btn = findViewById(R.id.button);
 
-                        profile_uname.setText((userData.get("username")).toString());
-                        profile_status.setText((userData.get("status")).toString());
-                        profile_no.setText((userData.get("phone")).toString());
-                        profile_name.setText((userData.get("name")).toString());
-                        try {
-                            File tempFile = File.createTempFile("tempfile", ".jpg");
-                            FirebaseStorage.getInstance().getReference("profile_photos/"+(userData.get("username")).toString()).getFile(tempFile)
-                                    .addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
-                                            if (task.isSuccessful()){
-                                                Bitmap bmp = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
-                                                profile_img.setImageBitmap(bmp);
-                                            }else{
-                                                Toast.makeText(ViewProfile.this, "Cannot Load Profile Image", Toast.LENGTH_SHORT).show();
-                                            }
+        db = FirebaseFirestore.getInstance();
+        new databaseHandler().getdata(new databaseHandler.userCallback() {
+            @Override
+            public void onCallback(Map userData) {
+                if(userData!=null){
+                    profile_uname.setText("@ " + (userData.get("username")).toString());
+                    profile_status.setText((userData.get("status")).toString());
+                    profile_no.setText((userData.get("phone")).toString());
+                    profile_name.setText((userData.get("name")).toString());
+                    try {
+                        File tempFile = File.createTempFile("tempfile", ".jpg");
+                        FirebaseStorage.getInstance().getReference("profile_photos/"+(userData.get("username")).toString()).getFile(tempFile)
+                                .addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                                        if (task.isSuccessful()){
+                                            Bitmap bmp = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
+                                            profile_img.setImageBitmap(bmp);
+                                        }else{
+                                            Toast.makeText(ViewProfile.this, "Cannot Load Profile Image", Toast.LENGTH_SHORT).show();
                                         }
-                                    });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                                    }
+                                });
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
-            },fr_username);
+            }
+        },fr_username);
+
+        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+            @Override
+            public void onCallback(String currUser) {
+                new databaseHandler().getdata(new databaseHandler.userCallback() {
+                    @Override
+                    public void onCallback(Map<String, Object> currUserData) {
+                        new databaseHandler().getdata(new databaseHandler.userCallback() {
+                            @Override
+                            public void onCallback(Map<String, Object> frUserData) {
+                                ArrayList<String> friendList = (ArrayList<String>) frUserData.get("friends");
+                                ArrayList<String> frReqList = (ArrayList<String>) frUserData.get("requests");
+                                ArrayList<String> crReqList = (ArrayList<String>) currUserData.get("requests");
+                                if (friendList.contains(currUser)){
+                                    friends_btn.setText("Remove Friend");
+                                }else if (frReqList.contains(currUser)){
+                                    friends_btn.setText("Accept");
+                                }else if (crReqList.contains(fr_username)){
+                                    friends_btn.setText("Cancel Request");
+                                }else{
+                                    friends_btn.setText("Add Friend");
+                                }
+                            }
+                        }, fr_username);
+                    }
+                }, currUser);
+            }
+        });
     }
 
     public void onSelect(View view) {
-        Toast.makeText(this,"Added as a friend" ,Toast.LENGTH_LONG).show();
+        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+            @Override
+            public void onCallback(String currUser) {
+                if (friends_btn.getText().toString().equals("Remove Friend")) {
+                    db.collection("Users").document(currUser).update(
+                            "friends", FieldValue.arrayRemove(fr_username)
+                    );
+                    db.collection("Users").document(fr_username).update(
+                            "friends", FieldValue.arrayRemove(currUser)
+                    );
+                    String id_1 = fr_username + currUser;
+                    String id_2 = currUser + fr_username;
+                    new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                        @Override
+                        public void onCallback(String chat_id) {
+                            db.collection("Chats").document(chat_id)
+                                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(ViewProfile.this, "Removed Friend!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }, id_1, id_2);
+                    friends_btn.setText("Add Friend");
+                }
+                else if(friends_btn.getText().toString().equals("Accept")){
+                    db.collection("Users").document(currUser)
+                            .update("friends", FieldValue.arrayUnion(fr_username));
+                    db.collection("Users").document(fr_username)
+                            .update("friends", FieldValue.arrayUnion(currUser),
+                                    "requests", FieldValue.arrayRemove(currUser));
+                    friends_btn.setText("Remove Friend");
+                }
+                else if(friends_btn.getText().toString().equals("Cancel Request")){
+                    db.collection("Users").document(currUser)
+                            .update("requests", FieldValue.arrayRemove(fr_username));
+                    friends_btn.setText("Add Friend");
+                }else{
+                    db.collection("Users").document(currUser)
+                            .update("requests", FieldValue.arrayUnion(fr_username));
+                    friends_btn.setText("Cancel Request");
+                }
+            }
+        });
     }
 
     public void onBack(View view) {

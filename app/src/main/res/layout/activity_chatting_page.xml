@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_1"
+    android:background="@drawable/img"
     tools:context=".chatting_page">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/linear"
-        android:layout_below="@id/toolbar" />
+        android:layout_below="@id/toolbar"
+        android:layout_marginBottom="10dp" />
 
     <LinearLayout
         android:id="@+id/linear"
@@ -104,6 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
+                android:onClick="onMenu"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
