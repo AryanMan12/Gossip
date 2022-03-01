@@ -4,8 +4,8 @@
         android:id="@+id/profile_view_chp"
         android:title="View Profile" />
     <item
-        android:id="@+id/search_chp"
-        android:title="Search" />
+        android:id="@+id/chatting_call"
+        android:title="Call" />
     <item
         android:id="@+id/delete_chp"
         android:title="Delete Chat" />
