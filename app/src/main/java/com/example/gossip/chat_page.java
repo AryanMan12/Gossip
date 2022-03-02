@@ -62,6 +62,13 @@ public class chat_page extends Fragment {
         searchView = (SearchView) view.findViewById(R.id.search_chat_page);
         username = new ArrayList<>();
         status = new ArrayList<>();
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
         new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
             @Override
             public void onCallback(String currUser) {
@@ -96,12 +103,7 @@ public class chat_page extends Fragment {
                         });
             }
         });
-    }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
         if (searchView != null) {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override

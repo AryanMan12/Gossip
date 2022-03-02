@@ -14,16 +14,18 @@
     <ImageView
         android:id="@+id/signOut"
         android:layout_width="62dp"
-        android:layout_height="24dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginBottom="50dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="-30dp"
+        android:layout_marginBottom="80dp"
         android:src="@drawable/ic_baseline_exit_to_app_24" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
         android:layout_width="191dp"
         android:layout_height="140dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="-50dp"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/default_profile"
         app:civ_border_color="@color/bg_col"
         app:civ_border_width="2dp"
@@ -33,7 +35,7 @@
         android:id="@+id/change_photo"
         android:layout_width="149dp"
         android:layout_height="23dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="40dp"
         android:text="Change Profile Image"
         android:textColor="#EC701D" />
 
