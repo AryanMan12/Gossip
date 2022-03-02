@@ -2,8 +2,11 @@ package com.example.gossip.adaptor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +17,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gossip.R;
 import com.example.gossip.ViewProfile;
 import com.example.gossip.databaseHandler;
+import com.google.android.gms.common.internal.ResourceUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
@@ -136,6 +141,11 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
         public TextView status;
         public ImageView acceptReq, rejectReq, addReq, removeReq, chatReq;
         public CircleImageView profileimg;
+        boolean x = true;
+        boolean y = true;
+        boolean z = true;
+        int w = 0;
+
 
         View.OnClickListener itemClickListener;
 
@@ -150,6 +160,7 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
             chatReq = itemView.findViewById(R.id.req_chat);
             removeReq = itemView.findViewById(R.id.req_remove);
             addReq = itemView.findViewById(R.id.req_add);
+
 
             profileimg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -178,11 +189,20 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
                     }
                 });
             }else if(curr_requests.contains((user.get("username")).toString())) {
+
                 removeReq.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        db.collection("Users").document((current_user.get("username")).toString())
-                                .update("requests", FieldValue.arrayRemove((reqList.get(getAdapterPosition()).get("username")).toString()));
+                        if(x){
+                            db.collection("Users").document((current_user.get("username")).toString())
+                                    .update("requests", FieldValue.arrayRemove((reqList.get(getAdapterPosition()).get("username")).toString()));
+                            removeReq.setImageResource(R.drawable.ic_baseline_person_add_24);
+                        }else{
+                            db.collection("Users").document((current_user.get("username")).toString())
+                                    .update("requests", FieldValue.arrayUnion((reqList.get(getAdapterPosition()).get("username")).toString()));
+                            removeReq.setImageResource(R.drawable.ic_baseline_person_remove_24);
+                        }
+                        x = !x;
                         notifyDataSetChanged();
                     }
                 });
@@ -190,8 +210,16 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
                 addReq.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        db.collection("Users").document((current_user.get("username")).toString())
-                                .update("requests", FieldValue.arrayUnion((reqList.get(getAdapterPosition()).get("username")).toString()));
+                        if(y) {
+                            db.collection("Users").document((current_user.get("username")).toString())
+                                    .update("requests", FieldValue.arrayUnion((reqList.get(getAdapterPosition()).get("username")).toString()));
+                            addReq.setImageResource(R.drawable.ic_baseline_person_remove_24);
+                        }else{
+                            db.collection("Users").document((current_user.get("username")).toString())
+                                    .update("requests", FieldValue.arrayRemove((reqList.get(getAdapterPosition()).get("username")).toString()));
+                            addReq.setImageResource(R.drawable.ic_baseline_person_add_24);
+                        }
+                        y = !y;
                         notifyDataSetChanged();
                     }
                 });
@@ -199,20 +227,46 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
                 acceptReq.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        db.collection("Users").document((current_user.get("username")).toString())
-                                .update("friends", FieldValue.arrayUnion((reqList.get(getAdapterPosition()).get("username")).toString()));
-                        db.collection("Users").document((reqList.get(getAdapterPosition()).get("username")).toString())
-                                .update("friends", FieldValue.arrayUnion((current_user.get("username")).toString()),
-                                        "requests", FieldValue.arrayRemove((current_user.get("username")).toString()));
+                        if (!z){
+                            Intent intent = new Intent(context, com.example.gossip.chatting_page.class);
+                            intent.putExtra("username",(reqList.get(getAdapterPosition()).get("username")).toString());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }else{
+                            db.collection("Users").document((current_user.get("username")).toString())
+                                    .update("friends", FieldValue.arrayUnion((reqList.get(getAdapterPosition()).get("username")).toString()));
+                            db.collection("Users").document((reqList.get(getAdapterPosition()).get("username")).toString())
+                                    .update("friends", FieldValue.arrayUnion((current_user.get("username")).toString()),
+                                            "requests", FieldValue.arrayRemove((current_user.get("username")).toString()));
+                            acceptReq.setVisibility(View.GONE);
+                            rejectReq.setImageResource(R.drawable.ic_baseline_chat_24);
+                        }
                         notifyDataSetChanged();
+
                     }
                 });
                 rejectReq.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        db.collection("Users").document((reqList.get(getAdapterPosition()).get("username")).toString())
-                                .update("requests", FieldValue.arrayRemove((current_user.get("username")).toString()));
-                        notifyDataSetChanged();
+                        if(w == 1){
+                            db.collection("Users").document((reqList.get(getAdapterPosition()).get("username")).toString())
+                                    .update("requests", FieldValue.arrayRemove((current_user.get("username")).toString()));
+                            notifyDataSetChanged();
+                            acceptReq.setVisibility(View.GONE);
+                            rejectReq.setImageResource(R.drawable.ic_baseline_person_add_24);
+                            w = 2;
+                        }else if(w == 2){
+                            db.collection("Users").document((current_user.get("username")).toString())
+                                .update("requests", FieldValue.arrayUnion((reqList.get(getAdapterPosition()).get("username")).toString()));
+                            rejectReq.setImageResource(R.drawable.ic_baseline_person_remove_24);
+                            w = 1;
+                        }else{
+                            db.collection("Users").document((current_user.get("username")).toString())
+                                    .update("requests", FieldValue.arrayRemove((reqList.get(getAdapterPosition()).get("username")).toString()));
+                            rejectReq.setImageResource(R.drawable.ic_baseline_person_add_24);
+                            w = 2;
+                        }
+
                     }
                 });
             }
