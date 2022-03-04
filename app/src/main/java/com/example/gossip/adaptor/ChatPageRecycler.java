@@ -6,12 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -138,27 +143,53 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
                                     intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(intent1);
                                     break;
-                                case R.id.delete_ch:
-                                    String id1 = currentuser + username.get(getAdapterPosition());
-                                    String id2 = username.get(getAdapterPosition()) + currentuser;
-                                    new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                                case R.id.delete_ch:final Dialog dialog=new Dialog(context);
+                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                    dialog.setContentView(R.layout.remove_fr_dialog_box);
+
+                                    Button cancle = dialog.findViewById(R.id.cancle_btn);
+                                    Button accept = dialog.findViewById(R.id.confirm_btn);
+
+                                    cancle.setOnClickListener(new View.OnClickListener() {
                                         @Override
-                                        public void onCallback(String chatID) {
-                                            db = FirebaseFirestore.getInstance();
-                                            db.collection("Chats").document(chatID).delete()
-                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    Toast.makeText(context, "Chat deleted!", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(context, "Unable to delete!", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
+                                        public void onClick(View v) {
+                                            dialog.dismiss();
                                         }
-                                    }, id1, id2);
+                                    });
+                                    accept.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            String id1 = currentuser + username.get(getAdapterPosition());
+                                            String id2 = username.get(getAdapterPosition()) + currentuser;
+                                            new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                                                @Override
+                                                public void onCallback(String chatID) {
+                                                    db = FirebaseFirestore.getInstance();
+                                                    db.collection("Chats").document(chatID).delete()
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void unused) {
+                                                                    Toast.makeText(context, "Chat deleted!", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(context, "Unable to delete!", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                }
+                                            }, id1, id2);
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    dialog.show();
+                                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialog.getWindow().getAttributes().windowAnimations= R.style.DialogAnimation;
+                                    dialog.getWindow().setGravity(Gravity.CENTER);
+
                                     break;
                             }
                             return false;

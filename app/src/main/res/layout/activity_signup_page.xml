@@ -40,7 +40,7 @@
             android:hint="Name"
             android:inputType="textPersonName"
             android:textColor="@color/white"
-            android:textColorHint="#A3CACBCD"
+            android:textColorHint="@color/hint_col"
             app:layout_constraintBottom_toTopOf="@+id/uname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

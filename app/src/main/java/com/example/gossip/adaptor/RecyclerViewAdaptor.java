@@ -62,6 +62,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     FirebaseFirestore db;
     FirebaseUser fUser;
     UserFriends user;
+    private Friends_Page friends_page;
 
     public RecyclerViewAdaptor(ArrayList<UserFriends> userArrayList,Context context) {
         this.context = context;
@@ -105,6 +106,9 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     // How many items?
     @Override
     public int getItemCount() {
+        if (userArrayList.isEmpty()){
+            return 0;
+        }
         return userArrayList.size();
     }
 
@@ -196,7 +200,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
                                     new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
                                         @Override
                                         public void onCallback(String currUser) {
-                                            System.out.println(currUser);
+
                                             db = FirebaseFirestore.getInstance();
                                             db.collection("Users").document(currUser).update(
                                                     "friends", FieldValue.arrayRemove(userArrayList.get(getAdapterPosition()).getUsername())
@@ -223,6 +227,8 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
                                             }, id_1, id_2);
                                         }
                                     });
+//                                    userArrayList.remove(getAdapterPosition());
+//                                    notifyDataSetChanged();
                                     break;
                             }
                             return false;
