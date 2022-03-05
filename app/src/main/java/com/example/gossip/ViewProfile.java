@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gossip.notification.ApiService;
+import com.example.gossip.notification.Data;
+import com.example.gossip.notification.MyResponse;
+import com.example.gossip.notification.NotificationSender;
+import com.example.gossip.notification.Token;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -33,6 +41,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewProfile extends AppCompatActivity {
     private String fr_username;
@@ -42,6 +53,7 @@ public class ViewProfile extends AppCompatActivity {
     private TextView profile_status;
     private TextView profile_no;
     private Button friends_btn;
+    ApiService apiService;
 
     FirebaseFirestore db;
     @Override
@@ -152,6 +164,18 @@ public class ViewProfile extends AppCompatActivity {
                     db.collection("Users").document(fr_username)
                             .update("friends", FieldValue.arrayUnion(currUser),
                                     "requests", FieldValue.arrayRemove(currUser));
+                    db.collection("NotifyToken").document(fr_username).get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()){
+                                        String userToken = (task.getResult().get("token")).toString();
+                                        sendNotifications(userToken, "New Request",currUser+" accepted your Friend Request!");
+                                    }else{
+                                        Log.d("Send Notification", "Error");
+                                    }
+                                }
+                            });
                     friends_btn.setText("Remove Friend");
                 }
                 else if(friends_btn.getText().toString().equals("Cancel Request")){
@@ -161,8 +185,73 @@ public class ViewProfile extends AppCompatActivity {
                 }else{
                     db.collection("Users").document(currUser)
                             .update("requests", FieldValue.arrayUnion(fr_username));
+                    db.collection("NotifyToken").document(fr_username).get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()){
+                                        String userToken = (task.getResult().get("token")).toString();
+                                        sendNotifications(userToken, "New Request",currUser+" sent you Friend Request!");
+                                    }else{
+                                        Log.d("Send Notification", "Error");
+                                    }
+                                }
+                            });
                     friends_btn.setText("Cancel Request");
                 }
+            }
+        });
+    }
+
+    public void UpdateToken(){
+        db = FirebaseFirestore.getInstance();
+        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+            @Override
+            public void onCallback(String currUser) {
+                db.collection("NotifyToken").document(currUser).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()){
+                                    FirebaseMessaging.getInstance().getToken()
+                                            .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<String> task) {
+                                                    if (task.isSuccessful()){
+                                                        String refreshToken = task.getResult();
+                                                        Token token1= new Token(refreshToken);
+                                                        db.collection("NotifyToken").document(currUser).update("token", token1.getToken());
+                                                    }else{
+                                                        Log.d("Update Token:", "No Token Found");
+                                                    }
+                                                }
+                                            });
+
+                                }else{
+                                    Toast.makeText(ViewProfile.this, "Failed to Send Notification", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+    }
+
+    public void sendNotifications(String usertoken, String title, String message){
+        Data data = new Data(title, message);
+        NotificationSender sender = new NotificationSender(data, usertoken);
+        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.code() == 200){
+                    if (response.body().success != 1){
+                        Toast.makeText(ViewProfile.this, "Failed to Notify", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+
             }
         });
     }
