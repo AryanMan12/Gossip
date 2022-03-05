@@ -47,7 +47,7 @@
                 android:layout_width="156dp"
                 android:layout_height="50dp"
                 android:background="@color/hint_col"
-                android:text="Cancle" />
+                android:text="Cancel" />
 
             <Button
                 android:id="@+id/confirm_btn"
