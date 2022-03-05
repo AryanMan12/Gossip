@@ -9,14 +9,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.gossip.adaptor.chatRecycler;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -319,33 +326,61 @@ public class chatting_page extends AppCompatActivity {
                         }, fr_username);
                         break;
                     case R.id.delete_chp:
-                        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                        final Dialog dialog=new Dialog(chatting_page.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.remove_fr_dialog_box);
+
+                        Button cancle = dialog.findViewById(R.id.cancle_btn);
+                        Button accept = dialog.findViewById(R.id.confirm_btn);
+
+                        cancle.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onCallback(String currentuser) {
-                                String id1 = currentuser + fr_username;
-                                String id2 = fr_username + currentuser;
-                                new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
-                                    @Override
-                                    public void onCallback(String chatID) {
-                                        db = FirebaseFirestore.getInstance();
-                                        db.collection("Chats").document(chatID).delete()
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        Toast.makeText(chatting_page.this, "Chat deleted!", Toast.LENGTH_SHORT).show();
-                                                        finish();
-                                                        startActivity(getIntent());
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(chatting_page.this, "Unable to delete!", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    }
-                                }, id1, id2);
+                            public void onClick(View v) {
+                                dialog.dismiss();
                             }
                         });
+                        accept.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                                    @Override
+                                    public void onCallback(String currentuser) {
+                                        String id1 = currentuser + fr_username;
+                                        String id2 = fr_username + currentuser;
+                                        new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                                            @Override
+                                            public void onCallback(String chatID) {
+                                                db = FirebaseFirestore.getInstance();
+                                                db.collection("Chats").document(chatID).delete()
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Toast.makeText(chatting_page.this, "Chat deleted!", Toast.LENGTH_SHORT).show();
+                                                                finish();
+                                                                startActivity(getIntent());
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(chatting_page.this, "Unable to delete!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }, id1, id2);
+                                    }
+                                });
+
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
+                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.getWindow().getAttributes().windowAnimations= R.style.DialogAnimation;
+                        dialog.getWindow().setGravity(Gravity.CENTER);
+
+
                         break;
                 }
                 return false;

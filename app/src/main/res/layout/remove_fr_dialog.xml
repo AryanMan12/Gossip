@@ -25,15 +25,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:src="@drawable/ic_baseline_delete_24" />
+            android:src="@drawable/ic_baseline_person_add_disabled_24" />
 
         <TextView
             android:id="@+id/confirm_remove"
-            android:layout_width="wrap_content"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
+            android:layout_marginHorizontal="15dp"
             android:layout_marginVertical="10dp"
-            android:text="Are you sure you want to delete chat?"
+            android:text="Are you sure you want to remove friend?"
             android:textColor="@color/black" />
 
         <LinearLayout

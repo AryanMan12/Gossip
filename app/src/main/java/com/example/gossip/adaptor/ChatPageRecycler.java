@@ -143,7 +143,8 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
                                     intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(intent1);
                                     break;
-                                case R.id.delete_ch:final Dialog dialog=new Dialog(context);
+                                case R.id.delete_ch:
+                                    final Dialog dialog=new Dialog(context);
                                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                     dialog.setContentView(R.layout.remove_fr_dialog_box);
 

@@ -26,6 +26,8 @@ import com.example.gossip.notification.MyResponse;
 import com.example.gossip.notification.NotificationSender;
 import com.example.gossip.notification.Token;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -135,30 +137,65 @@ public class ViewProfile extends AppCompatActivity {
             @Override
             public void onCallback(String currUser) {
                 if (friends_btn.getText().toString().equals("Remove Friend")) {
-                    db.collection("Users").document(currUser).update(
-                            "friends", FieldValue.arrayRemove(fr_username)
-                    );
-                    db.collection("Users").document(fr_username).update(
-                            "friends", FieldValue.arrayRemove(currUser)
-                    );
-                    String id_1 = fr_username + currUser;
-                    String id_2 = currUser + fr_username;
-                    new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                    final Dialog dialog=new Dialog(ViewProfile.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.remove_fr_dialog);
+
+                    Button cancle = dialog.findViewById(R.id.cancle_btn);
+                    Button accept = dialog.findViewById(R.id.confirm_btn);
+                    TextView textView = dialog.findViewById(R.id.confirm_remove);
+                    textView.setText("Are you sure you want to remove "+ fr_username +" from your FriendList?");
+
+                    cancle.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onCallback(String chat_id) {
-                            db.collection("Chats").document(chat_id)
-                                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    accept.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(ViewProfile.this, "Removed Friend!", Toast.LENGTH_SHORT).show();
-                                    }
+                                public void onCallback(String currentuser) {
+                                    db.collection("Users").document(currUser).update(
+                                            "friends", FieldValue.arrayRemove(fr_username)
+                                    );
+                                    db.collection("Users").document(fr_username).update(
+                                            "friends", FieldValue.arrayRemove(currUser)
+                                    );
+                                    String id_1 = fr_username + currUser;
+                                    String id_2 = currUser + fr_username;
+                                    new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                                        @Override
+                                        public void onCallback(String chat_id) {
+                                            db.collection("Chats").document(chat_id)
+                                                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(ViewProfile.this, "Removed Friend!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }, id_1, id_2);
+                                    friends_btn.setText("Add Friend");
+                                    finish();
                                 }
                             });
+
+                            dialog.dismiss();
                         }
-                    }, id_1, id_2);
-                    friends_btn.setText("Add Friend");
-                    finish();
+                    });
+
+                    dialog.show();
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.getWindow().getAttributes().windowAnimations= R.style.DialogAnimation;
+                    dialog.getWindow().setGravity(Gravity.CENTER);
+
+
                 }
                 else if(friends_btn.getText().toString().equals("Accept")){
                     db.collection("Users").document(currUser)
