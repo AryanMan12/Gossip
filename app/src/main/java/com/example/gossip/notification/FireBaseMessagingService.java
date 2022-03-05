@@ -1,5 +1,6 @@
 package com.example.gossip.notification;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,6 +14,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.gossip.Friends_Page;
+import com.example.gossip.MainActivity;
 import com.example.gossip.chatting_page;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -35,7 +37,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent;
 
         if (title.equals("New Request") || title.equals("Request Accepted")){
-            intent = new Intent(getApplicationContext(), Friends_Page.class);
+            intent = new Intent(getApplicationContext(), MainActivity.class);
         }else{
             intent = new Intent(getApplicationContext(), chatting_page.class);
             intent.putExtra("username", title);
