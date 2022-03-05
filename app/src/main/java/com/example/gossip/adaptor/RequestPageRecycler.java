@@ -25,6 +25,7 @@ import com.example.gossip.ViewProfile;
 import com.example.gossip.chatting_page;
 import com.example.gossip.databaseHandler;
 import com.example.gossip.notification.ApiService;
+import com.example.gossip.notification.Client;
 import com.example.gossip.notification.Data;
 import com.example.gossip.notification.MyResponse;
 import com.example.gossip.notification.NotificationSender;
@@ -74,6 +75,7 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
         this.reqList = reqList;
         this.current_user = current_user;
         db = FirebaseFirestore.getInstance();
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(ApiService.class);
     }
 
     @Override
