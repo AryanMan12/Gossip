@@ -32,25 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
-            @Override
-            public void onCallback(String currUser) {
-                FirebaseMessaging.getInstance().getToken()
-                        .addOnCompleteListener(new OnCompleteListener<String>() {
-                            @Override
-                            public void onComplete(@NonNull Task<String> task) {
-                                if (task.isSuccessful()){
-                                    String refreshToken = task.getResult();
-                                    Token token1= new Token(refreshToken);
-                                    FirebaseFirestore.getInstance().collection("NotifyToken").document(currUser).update("token", token1.getToken());
-                                }else{
-                                    Log.d("Update Token:", "No Token Found");
-                                }
-                            }
-                        });
-            }
-        });
-
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         KeyboardVisibilityEvent.setEventListener(

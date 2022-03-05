@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.gossip.adaptor.ChatPageRecycler;
 import com.example.gossip.adaptor.RecyclerViewAdaptor;
 import com.example.gossip.adaptor.RequestPageRecycler;
+import com.example.gossip.notification.Token;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,8 +34,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class chat_page extends Fragment {
@@ -62,6 +65,27 @@ public class chat_page extends Fragment {
         searchView = (SearchView) view.findViewById(R.id.search_chat_page);
         username = new ArrayList<>();
         status = new ArrayList<>();
+
+        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+            @Override
+            public void onCallback(String currUser) {
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(new OnCompleteListener<String>() {
+                            @Override
+                            public void onComplete(@NonNull Task<String> task) {
+                                if (task.isSuccessful()){
+                                    String refreshToken = task.getResult();
+                                    new Token(refreshToken);
+                                    Map<String, String> notifydata = new HashMap<>();
+                                    notifydata.put("token", refreshToken);
+                                    FirebaseFirestore.getInstance().collection("NotifyToken").document(currUser).set(notifydata);
+                                }else{
+                                    Log.d("Update Token:", "No Token Found");
+                                }
+                            }
+                        });
+            }
+        });
 
     }
 
