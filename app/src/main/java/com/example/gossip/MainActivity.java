@@ -13,9 +13,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.gossip.notification.Token;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
@@ -26,6 +31,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+            @Override
+            public void onCallback(String currUser) {
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(new OnCompleteListener<String>() {
+                            @Override
+                            public void onComplete(@NonNull Task<String> task) {
+                                if (task.isSuccessful()){
+                                    String refreshToken = task.getResult();
+                                    Token token1= new Token(refreshToken);
+                                    FirebaseFirestore.getInstance().collection("NotifyToken").document(currUser).update("token", token1.getToken());
+                                }else{
+                                    Log.d("Update Token:", "No Token Found");
+                                }
+                            }
+                        });
+            }
+        });
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);

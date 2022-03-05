@@ -249,23 +249,25 @@ public class RequestPageRecycler extends RecyclerView.Adapter<RequestPageRecycle
                     @Override
                     public void onClick(View v) {
                         if(w == 1){
-                            db.collection("Users").document((reqList.get(getAdapterPosition()).get("username")).toString())
-                                    .update("requests", FieldValue.arrayRemove((current_user.get("username")).toString()));
-                            notifyDataSetChanged();
+                            db.collection("Users").document((current_user.get("username")).toString())
+                                    .update("requests", FieldValue.arrayRemove((reqList.get(getAdapterPosition()).get("username")).toString()));
                             acceptReq.setVisibility(View.GONE);
                             rejectReq.setImageResource(R.drawable.ic_baseline_person_add_24);
                             w = 2;
                         }else if(w == 2){
+                            acceptReq.setVisibility(View.GONE);
                             db.collection("Users").document((current_user.get("username")).toString())
                                 .update("requests", FieldValue.arrayUnion((reqList.get(getAdapterPosition()).get("username")).toString()));
                             rejectReq.setImageResource(R.drawable.ic_baseline_person_remove_24);
                             w = 1;
                         }else{
-                            db.collection("Users").document((current_user.get("username")).toString())
-                                    .update("requests", FieldValue.arrayRemove((reqList.get(getAdapterPosition()).get("username")).toString()));
+                            acceptReq.setVisibility(View.GONE);
+                            db.collection("Users").document((reqList.get(getAdapterPosition()).get("username")).toString())
+                                    .update("requests", FieldValue.arrayRemove((current_user.get("username")).toString()));
                             rejectReq.setImageResource(R.drawable.ic_baseline_person_add_24);
                             w = 2;
                         }
+                        notifyDataSetChanged();
 
                     }
                 });

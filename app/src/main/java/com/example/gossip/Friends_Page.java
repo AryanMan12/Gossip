@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 public class Friends_Page extends Fragment {
     private RecyclerView recyclerView;
+
     private RecyclerViewAdaptor recyclerViewAdapter;
     private ArrayList<UserFriends> userArrayList;
     SearchView searchView;
