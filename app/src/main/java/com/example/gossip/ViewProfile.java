@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gossip.notification.ApiService;
+import com.example.gossip.notification.Client;
 import com.example.gossip.notification.Data;
 import com.example.gossip.notification.MyResponse;
 import com.example.gossip.notification.NotificationSender;
@@ -68,6 +69,7 @@ public class ViewProfile extends AppCompatActivity {
         profile_status = findViewById(R.id.fr_status);
         profile_no = findViewById(R.id.fr_phone);
         friends_btn = findViewById(R.id.button);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(ApiService.class);
 
         db = FirebaseFirestore.getInstance();
         new databaseHandler().getdata(new databaseHandler.userCallback() {
