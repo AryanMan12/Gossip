@@ -65,14 +65,9 @@ public class Friends_Page extends Fragment {
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         userArrayList = new ArrayList<UserFriends>();
 
-        // Use your recyclerView
-        recyclerViewAdapter = new RecyclerViewAdaptor(userArrayList,getContext());
-        recyclerView.setAdapter(recyclerViewAdapter);
-        EventChangeListener();
-
         // SearchView
         searchView = (SearchView) view.findViewById(R.id.search_chat_page);
-
+        EventChangeListener();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -86,6 +81,11 @@ public class Friends_Page extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        // Use your recyclerView
+        recyclerViewAdapter = new RecyclerViewAdaptor(userArrayList,getContext());
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+
         if (searchView != null) {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override

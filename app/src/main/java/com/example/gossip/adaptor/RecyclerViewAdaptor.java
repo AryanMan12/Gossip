@@ -166,6 +166,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
                             intent.putExtra("username",(userArrayList.get(getAdapterPosition()).getUsername()));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
+                            dialog.dismiss();
                         }
                     });
 
