@@ -14,11 +14,14 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.example.gossip.R;
 
+import java.util.ArrayList;
+
 public class FireBaseMessagingService extends FirebaseMessagingService {
     String title,message;
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        ArrayList<String> messageID = new ArrayList<>();
         String CHANNEL_ID="MESSAGE";
         String CHANNEL_NAME="MESSAGE";
         NotificationManagerCompat manager=NotificationManagerCompat.from(getApplicationContext());
@@ -35,7 +38,11 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
                 .setContentText(message)
                 .build();
 
-        manager.notify(0, notification);
+        if (!(messageID.contains(title))){
+            messageID.add(title);
+        }
+
+        manager.notify(messageID.indexOf(title), notification);
     }
 
 }
