@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Gossip/app/src/main/res/drawable-anydpi/ic_action_name.xml" value="0.1575" />
         <entry key="..\:/Gossip/app/src/main/res/drawable/bg_receiver.xml" value="0.121" />
         <entry key="..\:/Gossip/app/src/main/res/drawable/bg_sender.xml" value="0.121" />
         <entry key="..\:/Gossip/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.1575" />

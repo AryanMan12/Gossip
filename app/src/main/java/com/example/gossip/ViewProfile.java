@@ -172,7 +172,7 @@ public class ViewProfile extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if (task.isSuccessful()){
                                         String userToken = (task.getResult().get("token")).toString();
-                                        sendNotifications(userToken, "New Request",currUser+" accepted your Friend Request!");
+                                        sendNotifications(userToken, "Request Accepted",currUser+" accepted your Friend Request!");
                                     }else{
                                         Log.d("Send Notification", "Error");
                                     }
