@@ -215,7 +215,7 @@ public class chatting_page extends AppCompatActivity {
                                                             @Override
                                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                                 if (task.isSuccessful()){
-                                                                    String userToken = (task.getResult().get(fr_username)).toString();
+                                                                    String userToken = (task.getResult().get("token")).toString();
                                                                     sendNotifications(userToken, fr_username, message);
                                                                 }else{
                                                                     Log.d("Send Notification", "Error");
