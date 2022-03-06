@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
@@ -33,6 +34,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gossip.Friends_Page;
+import com.example.gossip.Login;
 import com.example.gossip.R;
 import com.example.gossip.UserFriends;
 import com.example.gossip.ViewProfile;
@@ -62,6 +64,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     FirebaseFirestore db;
     FirebaseUser fUser;
     UserFriends user;
+    private Friends_Page friends_page;
 
     public RecyclerViewAdaptor(ArrayList<UserFriends> userArrayList,Context context) {
         this.context = context;
@@ -105,6 +108,9 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     // How many items?
     @Override
     public int getItemCount() {
+        if (userArrayList.isEmpty()){
+            return 0;
+        }
         return userArrayList.size();
     }
 
@@ -160,6 +166,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
                             intent.putExtra("username",(userArrayList.get(getAdapterPosition()).getUsername()));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
+                            dialog.dismiss();
                         }
                     });
 
@@ -193,36 +200,67 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
                                     context.startActivity(intent1);
                                     break;
                                 case R.id.remove_fr:
-                                    new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                                    final Dialog dialog=new Dialog(context);
+                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                    dialog.setContentView(R.layout.remove_fr_dialog);
+
+                                    Button cancle = dialog.findViewById(R.id.cancle_btn);
+                                    Button accept = dialog.findViewById(R.id.confirm_btn);
+
+
+                                    cancle.setOnClickListener(new View.OnClickListener() {
                                         @Override
-                                        public void onCallback(String currUser) {
-                                            System.out.println(currUser);
-                                            db = FirebaseFirestore.getInstance();
-                                            db.collection("Users").document(currUser).update(
-                                                    "friends", FieldValue.arrayRemove(userArrayList.get(getAdapterPosition()).getUsername())
-                                            );
-                                            db.collection("Users").document(userArrayList.get(getAdapterPosition()).getUsername()).update(
-                                                    "friends", FieldValue.arrayRemove(currUser)
-                                            );
-                                            String id_1 = userArrayList.get(getAdapterPosition()).getUsername() + currUser;
-                                            String id_2 = currUser + userArrayList.get(getAdapterPosition()).getUsername();
-                                            new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
-                                                @Override
-                                                public void onCallback(String chat_id) {
-                                                    db.collection("Chats").document(chat_id)
-                                                            .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if(task.isSuccessful())
-                                                            {
-                                                                Toast.makeText(context, "Removed Friend!", Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        }
-                                                    });
-                                                }
-                                            }, id_1, id_2);
+                                        public void onClick(View v) {
+                                            dialog.dismiss();
                                         }
                                     });
+                                    accept.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            if (fUser != null){
+                                                new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                                                    @Override
+                                                    public void onCallback(String currUser) {
+
+                                                        db = FirebaseFirestore.getInstance();
+                                                        db.collection("Users").document(currUser).update(
+                                                                "friends", FieldValue.arrayRemove(userArrayList.get(getAdapterPosition()).getUsername())
+                                                        );
+                                                        db.collection("Users").document(userArrayList.get(getAdapterPosition()).getUsername()).update(
+                                                                "friends", FieldValue.arrayRemove(currUser)
+                                                        );
+                                                        String id_1 = userArrayList.get(getAdapterPosition()).getUsername() + currUser;
+                                                        String id_2 = currUser + userArrayList.get(getAdapterPosition()).getUsername();
+                                                        new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                                                            @Override
+                                                            public void onCallback(String chat_id) {
+                                                                db.collection("Chats").document(chat_id)
+                                                                        .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if(task.isSuccessful())
+                                                                        {
+                                                                            Toast.makeText(context, "Removed Friend!", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
+                                                        }, id_1, id_2);
+                                                    }
+                                                });
+//                                    userArrayList.remove(getAdapterPosition());
+//                                    notifyDataSetChanged();
+                                            }
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    dialog.show();
+                                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    dialog.getWindow().getAttributes().windowAnimations= R.style.DialogAnimation;
+                                    dialog.getWindow().setGravity(Gravity.CENTER);
+
                                     break;
                             }
                             return false;

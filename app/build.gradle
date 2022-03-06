@@ -45,8 +45,10 @@ dependencies {
     implementation 'com.android.car.ui:car-ui-lib:+'
     implementation "androidx.browser:browser:1.4.0"
     implementation 'com.google.firebase:firebase-storage:20.0.0'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
 
-
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 
     testImplementation 'junit:junit:4.13.2'
@@ -64,4 +66,5 @@ dependencies {
 
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
 
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }

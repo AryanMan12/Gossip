@@ -3,21 +3,38 @@ package com.example.gossip;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gossip.notification.ApiService;
+import com.example.gossip.notification.Client;
+import com.example.gossip.notification.Data;
+import com.example.gossip.notification.MyResponse;
+import com.example.gossip.notification.NotificationSender;
+import com.example.gossip.notification.Token;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -27,6 +44,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewProfile extends AppCompatActivity {
     private String fr_username;
@@ -36,6 +56,7 @@ public class ViewProfile extends AppCompatActivity {
     private TextView profile_status;
     private TextView profile_no;
     private Button friends_btn;
+    ApiService apiService;
 
     FirebaseFirestore db;
     @Override
@@ -50,6 +71,7 @@ public class ViewProfile extends AppCompatActivity {
         profile_status = findViewById(R.id.fr_status);
         profile_no = findViewById(R.id.fr_phone);
         friends_btn = findViewById(R.id.button);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(ApiService.class);
 
         db = FirebaseFirestore.getInstance();
         new databaseHandler().getdata(new databaseHandler.userCallback() {
@@ -115,30 +137,65 @@ public class ViewProfile extends AppCompatActivity {
             @Override
             public void onCallback(String currUser) {
                 if (friends_btn.getText().toString().equals("Remove Friend")) {
-                    db.collection("Users").document(currUser).update(
-                            "friends", FieldValue.arrayRemove(fr_username)
-                    );
-                    db.collection("Users").document(fr_username).update(
-                            "friends", FieldValue.arrayRemove(currUser)
-                    );
-                    String id_1 = fr_username + currUser;
-                    String id_2 = currUser + fr_username;
-                    new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                    final Dialog dialog=new Dialog(ViewProfile.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.remove_fr_dialog);
+
+                    Button cancle = dialog.findViewById(R.id.cancle_btn);
+                    Button accept = dialog.findViewById(R.id.confirm_btn);
+                    TextView textView = dialog.findViewById(R.id.confirm_remove);
+                    textView.setText("Are you sure you want to remove "+ fr_username +" from your FriendList?");
+
+                    cancle.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onCallback(String chat_id) {
-                            db.collection("Chats").document(chat_id)
-                                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    accept.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(ViewProfile.this, "Removed Friend!", Toast.LENGTH_SHORT).show();
-                                    }
+                                public void onCallback(String currentuser) {
+                                    db.collection("Users").document(currUser).update(
+                                            "friends", FieldValue.arrayRemove(fr_username)
+                                    );
+                                    db.collection("Users").document(fr_username).update(
+                                            "friends", FieldValue.arrayRemove(currUser)
+                                    );
+                                    String id_1 = fr_username + currUser;
+                                    String id_2 = currUser + fr_username;
+                                    new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                                        @Override
+                                        public void onCallback(String chat_id) {
+                                            db.collection("Chats").document(chat_id)
+                                                    .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(ViewProfile.this, "Removed Friend!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }, id_1, id_2);
+                                    friends_btn.setText("Add Friend");
+                                    finish();
                                 }
                             });
+
+                            dialog.dismiss();
                         }
-                    }, id_1, id_2);
-                    friends_btn.setText("Add Friend");
-                    finish();
+                    });
+
+                    dialog.show();
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.getWindow().getAttributes().windowAnimations= R.style.DialogAnimation;
+                    dialog.getWindow().setGravity(Gravity.CENTER);
+
+
                 }
                 else if(friends_btn.getText().toString().equals("Accept")){
                     db.collection("Users").document(currUser)
@@ -146,6 +203,18 @@ public class ViewProfile extends AppCompatActivity {
                     db.collection("Users").document(fr_username)
                             .update("friends", FieldValue.arrayUnion(currUser),
                                     "requests", FieldValue.arrayRemove(currUser));
+                    db.collection("NotifyToken").document(fr_username).get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()){
+                                        String userToken = (task.getResult().get("token")).toString();
+                                        sendNotifications(userToken, "Request Accepted",currUser+" accepted your Friend Request!");
+                                    }else{
+                                        Log.d("Send Notification", "Error");
+                                    }
+                                }
+                            });
                     friends_btn.setText("Remove Friend");
                 }
                 else if(friends_btn.getText().toString().equals("Cancel Request")){
@@ -155,8 +224,73 @@ public class ViewProfile extends AppCompatActivity {
                 }else{
                     db.collection("Users").document(currUser)
                             .update("requests", FieldValue.arrayUnion(fr_username));
+                    db.collection("NotifyToken").document(fr_username).get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()){
+                                        String userToken = (task.getResult().get("token")).toString();
+                                        sendNotifications(userToken, "New Request",currUser+" sent you Friend Request!");
+                                    }else{
+                                        Log.d("Send Notification", "Error");
+                                    }
+                                }
+                            });
                     friends_btn.setText("Cancel Request");
                 }
+            }
+        });
+    }
+
+    public void UpdateToken(){
+        db = FirebaseFirestore.getInstance();
+        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+            @Override
+            public void onCallback(String currUser) {
+                db.collection("NotifyToken").document(currUser).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()){
+                                    FirebaseMessaging.getInstance().getToken()
+                                            .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<String> task) {
+                                                    if (task.isSuccessful()){
+                                                        String refreshToken = task.getResult();
+                                                        Token token1= new Token(refreshToken);
+                                                        db.collection("NotifyToken").document(currUser).update("token", token1.getToken());
+                                                    }else{
+                                                        Log.d("Update Token:", "No Token Found");
+                                                    }
+                                                }
+                                            });
+
+                                }else{
+                                    Toast.makeText(ViewProfile.this, "Failed to Send Notification", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+    }
+
+    public void sendNotifications(String usertoken, String title, String message){
+        Data data = new Data(title, message);
+        NotificationSender sender = new NotificationSender(data, usertoken);
+        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.code() == 200){
+                    if (response.body().success != 1){
+                        Toast.makeText(ViewProfile.this, "Failed to Notify", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+
             }
         });
     }

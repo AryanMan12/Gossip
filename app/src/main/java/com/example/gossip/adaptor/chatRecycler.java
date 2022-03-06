@@ -57,6 +57,8 @@ public class chatRecycler extends RecyclerView.Adapter<chatRecycler.ViewHolder> 
         return new ViewHolder(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String message = chats.get(position);

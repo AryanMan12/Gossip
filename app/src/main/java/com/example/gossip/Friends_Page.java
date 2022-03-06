@@ -1,6 +1,7 @@
 package com.example.gossip;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,11 +27,13 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class Friends_Page extends Fragment {
     private RecyclerView recyclerView;
+
     private RecyclerViewAdaptor recyclerViewAdapter;
     private ArrayList<UserFriends> userArrayList;
     SearchView searchView;
@@ -37,6 +41,8 @@ public class Friends_Page extends Fragment {
     FirebaseFirestore db;
     private FirebaseUser fUser;
     View view;
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,18 +65,27 @@ public class Friends_Page extends Fragment {
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         userArrayList = new ArrayList<UserFriends>();
 
-        // Use your recyclerView
-        recyclerViewAdapter = new RecyclerViewAdaptor(userArrayList,getContext());
-        recyclerView.setAdapter(recyclerViewAdapter);
-        EventChangeListener();
-
         // SearchView
         searchView = (SearchView) view.findViewById(R.id.search_chat_page);
+        EventChangeListener();
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recyclerViewAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
     }
     @Override
     public void onStart() {
         super.onStart();
+        // Use your recyclerView
+        recyclerViewAdapter = new RecyclerViewAdaptor(userArrayList,getContext());
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+
         if (searchView != null) {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override

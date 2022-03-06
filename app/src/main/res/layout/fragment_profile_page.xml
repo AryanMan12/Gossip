@@ -14,16 +14,18 @@
     <ImageView
         android:id="@+id/signOut"
         android:layout_width="62dp"
-        android:layout_height="24dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginBottom="55dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="-30dp"
+        android:layout_marginBottom="80dp"
         android:src="@drawable/ic_baseline_exit_to_app_24" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
         android:layout_width="191dp"
-        android:layout_height="151dp"
-        android:layout_marginBottom="20dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="-50dp"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/default_profile"
         app:civ_border_color="@color/bg_col"
         app:civ_border_width="2dp"
@@ -33,7 +35,7 @@
         android:id="@+id/change_photo"
         android:layout_width="149dp"
         android:layout_height="23dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="40dp"
         android:text="Change Profile Image"
         android:textColor="#EC701D" />
 
@@ -41,7 +43,7 @@
         android:id="@+id/profile_uname"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="35dp"
         android:backgroundTint="#FFFFFF"
         android:defaultFocusHighlightEnabled="false"
         android:drawableLeft="@drawable/ic_baseline_person_24"
@@ -56,7 +58,7 @@
         android:id="@+id/profile_no"
         android:layout_width="265dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="35dp"
         android:backgroundTint="#FFFFFF"
         android:drawableLeft="@drawable/ic_baseline_local_phone_24"
         android:drawablePadding="15dp"
@@ -70,7 +72,7 @@
         android:id="@+id/profile_name"
         android:layout_width="267dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="35dp"
         android:backgroundTint="#FFFFFF"
         android:drawableLeft="@drawable/ic_baseline_face_24"
         android:drawablePadding="15dp"
@@ -84,11 +86,12 @@
         android:textColorHint="@color/hint_col"
         android:textSize="20sp" />
 
+
     <EditText
         android:id="@+id/profile_status"
         android:layout_width="272dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="35dp"
         android:backgroundTint="#FAFAFA"
         android:drawableLeft="@drawable/ic_baseline_edit_24"
         android:drawablePadding="15dp"
@@ -102,7 +105,6 @@
         android:textColor="@color/white"
         android:textColorHint="@color/hint_col"
         android:textSize="20sp" />
-
 
     <Button
         android:id="@+id/btnSave"

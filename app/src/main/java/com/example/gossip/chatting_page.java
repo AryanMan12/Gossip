@@ -9,20 +9,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.gossip.adaptor.chatRecycler;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gossip.notification.ApiService;
+import com.example.gossip.notification.Client;
+import com.example.gossip.notification.Data;
+import com.example.gossip.notification.FirebaseIdService;
+import com.example.gossip.notification.MyResponse;
+import com.example.gossip.notification.NotificationSender;
+import com.example.gossip.notification.Token;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +45,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -41,6 +56,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class chatting_page extends AppCompatActivity {
     private String fr_username;
@@ -50,6 +68,7 @@ public class chatting_page extends AppCompatActivity {
     private ImageView send;
     private ImageView options;
     private ImageView back;
+    ApiService apiService;
 
     private RecyclerView recyclerView;
     private chatRecycler recyclerViewAdapter;
@@ -68,6 +87,7 @@ public class chatting_page extends AppCompatActivity {
         options = findViewById(R.id.options);
         back = findViewById(R.id.backArrow);
         msg = findViewById(R.id.message);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(ApiService.class);
 
         db = FirebaseFirestore.getInstance();
 
@@ -75,6 +95,8 @@ public class chatting_page extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
+
+        UpdateToken();
 
         new databaseHandler().getdata(new databaseHandler.userCallback() {
             @Override
@@ -194,6 +216,20 @@ public class chatting_page extends AppCompatActivity {
                                                         .update("users", users);
                                                 db.collection("Chats").document(chatId)
                                                         .update("chats", chats);
+
+                                                db.collection("NotifyToken").document(fr_username).get()
+                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                if (task.isSuccessful()){
+                                                                    String userToken = (task.getResult().get("token")).toString();
+                                                                    sendNotifications(userToken, currUser, message);
+                                                                }else{
+                                                                    Log.d("Send Notification", "Error");
+                                                                }
+                                                            }
+                                                        });
+
                                             } else {
                                                 Log.d("Firebase Error", "Adding User in chat");
                                             }
@@ -206,6 +242,59 @@ public class chatting_page extends AppCompatActivity {
             msg.setText("");
         }
 
+    }
+
+    public void UpdateToken(){
+        db = FirebaseFirestore.getInstance();
+        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+            @Override
+            public void onCallback(String currUser) {
+                db.collection("NotifyToken").document(currUser).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()){
+                                    FirebaseMessaging.getInstance().getToken()
+                                            .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<String> task) {
+                                                    if (task.isSuccessful()){
+                                                        String refreshToken = task.getResult();
+                                                        Token token1= new Token(refreshToken);
+                                                        db.collection("NotifyToken").document(currUser).update("token", token1.getToken());
+                                                    }else{
+                                                        Log.d("Update Token:", "No Token Found");
+                                                    }
+                                                }
+                                            });
+
+                                }else{
+                                    Toast.makeText(chatting_page.this, "Failed to Send Notification", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+    }
+
+    public void sendNotifications(String usertoken, String title, String message){
+        Data data = new Data(title, message);
+        NotificationSender sender = new NotificationSender(data, usertoken);
+        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.code() == 200){
+                    if (response.body().success != 1){
+                        Toast.makeText(chatting_page.this, "Failed to Notify", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     public void onBack(View view) {
@@ -237,33 +326,61 @@ public class chatting_page extends AppCompatActivity {
                         }, fr_username);
                         break;
                     case R.id.delete_chp:
-                        new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                        final Dialog dialog=new Dialog(chatting_page.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.remove_fr_dialog_box);
+
+                        Button cancle = dialog.findViewById(R.id.cancle_btn);
+                        Button accept = dialog.findViewById(R.id.confirm_btn);
+
+                        cancle.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onCallback(String currentuser) {
-                                String id1 = currentuser + fr_username;
-                                String id2 = fr_username + currentuser;
-                                new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
-                                    @Override
-                                    public void onCallback(String chatID) {
-                                        db = FirebaseFirestore.getInstance();
-                                        db.collection("Chats").document(chatID).delete()
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        Toast.makeText(chatting_page.this, "Chat deleted!", Toast.LENGTH_SHORT).show();
-                                                        finish();
-                                                        startActivity(getIntent());
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(chatting_page.this, "Unable to delete!", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    }
-                                }, id1, id2);
+                            public void onClick(View v) {
+                                dialog.dismiss();
                             }
                         });
+                        accept.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
+                                    @Override
+                                    public void onCallback(String currentuser) {
+                                        String id1 = currentuser + fr_username;
+                                        String id2 = fr_username + currentuser;
+                                        new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
+                                            @Override
+                                            public void onCallback(String chatID) {
+                                                db = FirebaseFirestore.getInstance();
+                                                db.collection("Chats").document(chatID).delete()
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Toast.makeText(chatting_page.this, "Chat deleted!", Toast.LENGTH_SHORT).show();
+                                                                finish();
+                                                                startActivity(getIntent());
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(chatting_page.this, "Unable to delete!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }, id1, id2);
+                                    }
+                                });
+
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
+                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.getWindow().getAttributes().windowAnimations= R.style.DialogAnimation;
+                        dialog.getWindow().setGravity(Gravity.CENTER);
+
+
                         break;
                 }
                 return false;
