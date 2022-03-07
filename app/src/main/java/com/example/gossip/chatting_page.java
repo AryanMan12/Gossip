@@ -74,8 +74,6 @@ public class chatting_page extends AppCompatActivity {
     ApiService apiService;
     String message;
 
-    Bundle remoteInput;
-
     private RecyclerView recyclerView;
     private chatRecycler recyclerViewAdapter;
 
@@ -179,74 +177,6 @@ public class chatting_page extends AppCompatActivity {
         });
 
     }
-
-    BroadcastReceiver bdr = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            remoteInput = RemoteInput.getResultsFromIntent(intent);
-
-            if (remoteInput != null){
-                message = remoteInput.getString("message_key");
-                if (message.trim().equals("")) {
-                    Toast.makeText(chatting_page.this, "Message cannot be Empty", Toast.LENGTH_SHORT).show();
-                } else {
-                    new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
-                        @Override
-                        public void onCallback(String currUser) {
-                            String chatId1 = currUser + "" + fr_username;
-                            String chatId2 = fr_username + "" + currUser;
-                            new databaseHandler().getChatId(new databaseHandler.currentUserCallBack() {
-                                @Override
-                                public void onCallback(String chatId) {
-                                    db.collection("Chats").document(chatId).get()
-                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        ArrayList<String> users = (ArrayList<String>) task.getResult().get("users");
-                                                        ArrayList<String> chats = (ArrayList<String>) task.getResult().get("chats");
-                                                        if (users == null || chats == null) {
-                                                            Map<String, Object> chatData = new HashMap<>();
-                                                            users = new ArrayList<String>();
-                                                            chats = new ArrayList<String>();
-                                                            chatData.put("chats", chats);
-                                                            chatData.put("users", users);
-                                                            db.collection("Chats").document(chatId)
-                                                                    .set(chatData);
-                                                        }
-                                                        users.add(currUser);
-                                                        chats.add(message);
-                                                        db.collection("Chats").document(chatId)
-                                                                .update("users", users);
-                                                        db.collection("Chats").document(chatId)
-                                                                .update("chats", chats);
-
-                                                        db.collection("NotifyToken").document(fr_username).get()
-                                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                        if (task.isSuccessful()){
-                                                                            String userToken = (task.getResult().get("token")).toString();
-                                                                            sendNotifications(userToken, currUser, message);
-                                                                        }else{
-                                                                            Log.d("Send Notification", "Error");
-                                                                        }
-                                                                    }
-                                                                });
-
-                                                    } else {
-                                                        Log.d("Firebase Error", "Adding User in chat");
-                                                    }
-                                                }
-                                            });
-                                }
-                            }, chatId1, chatId2);
-                        }
-                    });
-                }
-            }
-        }
-    };
 
     public void onViewProfile(View view) {
         Intent intent = new Intent(this, ViewProfile.class);

@@ -16,6 +16,7 @@ import androidx.core.app.RemoteInput;
 import com.example.gossip.Friends_Page;
 import com.example.gossip.MainActivity;
 import com.example.gossip.chatting_page;
+import com.example.gossip.receiveNotification;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.example.gossip.R;
@@ -47,7 +48,8 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
 
         androidx.core.app.RemoteInput remoteInput = new RemoteInput.Builder("message_key").setLabel("Reply...").build();
 
-        Intent replyIntent = new Intent(getApplicationContext(), chatting_page.class);
+        Intent replyIntent = new Intent(getApplicationContext(), receiveNotification.class);
+        replyIntent.putExtra("fr_username", title);
         PendingIntent replyPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), messageID.indexOf(title), replyIntent, 0);
 
         NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
