@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.gossip"
-        minSdk 28
-        targetSdk 31
+        minSdk 21
+        targetSdk 30
         versionCode 1
         versionName "1.0"
 
