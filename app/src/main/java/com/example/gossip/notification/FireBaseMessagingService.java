@@ -5,13 +5,13 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.RemoteInput;
 import android.content.Intent;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.RemoteInput;
 
 import com.example.gossip.Friends_Page;
 import com.example.gossip.MainActivity;
@@ -43,7 +43,19 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
             intent.putExtra("username", title);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-        pendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getActivity(getApplicationContext(), messageID.indexOf(title), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        androidx.core.app.RemoteInput remoteInput = new RemoteInput.Builder("message_key").setLabel("Reply...").build();
+
+        Intent replyIntent = new Intent(getApplicationContext(), chatting_page.class);
+        PendingIntent replyPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), messageID.indexOf(title), replyIntent, 0);
+
+        NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
+                R.drawable.ic_baseline_send_24,
+                "Reply",
+                replyPendingIntent
+        ).addRemoteInput(remoteInput).build();
+
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel=new NotificationChannel(CHANNEL_ID,CHANNEL_NAME,NotificationManager.IMPORTANCE_DEFAULT);
@@ -54,6 +66,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
+                .addAction(replyAction)
                 .setContentIntent(pendingIntent)
                 .build();
 
