@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "47742503169-24b83cjlit6amsqhb8hg3mk9qq8cbdjb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.gossip",
-            "certificate_hash": "7e518d7a8436ff407288d65a70db7090c37e612e"
-          }
-        },
-        {
           "client_id": "47742503169-5la12u47esrjcn6hci7vn07k6dq807d2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
