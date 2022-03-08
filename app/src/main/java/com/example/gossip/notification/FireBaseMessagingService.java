@@ -50,6 +50,7 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
 
         Intent replyIntent = new Intent(getApplicationContext(), receiveNotification.class);
         replyIntent.putExtra("fr_username", title);
+        replyIntent.putExtra("ch_id", messageID.indexOf(title));
         PendingIntent replyPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), messageID.indexOf(title), replyIntent, 0);
 
         NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
