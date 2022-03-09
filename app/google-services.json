@@ -46,6 +46,14 @@
           }
         },
         {
+          "client_id": "47742503169-n21ebg5p0toj2v88c2mo3seacn7qkuke.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gossip",
+            "certificate_hash": "4f2b3d0f671ae95db1c3fc6e9d229192d9bebd39"
+          }
+        },
+        {
           "client_id": "47742503169-qi614chpdtkomjhjoqvisjt3nt4ehfva.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
