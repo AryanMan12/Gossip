@@ -34,8 +34,11 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
         NotificationManagerCompat manager=NotificationManagerCompat.from(getApplicationContext());
         title=remoteMessage.getData().get("Title");
         message=remoteMessage.getData().get("Message");
-        Intent intent;
-        PendingIntent pendingIntent;
+        Intent intent, replyIntent;
+        PendingIntent pendingIntent = null;
+        PendingIntent replyPendingIntent = null;
+        androidx.core.app.RemoteInput remoteInput = null;
+        NotificationCompat.Action replyAction = null;
 
         if (title.equals("New Request") || title.equals("Request Accepted")){
             intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -43,21 +46,21 @@ public class FireBaseMessagingService extends FirebaseMessagingService {
             intent = new Intent(getApplicationContext(), chatting_page.class);
             intent.putExtra("username", title);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            pendingIntent = PendingIntent.getActivity(getApplicationContext(), messageID.indexOf(title), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteInput = new RemoteInput.Builder("message_key").setLabel("Reply...").build();
+
+            replyIntent = new Intent(getApplicationContext(), receiveNotification.class);
+            replyIntent.putExtra("fr_username", title);
+            replyIntent.putExtra("ch_id", messageID.indexOf(title));
+            replyPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), messageID.indexOf(title), replyIntent, 0);
+            replyAction = new NotificationCompat.Action.Builder(
+                    R.drawable.ic_baseline_send_24,
+                    "Reply",
+                    replyPendingIntent
+            ).addRemoteInput(remoteInput).build();
         }
-        pendingIntent = PendingIntent.getActivity(getApplicationContext(), messageID.indexOf(title), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        androidx.core.app.RemoteInput remoteInput = new RemoteInput.Builder("message_key").setLabel("Reply...").build();
 
-        Intent replyIntent = new Intent(getApplicationContext(), receiveNotification.class);
-        replyIntent.putExtra("fr_username", title);
-        replyIntent.putExtra("ch_id", messageID.indexOf(title));
-        PendingIntent replyPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), messageID.indexOf(title), replyIntent, 0);
-
-        NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
-                R.drawable.ic_baseline_send_24,
-                "Reply",
-                replyPendingIntent
-        ).addRemoteInput(remoteInput).build();
 
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){

@@ -6,7 +6,7 @@
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_baseline_home_24"
         android:iconTint="#F1ECEC"
-        android:title="Home" />
+        android:title="Hub" />
     <item
         android:id="@+id/nav_chat"
         android:icon="@drawable/ic_baseline_chat_24"
