@@ -31,7 +31,7 @@
             android:background="@drawable/bgedittxt"
             android:ems="10"
             android:hint="Message..."
-            android:inputType="textPersonName"
+            android:inputType="textMultiLine|textPersonName"
             android:padding="10dp"
             android:textColorHint="@color/hint_col" />
 

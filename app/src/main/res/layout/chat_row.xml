@@ -50,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_weight="1"
+                android:maxLength="20"
                 android:text="Lorem Ipsum Lorem"
                 android:textColor="#8AFFFFFF" />
         </LinearLayout>

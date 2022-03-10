@@ -27,6 +27,17 @@
             app:civ_border_width="0dp"
             tools:ignore="MissingClass" />
 
+        <TextView
+            android:id="@+id/signup_photo"
+            android:layout_width="149dp"
+            android:layout_height="23dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="-40dp"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:text="Upload Profile Image"
+            android:textColor="#EC701D" />
+
         <EditText
             android:id="@+id/name"
             android:layout_width="345dp"
