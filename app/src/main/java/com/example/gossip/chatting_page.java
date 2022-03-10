@@ -190,6 +190,7 @@ public class chatting_page extends AppCompatActivity {
         if (message.trim().equals("")) {
             Toast.makeText(this, "Message cannot be Empty", Toast.LENGTH_SHORT).show();
         } else {
+            message = new Encryption().encrypter(message);
             new databaseHandler().getCurrentUsername(new databaseHandler.currentUserCallBack() {
                 @Override
                 public void onCallback(String currUser) {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gossip.Encryption;
 import com.example.gossip.R;
 
 import com.example.gossip.databaseHandler;
@@ -62,6 +63,7 @@ public class chatRecycler extends RecyclerView.Adapter<chatRecycler.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String message = chats.get(position);
+        message = new Encryption().decrypter(message);
         holder.msg.setText(message);
 
     }

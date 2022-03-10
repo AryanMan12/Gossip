@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gossip.Encryption;
 import com.example.gossip.R;
 import com.example.gossip.UserFriends;
 import com.example.gossip.ViewProfile;
@@ -76,6 +77,7 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
     public void onBindViewHolder(@NonNull ChatPageRecycler.ViewHolder holder, int position) {
         user = username.get(position);
         bio = status.get(position);
+        bio = new Encryption().decrypter(bio);
         holder.Username.setText(user);
         holder.Status.setText(bio);
         try {
