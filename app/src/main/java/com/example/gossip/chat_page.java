@@ -107,7 +107,7 @@ public class chat_page extends Fragment {
                                         if (doc.getId().contains(currUser)){
                                             String fr_user = doc.getId().replace(currUser, "");
                                             ArrayList<String> temp = (ArrayList<String>) doc.getData().get("chats");
-                                            String last_chat = temp.get(temp.size()-1);
+                                            String last_chat = new Encryption().decrypter(temp.get(temp.size()-1));
                                             new databaseHandler().getdata(new databaseHandler.userCallback() {
                                                 @Override
                                                 public void onCallback(Map<String, Object> userData) {

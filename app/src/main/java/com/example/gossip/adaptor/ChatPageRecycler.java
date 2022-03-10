@@ -77,7 +77,6 @@ public class ChatPageRecycler extends RecyclerView.Adapter<ChatPageRecycler.View
     public void onBindViewHolder(@NonNull ChatPageRecycler.ViewHolder holder, int position) {
         user = username.get(position);
         bio = status.get(position);
-        bio = new Encryption().decrypter(bio);
         holder.Username.setText(user);
         holder.Status.setText(bio);
         try {
